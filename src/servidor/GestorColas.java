@@ -36,6 +36,7 @@ public class GestorColas implements IClienteEmpleado {
 	@Override
 	public void clienteNoPresentado(Cliente cliente) {
 		if (cliente.getIntento()<3) {
+			cliente.sumarIntento();
 			this.ClientesEnEspera.add(cliente);
 		}
 	}
