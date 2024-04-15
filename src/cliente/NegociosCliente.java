@@ -5,16 +5,19 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class NegociosCliente implements IRegistro {
+import util.Conexion;
 
+public class NegociosCliente implements IRegistro {
+	private Conexion conexion=new Conexion();
 	@Override
 	public void crearCLiente(String dni) {
 		Cliente cliente=new Cliente(dni);
-		this.enviarClienteAServidor(cliente);
+		this.enviarClienteAServidor(dni);
 	}
 
 	@Override
-	public void enviarClienteAServidor(Cliente cliente) {
+	public void enviarClienteAServidor(String dni) {
+		this.conexion.envioAServidor("Cliente."+dni);
 	}
 
 }

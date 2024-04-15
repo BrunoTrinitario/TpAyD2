@@ -2,5 +2,5 @@ package cliente;
 
 public interface IRegistro {
 	void crearCLiente(String dni);
-	void enviarClienteAServidor(Cliente cliente);
+	void enviarClienteAServidor(String dni);
 }
