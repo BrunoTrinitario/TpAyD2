@@ -1,6 +1,9 @@
-package cliente;
+package servidor;
 
-public interface iClienteEmpleado {
+import cliente.Cliente;
+import empleado.Empleado;
+
+public interface IClienteEmpleado {
 	void registrarCliente(Cliente cliente);
 	void agregarEmpleadoANoDisponible(Empleado empleado);
 	void agregarEmpleadoADisponible(Empleado empleado);

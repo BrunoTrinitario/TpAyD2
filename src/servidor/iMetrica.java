@@ -1,4 +1,8 @@
-package cliente;
+package servidor;
+
+import java.util.ArrayList;
+
+import empleado.Empleado;
 
 public interface iMetrica {
 	void consultarRendimiento();

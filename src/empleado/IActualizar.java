@@ -1,6 +1,8 @@
-package cliente;
+package empleado;
 
-public interface iActualizar {
+import cliente.Cliente;
+
+public interface IActualizar {
 	void informaEstado(Empleado empleado,boolean estado);
 	void cambioEstado();
 	void finalizarAtencion();
