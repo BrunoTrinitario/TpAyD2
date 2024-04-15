@@ -18,7 +18,7 @@ import javax.swing.SwingConstants;
 
 public class RegistroDni {
 
-	private JFrame frame;
+	public JFrame frame;
 
 	/**
 	 * Launch the application.
@@ -47,6 +47,7 @@ public class RegistroDni {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 787, 615);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -131,5 +132,6 @@ public class RegistroDni {
 		lblIngreseSuNro.setFont(new Font("Tahoma", Font.PLAIN, 44));
 		lblIngreseSuNro.setBounds(80, 0, 610, 96);
 		frame.getContentPane().add(lblIngreseSuNro);
+		frame.setVisible(true);
 	}
 }

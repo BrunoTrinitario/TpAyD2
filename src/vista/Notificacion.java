@@ -185,5 +185,7 @@ public class Notificacion {
 		textField_13.setColumns(10);
 		textField_13.setBounds(371, 104, 340, 72);
 		frame.getContentPane().add(textField_13);
+		frame.setVisible(true);
 	}
+	
 }

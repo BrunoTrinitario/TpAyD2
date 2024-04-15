@@ -18,7 +18,7 @@ import javax.swing.SwingConstants;
 
 public class RegistroPrincipal {
 
-	private JFrame frame;
+	public JFrame frame;
 
 	/**
 	 * Launch the application.
