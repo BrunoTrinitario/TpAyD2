@@ -6,13 +6,13 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Servidor implements Runnable {
+public class Servidor extends Thread {
 	private GestorColas gestorcolas=new GestorColas();
 	private int puerto=1234;
 	@Override
 	public void run() {
 		try {
-            ServerSocket s = new ServerSocket(this.puerto);
+            ServerSocket s = new ServerSocket(1234);
             while (true) {
 
                 Socket soc = s.accept();
