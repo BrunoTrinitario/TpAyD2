@@ -18,27 +18,9 @@ public class RegistroConfirmacion {
 
 	private JFrame frame;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegistroConfirmacion window = new RegistroConfirmacion();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
 	public RegistroConfirmacion() {
 		initialize();
+		frame.setVisible(true);
 	}
 
 	/**
@@ -58,6 +40,7 @@ public class RegistroConfirmacion {
 		JButton btnNewButton = new JButton("Ok");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
 			}
 		});
 		btnNewButton.setBounds(147, 143, 89, 23);

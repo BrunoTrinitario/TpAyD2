@@ -18,27 +18,9 @@ public class RegistroDniIncorrecto {
 
 	private JFrame frame;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegistroDniIncorrecto window = new RegistroDniIncorrecto();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
 	public RegistroDniIncorrecto() {
 		initialize();
+		frame.setVisible(true);
 	}
 
 	/**
@@ -57,9 +39,10 @@ public class RegistroDniIncorrecto {
 		
 		JButton btnNewButton = new JButton("Ok");
 		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose(); // Cierra la ventana actual
+            }
+        });
 		btnNewButton.setBounds(147, 143, 89, 23);
 		frame.getContentPane().add(btnNewButton);
 	}
