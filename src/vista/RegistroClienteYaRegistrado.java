@@ -21,24 +21,12 @@ public class RegistroClienteYaRegistrado {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegistroClienteYaRegistrado window = new RegistroClienteYaRegistrado();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the application.
 	 */
 	public RegistroClienteYaRegistrado() {
 		initialize();
+		frame.setVisible(true);
 	}
 
 	/**
@@ -58,6 +46,7 @@ public class RegistroClienteYaRegistrado {
 		JButton btnNewButton = new JButton("Ok");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
 			}
 		});
 		btnNewButton.setBounds(147, 143, 89, 23);

@@ -6,16 +6,22 @@ import java.util.Queue;
 
 import cliente.Cliente;
 import empleado.Empleado;
+import excepciones.DniYaRegistradoException;
 
 public class GestorColas implements IClienteEmpleado {
-	private Queue<Cliente> ClientesEnEspera=new LinkedList<Cliente>();
+	private Queue<Cliente> clientesEnEspera=new LinkedList<Cliente>();
 	private ArrayList<Empleado> EmpleadosNoDisponibles=new ArrayList<Empleado>();
 	private ArrayList<Empleado> EmpleadosDisponibles=new ArrayList<Empleado>();
 	private ArrayList<Empleado> EmpleadosAtendiendo=new ArrayList<Empleado>();
 	
 	@Override
-	public void registrarCliente(Cliente cliente) {
-		this.ClientesEnEspera.add(cliente);
+	public void registrarCliente(Cliente cliente) throws DniYaRegistradoException{
+		if (!clientesEnEspera.contains(cliente))
+			this.clientesEnEspera.add(cliente);
+		else {
+			throw new DniYaRegistradoException("yaRegistrado");
+		}
+			
 	}
 
 	@Override
@@ -43,13 +49,13 @@ public class GestorColas implements IClienteEmpleado {
 	public void clienteNoPresentado(Cliente cliente) {
 		if (cliente.getIntento()<3) {
 			cliente.sumarIntento();
-			this.ClientesEnEspera.add(cliente);
+			this.clientesEnEspera.add(cliente);
 		}
 	}
 
 	@Override
 	public void eliminaCliente(Cliente cliente) {
-		this.ClientesEnEspera.remove(cliente);
+		this.clientesEnEspera.remove(cliente);
 	}
 
 	@Override

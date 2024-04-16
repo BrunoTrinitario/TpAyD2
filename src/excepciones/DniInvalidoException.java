@@ -5,7 +5,7 @@ public class DniInvalidoException extends Exception {
 	public DniInvalidoException(String mensaje) {
 		this.mensaje=mensaje;
 	}
-	public String getMensaje() {
+	public String getMenssaje() {
 		return this.mensaje;
 	}
 }

@@ -9,6 +9,7 @@ import java.net.Socket;
 
 import cliente.Cliente;
 import empleado.Empleado;
+import excepciones.DniYaRegistradoException;
 
 public class Servidor extends Thread {
 	private GestorColas gestorcolas=new GestorColas();
@@ -24,11 +25,16 @@ public class Servidor extends Thread {
                 BufferedReader in = new BufferedReader(new InputStreamReader(soc.getInputStream()));             
                 ObjectInputStream ois = new ObjectInputStream(soc.getInputStream());
                 Object objeto = ois.readObject();
-                String msg = in.readLine();
+                //String msg = in.readLine();
                 if (objeto instanceof Cliente)
-                	this.gestorcolas.registrarCliente((Cliente)objeto);
+                	try {
+                		this.gestorcolas.registrarCliente((Cliente)objeto);
+                		out.println("Exito");
+                	}catch(DniYaRegistradoException e) {
+                		out.println(e.getMessage());
+                	}
                 else if (objeto instanceof Empleado) {
-                	if (msg.equals("agregar"))
+                	//if (msg.equals("agregar"))
                 		this.gestorcolas.agregarEmpleadoANoDisponible((Empleado)objeto);
                 	//else if (msg.equals("estado"))
                 		//aca falta el cambio de estado

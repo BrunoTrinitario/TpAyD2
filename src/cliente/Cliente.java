@@ -1,6 +1,7 @@
 package cliente;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Cliente implements Serializable {
 	private String dni;
@@ -22,6 +23,15 @@ public class Cliente implements Serializable {
 	
 	public void sumarIntento() {
 		this.intento++;
+	}
+	
+	public boolean equals(Object obj) {
+		 if (this == obj)
+	            return true;
+	        if (obj == null || getClass() != obj.getClass())
+	            return false;
+	        Cliente cliente = (Cliente) obj;
+	        return Objects.equals(dni, cliente.dni);
 	}
 	
 }

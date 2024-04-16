@@ -18,12 +18,13 @@ import javax.swing.SwingConstants;
 
 import controlador.ControladorCliente;
 import excepciones.DniInvalidoException;
+import excepciones.DniYaRegistradoException;
 
 public class RegistroDni implements ActionListener {
 
 	private JFrame frame;
 	private JButton boton1,boton2,boton3,boton4,boton5,boton6,boton7,boton8,boton9,boton0;
-	private JButton botonA,botonB,botonBT,botonAC;
+	private JButton botonB,botonBT,botonAC;
 	private JTextArea AreaTexto;
 	private JLabel titulo;
 	private ControladorCliente cc=new ControladorCliente();
@@ -43,12 +44,10 @@ public class RegistroDni implements ActionListener {
 		botonB = new JButton("Borrar");
 		botonBT = new JButton("Borrar todo");
 		botonAC = new JButton("Aceptar");
-		botonA = new JButton("Atras");
 		AreaTexto = new JTextArea();
 		titulo = new JLabel("Ingrese su nro de DNI");
 		initialize();
 	}
-
 
 	private void initialize() {	
 		frame.setBounds(100, 100, 787, 615);
@@ -82,10 +81,10 @@ public class RegistroDni implements ActionListener {
 		botonB.setBounds(237, 469, 89, 96);
 		botonBT.setBounds(435, 469, 89, 96);
 		botonAC.setBounds(534, 469, 89, 96);
-		botonA.setBounds(52, 255, 89, 96);
 		AreaTexto.setBounds(237, 86, 287, 51);
 		titulo.setBounds(80, 0, 610, 96);
 	}
+	
 	private void addToFrame() {
 		frame.getContentPane().add(boton1);
 		frame.getContentPane().add(boton2);
@@ -100,10 +99,10 @@ public class RegistroDni implements ActionListener {
 		frame.getContentPane().add(boton0);
 		frame.getContentPane().add(botonBT);
 		frame.getContentPane().add(botonAC);
-		frame.getContentPane().add(botonA);
 		frame.getContentPane().add(AreaTexto);
 		frame.getContentPane().add(titulo);
 	}
+	
 	private void addActionListenerToButtons() {
 		boton1.addActionListener(this);
 		boton2.addActionListener(this);
@@ -117,7 +116,6 @@ public class RegistroDni implements ActionListener {
 		boton0.addActionListener(this);
 		botonB.addActionListener(this);
 		botonBT.addActionListener(this);
-		botonA.addActionListener(this);
 		botonAC.addActionListener(this);
 	}
 
@@ -151,7 +149,9 @@ public class RegistroDni implements ActionListener {
 			try {
 				cc.crearCliente(AreaTexto.getText());
 				RegistroConfirmacion rc=new RegistroConfirmacion();
-			} catch (DniInvalidoException e1) {
+			}catch (DniYaRegistradoException e1){
+				RegistroClienteYaRegistrado rc=new RegistroClienteYaRegistrado();
+			}catch (DniInvalidoException e1) {
 				RegistroDniIncorrecto ri=new RegistroDniIncorrecto();
 			}
 			AreaTexto.setText("");
