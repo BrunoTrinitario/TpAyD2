@@ -11,6 +11,7 @@ public class GestorColas implements IClienteEmpleado {
 	private Queue<Cliente> ClientesEnEspera=new LinkedList<Cliente>();
 	private ArrayList<Empleado> EmpleadosNoDisponibles=new ArrayList<Empleado>();
 	private ArrayList<Empleado> EmpleadosDisponibles=new ArrayList<Empleado>();
+	private ArrayList<Empleado> EmpleadosAtendiendo=new ArrayList<Empleado>();
 	
 	@Override
 	public void registrarCliente(Cliente cliente) {
@@ -25,6 +26,11 @@ public class GestorColas implements IClienteEmpleado {
 	@Override
 	public void agregarEmpleadoADisponible(Empleado empleado) {
 		this.EmpleadosDisponibles.add(empleado);
+	}
+	
+	@Override
+	public void agregarEmpleadoAAtendiendo(Empleado empleado) {
+		this.EmpleadosAtendiendo.add(empleado);
 	}
 
 	@Override

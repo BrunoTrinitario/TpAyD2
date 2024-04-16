@@ -1,17 +1,24 @@
 package empleado;
 
 import cliente.Cliente;
+import util.EstadoEmpleado;
 
 public class Empleado {
 	private int box;
-	private boolean estado;
+	private EstadoEmpleado estado;
 	private String nombre;
 	private Cliente cliente;
+	
+	public Empleado(String nombre,int box) {
+		this.nombre=nombre;
+		this.box=box;
+		this.estado=EstadoEmpleado.NoDisponible;
+	}
 	public int getBox() {
 		return box;
 	}
-	public boolean isEstado() {
-		return estado;
+	public EstadoEmpleado getEstado() {
+		return this.estado;
 	}
 	public String getNombre() {
 		return nombre;
@@ -19,11 +26,7 @@ public class Empleado {
 	public Cliente getCliente() {
 		return cliente;
 	}
-	public void cambioEstado() {
-		if (this.estado) {
-			this.estado=false;
-		}else {
-			this.estado=true;
-		}
+	public void cambioEstado(EstadoEmpleado estado) {
+		this.estado=estado;
 	}
 }

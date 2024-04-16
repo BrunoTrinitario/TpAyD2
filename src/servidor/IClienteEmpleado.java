@@ -11,4 +11,5 @@ public interface IClienteEmpleado {
 	void clienteNoPresentado(Cliente cliente);
 	void eliminaCliente(Cliente cliente);
 	void enviarClienteAEmpleado(Cliente cliente);
+	void agregarEmpleadoAAtendiendo(Empleado empleado);
 }

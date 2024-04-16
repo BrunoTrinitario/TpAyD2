@@ -7,6 +7,9 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import cliente.Cliente;
+import empleado.Empleado;
+
 public class Servidor extends Thread {
 	private GestorColas gestorcolas=new GestorColas();
 	private int puerto=1234;
@@ -22,7 +25,15 @@ public class Servidor extends Thread {
                 ObjectInputStream ois = new ObjectInputStream(soc.getInputStream());
                 Object objeto = ois.readObject();
                 String msg = in.readLine();
-                System.out.println(objeto);
+                if (objeto instanceof Cliente)
+                	this.gestorcolas.registrarCliente((Cliente)objeto);
+                else if (objeto instanceof Empleado) {
+                	if (msg.equals("agregar"))
+                		this.gestorcolas.agregarEmpleadoANoDisponible((Empleado)objeto);
+                	//else if (msg.equals("estado"))
+                		//aca falta el cambio de estado
+                }
+                	
             }
 
         } catch (Exception e) {

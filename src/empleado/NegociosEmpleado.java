@@ -1,55 +1,49 @@
 package empleado;
 
 import cliente.Cliente;
+import util.Conexion;
+import util.EstadoEmpleado;
 
 public class NegociosEmpleado implements IActualizar {
-
+	private Conexion conexion=new Conexion();
 	private Empleado empleado;
 	
-	public NegociosEmpleado(Empleado empleado) {
-		this.empleado=empleado;
-	}
-	
 	@Override
-	public void informaEstado(Empleado empleado, boolean estado) {
-		// TODO Auto-generated method stub
-		
+	public void informaEstado(Empleado empleado) {
+		conexion.envioAServidor(empleado,"estado");
 	}
 
 	@Override
-	public void cambioEstado() {
-		this.empleado.cambioEstado();
-		this.informaEstado(empleado, false);
+	public void cambioEstado(EstadoEmpleado estado) {
+		this.empleado.cambioEstado(estado);
+		this.informaEstado(empleado);
 	}
 
 	@Override
 	public void finalizarAtencion() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void clienteAtendido(Cliente cliente, Empleado empleado) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void clienteAusente(Cliente cliente, Empleado empleado) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void crearEmpleado(String nombre, int box) {
-		// TODO Auto-generated method stub
-		
+		this.empleado=new Empleado(nombre,box);
+		this.informarAcceso(empleado);
 	}
 
 	@Override
 	public void informarAcceso(Empleado empleado) {
-		// TODO Auto-generated method stub
-		
+		conexion.envioAServidor(empleado,"agregar");
 	}
+
 
 }
