@@ -11,6 +11,7 @@ import cliente.Cliente;
 import empleado.Empleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
+import util.Constantes;
 
 public class Servidor extends Thread {
 	private GestorColas gestorcolas=new GestorColas();
@@ -20,17 +21,18 @@ public class Servidor extends Thread {
 		try {
             ServerSocket s = new ServerSocket(1234);
             while (true) {
-
+            	System.out.println("Servidor online");
                 Socket soc = s.accept();
-                PrintWriter out = new PrintWriter(soc.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(soc.getInputStream()));             
+                System.out.println("Conexion realizada");
+                PrintWriter out = new PrintWriter(soc.getOutputStream(), true); 
+                BufferedReader in = new BufferedReader(new InputStreamReader(soc.getInputStream()));           
                 ObjectInputStream ois = new ObjectInputStream(soc.getInputStream());
                 Object objeto = ois.readObject();
                 String msg = in.readLine();
                 if (objeto instanceof Cliente)
                 	try {
                 		this.gestorcolas.registrarCliente((Cliente)objeto);
-                		out.println("Exito");
+                		out.println(Constantes.CLIENTE_REGISTRO_OK);
                 	}catch(DniYaRegistradoException e) {
                 		out.println(e.getMessage());
                 	}

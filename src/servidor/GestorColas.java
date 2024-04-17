@@ -8,6 +8,7 @@ import cliente.Cliente;
 import empleado.Empleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
+import util.Constantes;
 
 public class GestorColas implements IClienteEmpleado {
 	private Queue<Cliente> clientesEnEspera=new LinkedList<Cliente>();
@@ -20,7 +21,7 @@ public class GestorColas implements IClienteEmpleado {
 		if (!clientesEnEspera.contains(cliente))
 			this.clientesEnEspera.add(cliente);
 		else {
-			throw new DniYaRegistradoException("yaRegistrado");
+			throw new DniYaRegistradoException(Constantes.DNI_YA_REGISTRADO);
 		}
 			
 	}
@@ -30,7 +31,7 @@ public class GestorColas implements IClienteEmpleado {
 		if (!EmpleadosNoDisponibles.contains(empleado))
 			this.EmpleadosNoDisponibles.add(empleado);
 		else {
-			throw new BoxYaRegistradoException("BoxYaRegistrado");
+			throw new BoxYaRegistradoException(Constantes.BOX_YA_REGISTRADO);
 		}
 	}
 
