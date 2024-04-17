@@ -6,6 +6,7 @@ import java.util.Queue;
 
 import cliente.Cliente;
 import empleado.Empleado;
+import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 
 public class GestorColas implements IClienteEmpleado {
@@ -25,8 +26,12 @@ public class GestorColas implements IClienteEmpleado {
 	}
 
 	@Override
-	public void agregarEmpleadoANoDisponible(Empleado empleado) {
-		this.EmpleadosNoDisponibles.add(empleado);
+	public void agregarEmpleadoANoDisponible(Empleado empleado) throws BoxYaRegistradoException {
+		if (!EmpleadosNoDisponibles.contains(empleado))
+			this.EmpleadosNoDisponibles.add(empleado);
+		else {
+			throw new BoxYaRegistradoException("BoxYaRegistrado");
+		}
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package empleado;
 
 import cliente.Cliente;
+import excepciones.BoxYaRegistradoException;
 import util.Conexion;
 import util.EstadoEmpleado;
 
@@ -10,7 +11,7 @@ public class NegociosEmpleado implements IActualizar {
 	
 	@Override
 	public void informaEstado(Empleado empleado) {
-		conexion.envioAServidor(empleado,"estado");
+		//conexion.envioEmpleadoAServidor(empleado,"estado");
 	}
 
 	@Override
@@ -35,14 +36,14 @@ public class NegociosEmpleado implements IActualizar {
 	}
 
 	@Override
-	public void crearEmpleado(String nombre, int box) {
+	public void crearEmpleado(String nombre, int box) throws BoxYaRegistradoException {
 		this.empleado=new Empleado(nombre,box);
 		this.informarAcceso(empleado);
 	}
 
 	@Override
-	public void informarAcceso(Empleado empleado) {
-		conexion.envioAServidor(empleado,"agregar");
+	public void informarAcceso(Empleado empleado) throws BoxYaRegistradoException {
+		conexion.envioEmpleadoAServidor(empleado,"agregar");
 	}
 
 

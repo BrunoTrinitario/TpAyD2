@@ -20,33 +20,22 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.JToggleButton;
 
-public class Empleado {
+public class VistaEmpleado {
 
 	private JFrame frame;
 	private JTextField txtInformacionDelCliente;
 	private JTextField txtInformacionIngresadaPor;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Empleado window = new Empleado();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private String nombre;
+	private int box;
 
 	/**
 	 * Create the application.
 	 */
-	public Empleado() {
+	public VistaEmpleado(String nombre,int box) {
+		this.nombre=nombre;
+		this.box=box;
 		initialize();
+		frame.setVisible(true);
 	}
 
 	/**
@@ -80,14 +69,6 @@ public class Empleado {
 		lblNewLabel.setBounds(54, 75, 82, 14);
 		frame.getContentPane().add(lblNewLabel);
 		
-		JTextPane txtpnServicio = new JTextPane();
-		txtpnServicio.setBounds(54, 136, 177, 20);
-		frame.getContentPane().add(txtpnServicio);
-		
-		JLabel lblServicio = new JLabel("Servicio");
-		lblServicio.setBounds(54, 121, 46, 14);
-		frame.getContentPane().add(lblServicio);
-		
 		txtInformacionDelCliente = new JTextField();
 		txtInformacionDelCliente.setEnabled(false);
 		txtInformacionDelCliente.setText("Informacion anterior del cliente");
@@ -102,12 +83,12 @@ public class Empleado {
 		txtInformacionIngresadaPor.setBounds(255, 361, 483, 145);
 		frame.getContentPane().add(txtInformacionIngresadaPor);
 		
-		JLabel lblBox = new JLabel("BOX: 5");
+		JLabel lblBox = new JLabel("BOX: "+this.box);
 		lblBox.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblBox.setBounds(54, 11, 66, 20);
 		frame.getContentPane().add(lblBox);
 		
-		JLabel lblEmpleadoJuanOlave = new JLabel("Empleado: Juan Olave");
+		JLabel lblEmpleadoJuanOlave = new JLabel("Empleado: "+this.nombre);
 		lblEmpleadoJuanOlave.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblEmpleadoJuanOlave.setBounds(152, 11, 145, 20);
 		frame.getContentPane().add(lblEmpleadoJuanOlave);

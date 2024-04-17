@@ -1,5 +1,7 @@
 package empleado;
 
+import java.util.Objects;
+
 import cliente.Cliente;
 import util.EstadoEmpleado;
 
@@ -28,5 +30,13 @@ public class Empleado {
 	}
 	public void cambioEstado(EstadoEmpleado estado) {
 		this.estado=estado;
+	}
+	public boolean equals(Object obj) {
+		 if (this == obj)
+	            return true;
+	        if (obj == null || getClass() != obj.getClass())
+	            return false;
+	        Empleado empleado = (Empleado) obj;
+	        return Objects.equals(box, empleado.box);
 	}
 }

@@ -1,29 +1,23 @@
 package vista;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.table.DefaultTableModel;
 import java.awt.Font;
-import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextPane;
+import javax.swing.JTextField;
+
+import controlador.ControladorEmpleado;
+import excepciones.BoxYaRegistradoException;
 
 public class EmpleadoRegistro {
 
 	private JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
-
+	private ControladorEmpleado ce=new ControladorEmpleado();
 	/**
 	 * Launch the application.
 	 */
@@ -64,6 +58,15 @@ public class EmpleadoRegistro {
 		JButton btnNewButton = new JButton("Aceptar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					ce.crearEmpleado(textField.getText(),Integer.parseInt(textField_1.getText()));
+				} catch (NumberFormatException e1) {
+					e1.printStackTrace();
+				} catch (BoxYaRegistradoException e1) {
+					//instancia de ventana de box ya existente
+				}
+				VistaEmpleado ve=new VistaEmpleado(textField.getText(),Integer.parseInt(textField_1.getText()));
+				frame.dispose();
 			}
 		});
 		btnNewButton.setBounds(74, 211, 89, 23);
