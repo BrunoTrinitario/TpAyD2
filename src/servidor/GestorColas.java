@@ -11,7 +11,6 @@ import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import util.Constantes;
 import util.EstadoEmpleado;
-import vista.Administrador;
 
 public class GestorColas implements IClienteEmpleado {
 	private Servidor servidor;
