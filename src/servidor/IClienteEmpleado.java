@@ -10,6 +10,5 @@ public interface IClienteEmpleado {
 	void clienteNoPresentado(Cliente cliente);
 	void eliminaCliente(Cliente cliente);
 	void enviarClienteAEmpleado(Empleado empleado, Cliente cliente);
-	void agregarEmpleadoAAtendiendo(Empleado empleado);
-	void agregarEmpleadoANoAtendiendo(Empleado empleado) throws BoxYaRegistradoException;
+	void registrarEmpleado(Empleado empleado) throws BoxYaRegistradoException;
 }

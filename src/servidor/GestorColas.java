@@ -11,13 +11,18 @@ import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import util.Constantes;
 import util.EstadoEmpleado;
+import vista.Administrador;
 
 public class GestorColas implements IClienteEmpleado {
+	private Servidor servidor;
 	private Queue<Cliente> clientesEnEspera=new LinkedList<Cliente>();
 	private Queue<Empleado> empleadosNoAtendiendo=new LinkedList<Empleado>();
 	private ArrayList<Empleado> empleadosAtendiendo=new ArrayList<Empleado>();
 	private ControladorNotificaciones cn = new ControladorNotificaciones();
-	@Override
+	
+	public GestorColas(Servidor servidor) {
+		this.servidor=servidor;
+	}
 	
 	public void registrarCliente(Cliente cliente) throws DniYaRegistradoException{
 		if (!clientesEnEspera.contains(cliente)) {
@@ -28,22 +33,15 @@ public class GestorColas implements IClienteEmpleado {
 			throw new DniYaRegistradoException(Constantes.DNI_YA_REGISTRADO);
 		}
 	}
-
-	@Override
-	public void agregarEmpleadoANoAtendiendo(Empleado empleado) throws BoxYaRegistradoException {
+	
+	public void registrarEmpleado(Empleado empleado) throws BoxYaRegistradoException {
 		if (!empleadosNoAtendiendo.contains(empleado) && !empleadosAtendiendo.contains(empleado)) {
 			this.empleadosNoAtendiendo.add(empleado);
-			matchClienteEmpleado();
+			this.servidor.informarAdministrador(empleado);
 		}
 		else {
 			throw new BoxYaRegistradoException(Constantes.BOX_YA_REGISTRADO);
 		}
-	}
-
-
-	@Override
-	public void agregarEmpleadoAAtendiendo(Empleado empleado) {
-		this.empleadosAtendiendo.add(empleado);
 	}
 
 	private void matchClienteEmpleado() {
@@ -53,13 +51,13 @@ public class GestorColas implements IClienteEmpleado {
 				this.empleadosAtendiendo.add(empleado);
 				Cliente cliente = this.clientesEnEspera.poll();
 				enviarClienteAEmpleado(empleado, cliente);
-				//enviarANotificaciones(empleado,cliente);
-				
+				//this.servidor.informarAdministradores(empleado);
+				//enviarANotificaciones(empleado,cliente);				
 			}
-		}
-		
+		}		
 		
 	}
+	
 	
 	private Empleado getEmpleadoDisponible() {
 		Empleado empleado = null;
@@ -105,6 +103,29 @@ public class GestorColas implements IClienteEmpleado {
 
 	public void cambioEstado(Empleado empleado) {
 		if (this.empleadosAtendiendo.contains(empleado)) {
+			this.empleadosAtendiendo.remove(empleado);
+			this.empleadosNoAtendiendo.add(empleado);
+		}
+		else {
+			while (!this.empleadosNoAtendiendo.isEmpty()) {
+				Empleado aux = this.empleadosNoAtendiendo.poll();
+				Queue<Empleado> auxQueue=new LinkedList<Empleado>();
+				if (aux.equals(empleado)) {
+					aux=empleado;
+					auxQueue.add(aux);
+					break;
+				}
+				else {
+					auxQueue.add(aux);				
+				}
+				
+				while (!this.empleadosNoAtendiendo.isEmpty()) {
+					auxQueue.add(this.empleadosNoAtendiendo.poll());	
+				}
+				while (!auxQueue.isEmpty()) {
+					this.empleadosNoAtendiendo.add(auxQueue.poll());
+				}			
+			}						
 			
 		}
 		
