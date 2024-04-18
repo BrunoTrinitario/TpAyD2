@@ -11,5 +11,5 @@ public class Constantes {
 	public static final String EMPLEADO_CAMBIO_ESTADO = "Empleado cambio estado";
 	public static final String IP = "localhost";
 	public static final int PUERTO = 1234;
-	public static final int SOLICITAR_METRICAS = "solicitud de metricas";
+	public static final String SOLICITAR_METRICAS = "solicitud de metricas";
 }
