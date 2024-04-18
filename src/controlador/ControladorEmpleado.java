@@ -1,5 +1,6 @@
 package controlador;
 
+import cliente.Cliente;
 import empleado.NegociosEmpleado;
 import excepciones.BoxYaRegistradoException;
 import util.EstadoEmpleado;
@@ -14,5 +15,8 @@ public class ControladorEmpleado {
 	}
 	public EstadoEmpleado getEstado() {
 		return ne.getEstado();
+	}
+	public void finalizarAtencion(Cliente cliente) {
+		ne.finalizarAtencion(cliente);
 	}
 }

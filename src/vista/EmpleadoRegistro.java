@@ -61,7 +61,7 @@ public class EmpleadoRegistro {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					ce.crearEmpleado(textField.getText(),Integer.parseInt(textField_1.getText()));
-					VistaEmpleado ve=new VistaEmpleado(textField.getText(),Integer.parseInt(textField_1.getText()));
+					VistaEmpleado ve=new VistaEmpleado(ce,textField.getText(),Integer.parseInt(textField_1.getText()));
 					frame.dispose();
 				} catch (NumberFormatException e1) {
 					if (textField_1.getText().equals("")) {

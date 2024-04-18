@@ -2,6 +2,7 @@ package empleado;
 
 import cliente.Cliente;
 import excepciones.BoxYaRegistradoException;
+import excepciones.DniYaRegistradoException;
 import util.Conexion;
 import util.Constantes;
 import util.EstadoEmpleado;
@@ -27,15 +28,16 @@ public class NegociosEmpleado implements IActualizar {
 	public EstadoEmpleado getEstado() {
 		return empleado.getEstado();
 	}
-	@Override
-	public void finalizarAtencion() {
-		// TODO Auto-generated method stub
+	/*public void informaAtencionFinalizada(Cliente cliente)   {
+		conexion.envioClienteAServidor(cliente, "AtencionFinalizada");
 	}
+	@Override
+	public void finalizarAtencion(Cliente cliente)  {
+		this.empleado.cambioEstado(EstadoEmpleado.NoDisponible);
+		this.informaAtencionFinalizada(cliente);
+	}
+*/
 
-	@Override
-	public void clienteAtendido(Cliente cliente, Empleado empleado) {
-		// TODO Auto-generated method stub
-	}
 
 	@Override
 	public void clienteAusente(Cliente cliente, Empleado empleado) {
@@ -51,6 +53,12 @@ public class NegociosEmpleado implements IActualizar {
 	@Override
 	public void informarAcceso(Empleado empleado) throws BoxYaRegistradoException {
 		conexion.envioEmpleadoAServidor(empleado,Constantes.EMPLEADO_NUEVO);
+	}
+
+	@Override
+	public void finalizarAtencion(Cliente cliente) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

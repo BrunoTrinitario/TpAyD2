@@ -1,28 +1,16 @@
 package vista;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import controlador.ControladorEmpleado;
 import util.EstadoEmpleado;
-
-import java.awt.Font;
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
-import javax.swing.JToggleButton;
 
 public class VistaEmpleado implements ActionListener{
 
@@ -34,11 +22,12 @@ public class VistaEmpleado implements ActionListener{
 	private JButton botonFinalizar,botonNoAsistio,botonCambioEstado;
 	private JLabel labelDniCliente,labelBox,labelEmpleado,labelEstado,textoDniCliente;
 	private JTextField textoInfoCliente,textoInfoIngresada;
-	private ControladorEmpleado ce=new ControladorEmpleado();
+	private ControladorEmpleado ce;
 	/**
 	 * Create the application.
 	 */
-	public VistaEmpleado(String nombre,int box) {
+	public VistaEmpleado(ControladorEmpleado ce,String nombre,int box) {
+		this.ce=ce;
 		this.nombre=nombre;
 		this.box=box;
 		this.botonFinalizar= new JButton("Finalizar atencion");
@@ -53,6 +42,7 @@ public class VistaEmpleado implements ActionListener{
 		
 		this.textoDniCliente = new JLabel("-");
 		initialize();
+		this.addActionListenerToButtons();
 		frame.setVisible(true);
 	}
 
@@ -111,28 +101,41 @@ public class VistaEmpleado implements ActionListener{
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==botonCambioEstado) {
+			
 			if(ce.getEstado()==EstadoEmpleado.Disponible) {
 				ce.cambioEstado(EstadoEmpleado.NoDisponible);
 				this.labelEstado.setText("Estado: "+EstadoEmpleado.NoDisponible);
 				this.botonCambioEstado.setText("Cambiar a Disponible");
+				this.labelEstado.repaint();
 			}
 			else {
 				ce.cambioEstado(EstadoEmpleado.Disponible);
 				this.labelEstado.setText("Estado: "+EstadoEmpleado.Disponible);
 				this.botonCambioEstado.setText("Cambiar a No Disponible");
+				this.labelEstado.repaint();
+
 			}
 		}
 		else {
 			if(e.getSource()==botonFinalizar) {
 				ce.cambioEstado(EstadoEmpleado.NoDisponible);
 				this.labelEstado.setText("Estado: "+EstadoEmpleado.NoDisponible);	
+				this.botonCambioEstado.setText("Cambiar a Disponible");
+				this.botonCambioEstado.setEnabled(true);
 			}
 			else {
 				if(e.getSource()==botonNoAsistio) {
 					ce.cambioEstado(EstadoEmpleado.Disponible);
 					this.labelEstado.setText("Estado: "+EstadoEmpleado.Disponible);
+					this.botonCambioEstado.setText("Cambiar a No Disponible");
+					this.botonCambioEstado.setEnabled(true);
+					
 				}
 			}
 		}
+	}
+	public void RecepcionClientes(){
+		this.botonFinalizar.setEnabled(true);
+		this.botonNoAsistio.setEnabled(true);
 	}
 }
