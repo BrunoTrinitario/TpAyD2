@@ -3,6 +3,7 @@ package cliente;
 import excepciones.DniInvalidoException;
 import excepciones.DniYaRegistradoException;
 import util.Conexion;
+import util.Constantes;
 
 public class NegociosCliente implements IRegistro {
 	private Conexion conexion=new Conexion();
@@ -12,7 +13,7 @@ public class NegociosCliente implements IRegistro {
 			Cliente cliente=new Cliente(dni);
 			this.enviarClienteAServidor(cliente);
 		}else
-			throw new DniInvalidoException("Longitud invalida");
+			throw new DniInvalidoException(Constantes.DNI_INCORRECTO);
 	}
 
 	@Override
