@@ -1,5 +1,7 @@
 package main;
 
+import cliente.Cliente;
+import empleado.Empleado;
 import vista.VistaNotificacion;
 
 public class MainNotificaciones {
