@@ -2,7 +2,6 @@ package servidor;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import cliente.Cliente;
@@ -11,12 +10,10 @@ import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import util.Constantes;
 import util.DatosConexion;
-import vista.Administrador;
 
 public class Servidor extends Thread {
 	private GestorColas gestorcolas = new GestorColas(this);
 	private HashMap <Integer, DatosConexion> empleadosConectados = new HashMap<>();
-	private ArrayList<DatosConexion> administradores = new ArrayList<DatosConexion>();
 	private boolean servidorActivo = true;
 	
 	@Override
@@ -57,8 +54,8 @@ public class Servidor extends Thread {
                 	}
                 }
                 else{
-                	//if (msg.equals(objeto))                	
-                	//datosConexion.out.writeObject(gestorcola.actualizarMetricas());
+                	if (msg.equals(Constantes.SOLICITAR_METRICAS))                	
+                	datosConexion.oos.writeObject(gestorcolas.actualizarMetricas());
                 }
                 	
             }

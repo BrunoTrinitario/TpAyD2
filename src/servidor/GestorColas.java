@@ -127,6 +127,10 @@ public class GestorColas implements IClienteEmpleado {
 		}
 		
 	}
+
+	public Object actualizarMetricas() {
+		return null;
+	}
 	
 	
 }
