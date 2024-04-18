@@ -9,5 +9,10 @@ public class ControladorEmpleado {
 	public void crearEmpleado(String dni,int box) throws BoxYaRegistradoException{
 		ne.crearEmpleado(dni, box);
 	}
-
+	public void cambioEstado(EstadoEmpleado estado) {
+		ne.cambioEstado(estado);
+	}
+	public EstadoEmpleado getEstado() {
+		return ne.getEstado();
+	}
 }

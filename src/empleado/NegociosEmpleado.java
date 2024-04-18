@@ -24,7 +24,9 @@ public class NegociosEmpleado implements IActualizar {
 		this.empleado.cambioEstado(estado);
 		this.informaEstado(empleado);
 	}
-
+	public EstadoEmpleado getEstado() {
+		return empleado.getEstado();
+	}
 	@Override
 	public void finalizarAtencion() {
 		// TODO Auto-generated method stub

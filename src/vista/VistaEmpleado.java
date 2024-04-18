@@ -31,7 +31,7 @@ public class VistaEmpleado implements ActionListener{
 	private JTextField txtInformacionIngresadaPor;
 	private String nombre;
 	private int box;
-	private JButton botonFinalizar,botonNoAsistio,botonCambio;
+	private JButton botonFinalizar,botonNoAsistio,botonCambioEstado;
 	private JLabel labelDniCliente,labelBox,labelEmpleado,labelEstado,textoDniCliente;
 	private JTextField textoInfoCliente,textoInfoIngresada;
 	private ControladorEmpleado ce=new ControladorEmpleado();
@@ -43,13 +43,14 @@ public class VistaEmpleado implements ActionListener{
 		this.box=box;
 		this.botonFinalizar= new JButton("Finalizar atencion");
 		this.botonNoAsistio= new JButton("Cliente no asistió");
-		this.botonCambio= new JButton("Cambiar a disponible");
+		this.botonCambioEstado= new JButton("Cambiar a disponible");
 		this.labelDniCliente= new JLabel("DNI del cliente:");
 		this.textoInfoCliente= new JTextField();
 		this.textoInfoIngresada= new JTextField();
 		this.labelBox= new JLabel("BOX: "+this.box);
 		this.labelEmpleado= new JLabel("Empleado: "+this.nombre);
 		this.labelEstado= new JLabel("Estado: "+ EstadoEmpleado.NoDisponible);
+		
 		this.textoDniCliente = new JLabel("-");
 		initialize();
 		frame.setVisible(true);
@@ -82,7 +83,7 @@ public class VistaEmpleado implements ActionListener{
 	private void addBounds() {
 		botonFinalizar.setBounds(54, 413, 177, 41);
 		botonNoAsistio.setBounds(54, 465, 177, 41);
-		botonCambio.setBounds(54, 361, 177, 41);
+		botonCambioEstado.setBounds(54, 361, 177, 41);
 		labelDniCliente.setBounds(54, 75, 82, 14);
 		textoInfoCliente.setBounds(255, 90, 483, 242);
 		textoInfoIngresada.setBounds(255, 361, 483, 145);
@@ -95,7 +96,7 @@ public class VistaEmpleado implements ActionListener{
 	private void addToFrame() {
 		frame.getContentPane().add(botonFinalizar);
 		frame.getContentPane().add(botonNoAsistio);
-		frame.getContentPane().add(botonCambio);
+		frame.getContentPane().add(botonCambioEstado);
 		frame.getContentPane().add(labelDniCliente);
 		frame.getContentPane().add(textoInfoCliente);
 		frame.getContentPane().add(textoInfoIngresada);
@@ -106,11 +107,32 @@ public class VistaEmpleado implements ActionListener{
 	}
 	
 	private void addActionListenerToButtons() {
-		botonCambio.addActionListener(this);
+		botonCambioEstado.addActionListener(this);
 	}
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource()==botonCambio) {
-			
+		if (e.getSource()==botonCambioEstado) {
+			if(ce.getEstado()==EstadoEmpleado.Disponible) {
+				ce.cambioEstado(EstadoEmpleado.NoDisponible);
+				this.labelEstado.setText("Estado: "+EstadoEmpleado.NoDisponible);
+				this.botonCambioEstado.setText("Cambiar a Disponible");
+			}
+			else {
+				ce.cambioEstado(EstadoEmpleado.Disponible);
+				this.labelEstado.setText("Estado: "+EstadoEmpleado.Disponible);
+				this.botonCambioEstado.setText("Cambiar a No Disponible");
+			}
+		}
+		else {
+			if(e.getSource()==botonFinalizar) {
+				ce.cambioEstado(EstadoEmpleado.NoDisponible);
+				this.labelEstado.setText("Estado: "+EstadoEmpleado.NoDisponible);	
+			}
+			else {
+				if(e.getSource()==botonNoAsistio) {
+					ce.cambioEstado(EstadoEmpleado.Disponible);
+					this.labelEstado.setText("Estado: "+EstadoEmpleado.Disponible);
+				}
+			}
 		}
 	}
 }
