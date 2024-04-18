@@ -1,11 +1,12 @@
 package empleado;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import cliente.Cliente;
 import util.EstadoEmpleado;
 
-public class Empleado {
+public class Empleado implements Serializable {
 	private int box;
 	private EstadoEmpleado estado;
 	private String nombre;

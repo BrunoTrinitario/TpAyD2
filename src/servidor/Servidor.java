@@ -20,26 +20,30 @@ public class Servidor extends Thread {
 	public void run() {
 		try {
             ServerSocket s = new ServerSocket(1234);
-            while (true) {
-            	System.out.println("Servidor online");
+            System.out.println("Servidor online");
+            while (true) {            	
                 Socket soc = s.accept();
                 System.out.println("Conexion realizada");
                 PrintWriter out = new PrintWriter(soc.getOutputStream(), true); 
                 BufferedReader in = new BufferedReader(new InputStreamReader(soc.getInputStream()));           
                 ObjectInputStream ois = new ObjectInputStream(soc.getInputStream());
-                Object objeto = ois.readObject();
-                String msg = in.readLine();
+                Object objeto = ois.readObject(); System.out.println("Objeto recibido: "+objeto);
+                String msg = in.readLine(); System.out.println("Mensaje recibido: "+msg);
+                
                 if (objeto instanceof Cliente)
-                	try {
+                	try {System.out.println("Cliente detectado");
                 		this.gestorcolas.registrarCliente((Cliente)objeto);
+                		System.out.println(Constantes.CLIENTE_REGISTRO_OK);
                 		out.println(Constantes.CLIENTE_REGISTRO_OK);
                 	}catch(DniYaRegistradoException e) {
+                		System.out.println(Constantes.DNI_YA_REGISTRADO);
                 		out.println(e.getMessage());
                 	}
                 else if (objeto instanceof Empleado) {
                 	if (msg.equals("agregar"))
                 		try {
                         	this.gestorcolas.agregarEmpleadoANoDisponible((Empleado)objeto);
+                        	out.println(Constantes.EMPLEADO_REGISTRO_OK);
                 		}catch(BoxYaRegistradoException e) {
                 			out.println(e.getMessage());
                 		}
