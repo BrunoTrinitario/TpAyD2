@@ -118,7 +118,8 @@ public class VistaEmpleado implements ActionListener{
 		}
 		else {
 			if(e.getSource()==botonFinalizar) {
-				ce.cambioEstado(EstadoEmpleado.NoDisponible);
+			//	ce.cambioEstado(EstadoEmpleado.NoDisponible);
+				ce.finalizarAtencion();
 				this.labelEstado.setText("Estado: "+EstadoEmpleado.NoDisponible);	
 				this.botonCambioEstado.setText("Cambiar a Disponible");
 				this.botonCambioEstado.setEnabled(true);
@@ -134,6 +135,7 @@ public class VistaEmpleado implements ActionListener{
 			}
 		}
 	}
+	//cuando matchea y se le asigna el cliente se pone visible boton fin y no asistio
 	public void RecepcionClientes(){
 		this.botonFinalizar.setEnabled(true);
 		this.botonNoAsistio.setEnabled(true);

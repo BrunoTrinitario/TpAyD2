@@ -28,20 +28,26 @@ public class NegociosEmpleado implements IActualizar {
 	public EstadoEmpleado getEstado() {
 		return empleado.getEstado();
 	}
-	/*public void informaAtencionFinalizada(Cliente cliente)   {
-		conexion.envioClienteAServidor(cliente, "AtencionFinalizada");
+	public void informaAtencionFinalizada(Cliente cliente)   {
+		try {
+			conexion.envioClienteAServidor(cliente, "AtencionFinalizada");
+		} catch (DniYaRegistradoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	@Override
-	public void finalizarAtencion(Cliente cliente)  {
+	public void finalizarAtencion()  {
 		this.empleado.cambioEstado(EstadoEmpleado.NoDisponible);
-		this.informaAtencionFinalizada(cliente);
+		this.informaAtencionFinalizada(this.empleado.getCliente());
 	}
-*/
+
 
 
 	@Override
-	public void clienteAusente(Cliente cliente, Empleado empleado) {
-		// TODO Auto-generated method stub
+	public void clienteAusente() throws DniYaRegistradoException {
+		this.empleado.cambioEstado(EstadoEmpleado.Disponible);
+		conexion.envioClienteAServidor(this.empleado.getCliente(),Constantes.ClienteAusente);
 	}
 
 	@Override
@@ -54,12 +60,4 @@ public class NegociosEmpleado implements IActualizar {
 	public void informarAcceso(Empleado empleado) throws BoxYaRegistradoException {
 		conexion.envioEmpleadoAServidor(empleado,Constantes.EMPLEADO_NUEVO);
 	}
-
-	@Override
-	public void finalizarAtencion(Cliente cliente) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 }

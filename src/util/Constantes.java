@@ -12,4 +12,5 @@ public class Constantes {
 	public static final String IP = "localhost";
 	public static final int PUERTO = 1234;
 	public static final String SOLICITAR_METRICAS = "solicitud de metricas";
+	public static final String ClienteAusente="Cliente ausente";
 }

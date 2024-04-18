@@ -16,7 +16,7 @@ public class ControladorEmpleado {
 	public EstadoEmpleado getEstado() {
 		return ne.getEstado();
 	}
-	public void finalizarAtencion(Cliente cliente) {
-		ne.finalizarAtencion(cliente);
+	public void finalizarAtencion() {
+		ne.finalizarAtencion();
 	}
 }
