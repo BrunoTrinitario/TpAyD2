@@ -11,7 +11,6 @@ import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import util.Constantes;
 import util.DatosConexion;
-import vista.Administrador;
 
 public class Servidor extends Thread {
 	private GestorColas gestorcolas = new GestorColas(this);
@@ -56,9 +55,8 @@ public class Servidor extends Thread {
                 			this.gestorcolas.cambioEstado(empleado);
                 	}
                 }
-                else if (objeto instanceof Administrador) {
-                	this.administradores.add((DatosConexion)objeto);
-                }
+                else {
+               }
                 	
             }
             s.close();
