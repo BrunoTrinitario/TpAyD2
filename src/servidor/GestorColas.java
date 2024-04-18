@@ -37,7 +37,6 @@ public class GestorColas implements IClienteEmpleado {
 	public void registrarEmpleado(Empleado empleado) throws BoxYaRegistradoException {
 		if (!empleadosNoAtendiendo.contains(empleado) && !empleadosAtendiendo.contains(empleado)) {
 			this.empleadosNoAtendiendo.add(empleado);
-			this.servidor.informarAdministrador(empleado);
 		}
 		else {
 			throw new BoxYaRegistradoException(Constantes.BOX_YA_REGISTRADO);
@@ -117,8 +116,7 @@ public class GestorColas implements IClienteEmpleado {
 				}
 				else {
 					auxQueue.add(aux);				
-				}
-				
+				}				
 				while (!this.empleadosNoAtendiendo.isEmpty()) {
 					auxQueue.add(this.empleadosNoAtendiendo.poll());	
 				}

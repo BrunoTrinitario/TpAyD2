@@ -56,8 +56,9 @@ public class Servidor extends Thread {
                 			this.gestorcolas.cambioEstado(empleado);
                 	}
                 }
-                else if (objeto instanceof Administrador) {
-                	this.administradores.add((DatosConexion)objeto);
+                else{
+                	//if (msg.equals(objeto))                	
+                	//datosConexion.out.writeObject(gestorcola.actualizarMetricas());
                 }
                 	
             }
@@ -66,15 +67,6 @@ public class Servidor extends Thread {
             e.printStackTrace();
         }
 				
-	}
-	public void informarAdministrador(Empleado empleado) {
-		for (DatosConexion administrador : this.administradores) {
-			try {
-				administrador.oos.writeObject(empleado);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	public void enviarClienteAEmpleado(Empleado empleado, Cliente cliente) {
