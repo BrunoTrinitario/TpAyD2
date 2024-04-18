@@ -3,6 +3,7 @@ package util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -10,6 +11,7 @@ import java.net.UnknownHostException;
 
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
+import servidor.Metrica;
 
 public class Conexion {
 	
@@ -17,6 +19,7 @@ public class Conexion {
 	private ObjectOutputStream oos;
 	private BufferedReader in;           
 	private PrintWriter out;
+	private ObjectInputStream ois;
 	
 	public void envioEmpleadoAServidor(Object objeto,String mensaje)throws BoxYaRegistradoException {
 		 try {
@@ -60,15 +63,32 @@ public class Conexion {
 
 	}
 	
-	public void solicitudDeActulizacionMetricas() {
-		
+	public Metrica solicitudDeActulizacionMetricas(Object objeto,String mensaje) {
+		Object metrica=null;
+		try {
+			envioDatosAServidor(objeto,mensaje);
+			try {
+				metrica=this.ois.readObject();
+				return (Metrica)metrica;
+			} catch (ClassNotFoundException | IOException e) {
+			}
+		}catch (DniYaRegistradoException e){
+			e.printStackTrace();
+		}
+		catch (BoxYaRegistradoException e) {
+			e.printStackTrace();
+		}finally {
+			cerrarConexion();
+		}
+		return (Metrica)metrica;
 	}
 	
 	private void abrirConexion(String Ip, int puerto) throws UnknownHostException, IOException {
 		this.socket = new Socket(Ip,puerto);
     	this.oos = new ObjectOutputStream(socket.getOutputStream()); 
     	this.in = new BufferedReader(new InputStreamReader(socket.getInputStream())); ;
-    	this.out = new PrintWriter(socket.getOutputStream(),true);	
+    	this.out = new PrintWriter(socket.getOutputStream(),true);
+    	this.ois = new ObjectInputStream(socket.getInputStream());
 	}
 	
 	

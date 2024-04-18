@@ -15,6 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.ControladorAdministrador;
+import servidor.Metrica;
 
 import java.awt.Font;
 import java.awt.Color;
@@ -85,6 +86,6 @@ public class VistaAdministrador implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ca.solicitarMetricas();
+		Metrica metrica=ca.solicitarMetricas();
 	}
 }
