@@ -13,6 +13,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
+
+import controlador.ControladorEmpleado;
+import util.EstadoEmpleado;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -20,20 +24,33 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.JToggleButton;
 
-public class VistaEmpleado {
+public class VistaEmpleado implements ActionListener{
 
 	private JFrame frame;
 	private JTextField txtInformacionDelCliente;
 	private JTextField txtInformacionIngresadaPor;
 	private String nombre;
 	private int box;
-
+	private JButton botonFinalizar,botonNoAsistio,botonCambio;
+	private JLabel labelDniCliente,labelBox,labelEmpleado,labelEstado,textoDniCliente;
+	private JTextField textoInfoCliente,textoInfoIngresada;
+	private ControladorEmpleado ce=new ControladorEmpleado();
 	/**
 	 * Create the application.
 	 */
 	public VistaEmpleado(String nombre,int box) {
 		this.nombre=nombre;
 		this.box=box;
+		this.botonFinalizar= new JButton("Finalizar atencion");
+		this.botonNoAsistio= new JButton("Cliente no asistió");
+		this.botonCambio= new JButton("Cambiar a disponible");
+		this.labelDniCliente= new JLabel("DNI del cliente:");
+		this.textoInfoCliente= new JTextField();
+		this.textoInfoIngresada= new JTextField();
+		this.labelBox= new JLabel("BOX: "+this.box);
+		this.labelEmpleado= new JLabel("Empleado: "+this.nombre);
+		this.labelEstado= new JLabel("Estado: "+ EstadoEmpleado.NoDisponible);
+		this.textoDniCliente = new JLabel("-");
 		initialize();
 		frame.setVisible(true);
 	}
@@ -47,63 +64,53 @@ public class VistaEmpleado {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JButton btnNewButton = new JButton("Finalizar atencion");
-		btnNewButton.setEnabled(false);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton.setBounds(54, 413, 177, 41);
-		frame.getContentPane().add(btnNewButton);
+		this.addBounds();
+		this.addToFrame();
 		
-		JButton btnClienteNoAsisti = new JButton("Cliente no asistió");
-		btnClienteNoAsisti.setEnabled(false);
-		btnClienteNoAsisti.setBounds(54, 465, 177, 41);
-		frame.getContentPane().add(btnClienteNoAsisti);
-		
-		JTextPane textPane = new JTextPane();
-		textPane.setBounds(54, 90, 177, 20);
-		frame.getContentPane().add(textPane);
-		
-		JLabel lblNewLabel = new JLabel("DNI del cliente:");
-		lblNewLabel.setBounds(54, 75, 82, 14);
-		frame.getContentPane().add(lblNewLabel);
-		
-		txtInformacionDelCliente = new JTextField();
-		txtInformacionDelCliente.setEnabled(false);
-		txtInformacionDelCliente.setText("Informacion anterior del cliente");
-		txtInformacionDelCliente.setBounds(255, 90, 483, 242);
-		frame.getContentPane().add(txtInformacionDelCliente);
-		txtInformacionDelCliente.setColumns(10);
-		
-		txtInformacionIngresadaPor = new JTextField();
-		txtInformacionIngresadaPor.setEnabled(false);
-		txtInformacionIngresadaPor.setText("Informacion ingresada por el empleado sobre la atencion al cliente");
-		txtInformacionIngresadaPor.setColumns(10);
-		txtInformacionIngresadaPor.setBounds(255, 361, 483, 145);
-		frame.getContentPane().add(txtInformacionIngresadaPor);
-		
-		JLabel lblBox = new JLabel("BOX: "+this.box);
-		lblBox.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblBox.setBounds(54, 11, 66, 20);
-		frame.getContentPane().add(lblBox);
-		
-		JLabel lblEmpleadoJuanOlave = new JLabel("Empleado: "+this.nombre);
-		lblEmpleadoJuanOlave.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblEmpleadoJuanOlave.setBounds(152, 11, 145, 20);
-		frame.getContentPane().add(lblEmpleadoJuanOlave);
-		
-		JLabel lblEstadoAtendiendo = new JLabel("Estado: No disponible");
-		lblEstadoAtendiendo.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblEstadoAtendiendo.setBounds(346, 11, 145, 20);
-		frame.getContentPane().add(lblEstadoAtendiendo);
-		
-		JButton btnNewButton_1 = new JButton("Cambiar a disponible");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_1.setBounds(54, 361, 177, 41);
-		frame.getContentPane().add(btnNewButton_1);
+		botonFinalizar.setEnabled(false);
+		botonNoAsistio.setEnabled(false);
+		textoInfoCliente.setEnabled(false);
+		textoInfoCliente.setText("Informacion anterior del cliente");
+		textoInfoCliente.setColumns(10);
+		textoInfoIngresada.setEnabled(false);
+		textoInfoIngresada.setText("Informacion ingresada por el empleado sobre la atencion al cliente");
+		textoInfoIngresada.setColumns(10);
+		labelBox.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		labelEmpleado.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		labelEstado.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	}
+	private void addBounds() {
+		botonFinalizar.setBounds(54, 413, 177, 41);
+		botonNoAsistio.setBounds(54, 465, 177, 41);
+		botonCambio.setBounds(54, 361, 177, 41);
+		labelDniCliente.setBounds(54, 75, 82, 14);
+		textoInfoCliente.setBounds(255, 90, 483, 242);
+		textoInfoIngresada.setBounds(255, 361, 483, 145);
+		labelBox.setBounds(54, 11, 66, 20);
+		labelEmpleado.setBounds(152, 11, 145, 20);
+		labelEstado.setBounds(346, 11, 145, 20);
+		textoDniCliente.setBounds(54, 90, 177, 20);
+	}
+	
+	private void addToFrame() {
+		frame.getContentPane().add(botonFinalizar);
+		frame.getContentPane().add(botonNoAsistio);
+		frame.getContentPane().add(botonCambio);
+		frame.getContentPane().add(labelDniCliente);
+		frame.getContentPane().add(textoInfoCliente);
+		frame.getContentPane().add(textoInfoIngresada);
+		frame.getContentPane().add(labelBox);
+		frame.getContentPane().add(labelEmpleado);
+		frame.getContentPane().add(labelEstado);
+		frame.getContentPane().add(textoDniCliente);
+	}
+	
+	private void addActionListenerToButtons() {
+		botonCambio.addActionListener(this);
+	}
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource()==botonCambio) {
+			
+		}
 	}
 }

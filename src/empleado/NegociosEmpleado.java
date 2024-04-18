@@ -12,7 +12,11 @@ public class NegociosEmpleado implements IActualizar {
 	
 	@Override
 	public void informaEstado(Empleado empleado) {
-		//conexion.envioEmpleadoAServidor(empleado,"estado");
+		try {
+			conexion.envioEmpleadoAServidor(empleado,"estado");
+		} catch (BoxYaRegistradoException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

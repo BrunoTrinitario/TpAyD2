@@ -64,7 +64,11 @@ public class EmpleadoRegistro {
 					VistaEmpleado ve=new VistaEmpleado(textField.getText(),Integer.parseInt(textField_1.getText()));
 					frame.dispose();
 				} catch (NumberFormatException e1) {
-					VentanaEmergente ventanaEmergente = new VentanaEmergente("Su box debe ser solo numeros");
+					if (textField_1.getText().equals("")) {
+						VentanaEmergente ventanaEmergente = new VentanaEmergente("Debe completar con un BOX");
+					}else {
+						VentanaEmergente ventanaEmergente = new VentanaEmergente("Su box debe ser solo numeros");
+					}
 				} catch (BoxYaRegistradoException e1) {
 					VentanaEmergente ventanaEmergente = new VentanaEmergente(Constantes.BOX_YA_REGISTRADO);
 				}

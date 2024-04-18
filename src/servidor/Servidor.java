@@ -8,6 +8,7 @@ import empleado.Empleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import util.Constantes;
+import util.DatosConexion;
 
 public class Servidor extends Thread {
 	private GestorColas gestorcolas = new GestorColas();
@@ -32,7 +33,7 @@ public class Servidor extends Thread {
                 		datosConexion.out.println(e.getMessage());
                 	}
                 else if (objeto instanceof Empleado) {
-                	if (msg.equals(Constantes.EMPLEADO_NUEVO))
+                	if (msg.equals(Constantes.EMPLEADO_NUEVO)) {
                 		try {
                 			Empleado empleado = (Empleado)objeto;
                 			this.empleadosConectados.put(empleado.getBox(), datosConexion);
@@ -42,6 +43,7 @@ public class Servidor extends Thread {
                 		}catch(BoxYaRegistradoException e) {
                 			datosConexion.out.println(e.getMessage());
                 		}
+                	}
                 }
                 	
             }

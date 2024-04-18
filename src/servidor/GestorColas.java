@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import cliente.Cliente;
+import controlador.ControladorNotificaciones;
 import empleado.Empleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
@@ -15,7 +16,7 @@ public class GestorColas implements IClienteEmpleado {
 	private ArrayList<Empleado> EmpleadosNoDisponibles=new ArrayList<Empleado>();
 	private ArrayList<Empleado> EmpleadosDisponibles=new ArrayList<Empleado>();
 	private ArrayList<Empleado> EmpleadosAtendiendo=new ArrayList<Empleado>();
-	
+	private ControladorNotificaciones cn=new ControladorNotificaciones();
 	@Override
 	public void registrarCliente(Cliente cliente) throws DniYaRegistradoException{
 		if (!clientesEnEspera.contains(cliente))
@@ -23,7 +24,6 @@ public class GestorColas implements IClienteEmpleado {
 		else {
 			throw new DniYaRegistradoException(Constantes.DNI_YA_REGISTRADO);
 		}
-			
 	}
 
 	@Override

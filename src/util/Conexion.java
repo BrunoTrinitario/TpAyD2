@@ -38,7 +38,6 @@ public class Conexion {
 		 }
 	}
 	
-	
 	public void envioDatosAServidor(Object objeto,String mensaje) throws DniYaRegistradoException, BoxYaRegistradoException{
 		 try {
 			 	System.out.println("Abriendo conexion...");

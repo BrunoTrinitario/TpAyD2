@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.Font;
 import java.awt.Color;
 
-public class Notificacion {
+public class VistaNotificacion {
 
 	private JFrame frame;
 	private JTextField textField;
@@ -36,32 +36,11 @@ public class Notificacion {
 	private JTextField textField_12;
 	private JTextField textField_13;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Notificacion window = new Notificacion();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public Notificacion() {
+	public VistaNotificacion() {
 		initialize();
+		frame.setVisible(true);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 787, 615);
@@ -186,6 +165,9 @@ public class Notificacion {
 		textField_13.setBounds(371, 104, 340, 72);
 		frame.getContentPane().add(textField_13);
 		frame.setVisible(true);
+	}
+	public void agregar() {
+		
 	}
 	
 }
