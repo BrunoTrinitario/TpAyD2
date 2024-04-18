@@ -60,7 +60,9 @@ public class Conexion {
 
 	}
 	
-	
+	public void solicitudDeActulizacionMetricas() {
+		
+	}
 	
 	private void abrirConexion(String Ip, int puerto) throws UnknownHostException, IOException {
 		this.socket = new Socket(Ip,puerto);

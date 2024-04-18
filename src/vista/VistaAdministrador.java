@@ -13,19 +13,24 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
+
+import controlador.ControladorAdministrador;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 
-public class VistaAdministrador {
+public class VistaAdministrador implements ActionListener{
 
 	private JFrame frame;
 	private JLabel titulo,labelMetrica1,labelMetrica2,labelTablaEstado,labelTablaBox;
 	private JTable tabla;
 	private JTextField metrica1,metrica2;
 	private JButton botonAct;
+	private ControladorAdministrador ca=new ControladorAdministrador();
+	
 	
 	public VistaAdministrador() {
 		labelTablaBox = new JLabel("Box");
@@ -37,6 +42,7 @@ public class VistaAdministrador {
 		metrica1 = new JTextField();
 		titulo = new JLabel("Panel de administrador");
 		botonAct = new JButton("Actualizar metricas");
+		botonAct.addActionListener(this);
 		initialize();
 		frame.setVisible(true);
 	}
@@ -75,5 +81,10 @@ public class VistaAdministrador {
 		frame.getContentPane().add(labelMetrica2);
 		frame.getContentPane().add(titulo);
 		frame.getContentPane().add(botonAct);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		ca.solicitarMetricas();
 	}
 }
