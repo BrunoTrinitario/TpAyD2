@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 
 import controlador.ControladorEmpleado;
 import excepciones.BoxYaRegistradoException;
+import util.Constantes;
 
 public class EmpleadoRegistro {
 
@@ -60,13 +61,14 @@ public class EmpleadoRegistro {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					ce.crearEmpleado(textField.getText(),Integer.parseInt(textField_1.getText()));
+					VistaEmpleado ve=new VistaEmpleado(textField.getText(),Integer.parseInt(textField_1.getText()));
+					frame.dispose();
 				} catch (NumberFormatException e1) {
-					e1.printStackTrace();
+					VentanaEmergente ventanaEmergente = new VentanaEmergente("Su box debe ser solo numeros");
 				} catch (BoxYaRegistradoException e1) {
-					//instancia de ventana de box ya existente
+					VentanaEmergente ventanaEmergente = new VentanaEmergente(Constantes.BOX_YA_REGISTRADO);
 				}
-				VistaEmpleado ve=new VistaEmpleado(textField.getText(),Integer.parseInt(textField_1.getText()));
-				frame.dispose();
+
 			}
 		});
 		btnNewButton.setBounds(74, 211, 89, 23);

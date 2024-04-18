@@ -3,6 +3,7 @@ package empleado;
 import cliente.Cliente;
 import excepciones.BoxYaRegistradoException;
 import util.Conexion;
+import util.Constantes;
 import util.EstadoEmpleado;
 
 public class NegociosEmpleado implements IActualizar {
@@ -43,7 +44,7 @@ public class NegociosEmpleado implements IActualizar {
 
 	@Override
 	public void informarAcceso(Empleado empleado) throws BoxYaRegistradoException {
-		conexion.envioEmpleadoAServidor(empleado,"agregar");
+		conexion.envioEmpleadoAServidor(empleado,Constantes.EMPLEADO_NUEVO);
 	}
 
 

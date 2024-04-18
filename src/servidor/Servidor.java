@@ -1,11 +1,7 @@
 package servidor;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
-import java.net.Socket;
+import java.util.HashMap;
 
 import cliente.Cliente;
 import empleado.Empleado;
@@ -14,46 +10,46 @@ import excepciones.DniYaRegistradoException;
 import util.Constantes;
 
 public class Servidor extends Thread {
-	private GestorColas gestorcolas=new GestorColas();
-	private int puerto=1234;
+	private GestorColas gestorcolas = new GestorColas();
+	private HashMap <Integer, DatosConexion> empleadosConectados = new HashMap<>();
+	private boolean servidorActivo = true;
 	@Override
 	public void run() {
 		try {
-            ServerSocket s = new ServerSocket(1234);
+            ServerSocket s = new ServerSocket(Constantes.PUERTO);
             System.out.println("Servidor online");
-            while (true) {            	
-                Socket soc = s.accept();
-                System.out.println("Conexion realizada");
-                PrintWriter out = new PrintWriter(soc.getOutputStream(), true); 
-                BufferedReader in = new BufferedReader(new InputStreamReader(soc.getInputStream()));           
-                ObjectInputStream ois = new ObjectInputStream(soc.getInputStream());
-                Object objeto = ois.readObject(); System.out.println("Objeto recibido: "+objeto);
-                String msg = in.readLine(); System.out.println("Mensaje recibido: "+msg);
+            while (servidorActivo) {            	
                 
+            	DatosConexion datosConexion = new DatosConexion(s.accept());
+                Object objeto = datosConexion.ois.readObject();
+                String msg = datosConexion.in.readLine();      
+                System.out.println("Datos recibidos: "+objeto+" "+msg);
                 if (objeto instanceof Cliente)
-                	try {System.out.println("Cliente detectado");
-                		this.gestorcolas.registrarCliente((Cliente)objeto);
-                		System.out.println(Constantes.CLIENTE_REGISTRO_OK);
-                		out.println(Constantes.CLIENTE_REGISTRO_OK);
+                	try {
+                		this.gestorcolas.registrarCliente((Cliente)objeto);;
+                		datosConexion.out.println(Constantes.CLIENTE_REGISTRO_OK);
                 	}catch(DniYaRegistradoException e) {
-                		System.out.println(Constantes.DNI_YA_REGISTRADO);
-                		out.println(e.getMessage());
+                		datosConexion.out.println(e.getMessage());
                 	}
                 else if (objeto instanceof Empleado) {
-                	if (msg.equals("agregar"))
+                	if (msg.equals(Constantes.EMPLEADO_NUEVO))
                 		try {
+                			Empleado empleado = (Empleado)objeto;
+                			this.empleadosConectados.put(empleado.getBox(), datosConexion);
                         	this.gestorcolas.agregarEmpleadoANoDisponible((Empleado)objeto);
-                        	out.println(Constantes.EMPLEADO_REGISTRO_OK);
+                        	datosConexion.out.println(Constantes.EMPLEADO_REGISTRO_OK);
+                        	System.out.println("Nuevo empleado, empleados actuales: "+empleadosConectados);
                 		}catch(BoxYaRegistradoException e) {
-                			out.println(e.getMessage());
+                			datosConexion.out.println(e.getMessage());
                 		}
                 }
                 	
             }
-
+            s.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+			
+	}
 
 }

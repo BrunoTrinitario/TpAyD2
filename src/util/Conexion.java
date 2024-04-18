@@ -28,20 +28,26 @@ public class Conexion {
 	
 
 	public void envioClienteAServidor(Object objeto, String mensaje) throws DniYaRegistradoException{
-			 try {
-				 envioDatosAServidor(objeto,mensaje);			    	
-			} catch (BoxYaRegistradoException e) {
-				e.printStackTrace();
-			}
+		try {
+			envioDatosAServidor(objeto,mensaje);			    	
+		} catch (BoxYaRegistradoException e) {
+			e.printStackTrace();
+		}
+		 finally {
+			cerrarConexion();
+		 }
 	}
 	
 	
 	public void envioDatosAServidor(Object objeto,String mensaje) throws DniYaRegistradoException, BoxYaRegistradoException{
 		 try {
-			 
-	            abrirConexion(Constantes.IP, Constantes.puerto);	            
-	            enviarDatos(objeto,mensaje);
-	            String msg = in.readLine();
+			 	System.out.println("Abriendo conexion...");
+	            abrirConexion(Constantes.IP, Constantes.PUERTO);System.out.println("Conexion abierta");       
+	            System.out.println("Enviando datos...");   
+	            enviarDatos(objeto,mensaje);System.out.println("Datos enviados");   
+	            System.out.println("Leyendo respuesta"); 
+	            String msg = in.readLine(); System.out.println("Respuesta recibida: " +msg); 
+	            
 	            if (msg.equals(Constantes.DNI_YA_REGISTRADO)) {
 	            	throw new DniYaRegistradoException(Constantes.DNI_YA_REGISTRADO);
 	            }else if (msg.equals(Constantes.BOX_YA_REGISTRADO)) {
@@ -52,31 +58,23 @@ public class Conexion {
 	        }catch (IOException e) {
 	        	e.printStackTrace();
 	        }		 	
-		 finally {
-			cerrarConexion();
-		 }
+
 	}
 	
 	
 	
 	private void abrirConexion(String Ip, int puerto) throws UnknownHostException, IOException {
-		System.out.println("Abriendo conexion en " +Ip+":"+puerto);
 		this.socket = new Socket(Ip,puerto);
     	this.oos = new ObjectOutputStream(socket.getOutputStream()); 
-    	System.out.println("Bufer de entrada");
-    	this.in = new BufferedReader(new InputStreamReader(socket.getInputStream())); 
-    	System.out.println(in);
+    	this.in = new BufferedReader(new InputStreamReader(socket.getInputStream())); ;
     	this.out = new PrintWriter(socket.getOutputStream(),true);	
-		System.out.println("Conexion abierta");
 	}
 	
 	
 	
 	private void enviarDatos(Object objeto, String mensaje) throws IOException {
-		System.out.println("Enviando datos: "+ objeto+ " " + mensaje);
 		oos.writeObject(objeto);
         out.println(mensaje);
-        System.out.println("datos enviados");
 	}
 	
 	
