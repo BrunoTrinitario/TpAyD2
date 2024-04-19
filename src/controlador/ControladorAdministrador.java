@@ -1,6 +1,6 @@
 package controlador;
 
-import excepciones.DniYaRegistradoException;
+import java.time.LocalTime;
 import servidor.Metrica;
 import util.Conexion;
 import util.Constantes;

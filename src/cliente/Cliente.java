@@ -1,16 +1,19 @@
 package cliente;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class Cliente implements Serializable {
 	private String dni;
 	private int intento;
+	private LocalTime horaIngreso,horaEgreso;
 	
 	public Cliente(String dni) {
 		super();
 		this.dni = dni;
 		this.intento=0;
+		this.horaIngreso=LocalTime.now();
 	}
 
 	public String getDni() {
@@ -32,6 +35,18 @@ public class Cliente implements Serializable {
 	            return false;
 	        Cliente cliente = (Cliente) obj;
 	        return Objects.equals(dni, cliente.dni);
+	}
+	
+	public void setHoraAtencion() {
+		this.horaEgreso=LocalTime.now();
+	}
+
+	public LocalTime getHoraIngreso() {
+		return horaIngreso;
+	}
+
+	public LocalTime getHoraEgreso() {
+		return horaEgreso;
 	}
 	
 }
