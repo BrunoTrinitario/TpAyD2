@@ -33,7 +33,6 @@ public class Empleado implements Serializable {
 	}
 	public void cambioEstado(EstadoEmpleado estado) {
 		this.estado=estado;
-		this.nombre="asd";
 	}
 	public boolean equals(Object obj) {
 		 if (this == obj)

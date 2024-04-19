@@ -81,24 +81,26 @@ public class Servidor extends Thread {
 	            public void run() {
 	                try {
 	            		while (datosConexion.socket.isConnected()) {
-	            			System.out.println("Escuchando a empleado "+empleado);
-	            			Object objeto = datosConexion.ois.readObject();
+	            			System.out.println("Escuchando a : "+empleado);
+	            			Object object = datosConexion.ois.readObject();
 	            			String line = datosConexion.in.readLine();
 	            			String[] mensajes = line.split(",");
 	            			String msg = mensajes[0];
 	            			String msg2 = mensajes[1];
-	            			System.out.println("Datos recibidos: "+objeto+""+msg+""+msg2);	            			
-	            			if (objeto instanceof Empleado) {
-	            				Empleado aux = (Empleado) objeto;
+	            			System.out.println("Datos recibidos:"+msg+""+msg2);	            			
 	            				if (msg.equals(Constantes.EMPLEADO_CAMBIO_ESTADO)) {
 	            					if (msg2.equals(EstadoEmpleado.Disponible.toString())){
-	            						aux.cambioEstado(EstadoEmpleado.Disponible);
-	            						System.out.println(aux);
+	            						empleado.cambioEstado(EstadoEmpleado.Disponible);
+	            						System.out.println(empleado);
+	            					}
+	            					if (msg2.equals(EstadoEmpleado.NoDisponible.toString())){
+	            						empleado.cambioEstado(EstadoEmpleado.NoDisponible);
+	            						System.out.println(empleado);
 	            					}
 	                        		System.out.println("Solicitud de cambio de estado a "+ msg2);
-	                        			gestorcolas.cambioEstado(aux);           				
+	                        			gestorcolas.cambioEstado(empleado);           				
 	            			}
-	                    }
+
 	                }
 	            } catch (Exception e) {
 	                    e.printStackTrace();

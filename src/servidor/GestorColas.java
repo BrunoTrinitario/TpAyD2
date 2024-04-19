@@ -50,6 +50,7 @@ public class GestorColas implements IClienteEmpleado {
 				this.empleadosAtendiendo.add(empleado);
 				Cliente cliente = this.clientesEnEspera.poll();
 				enviarClienteAEmpleado(empleado, cliente);
+				System.out.println(empleado+""+cliente);
 				//this.servidor.informarAdministradores(empleado);
 				//enviarANotificaciones(empleado,cliente);				
 			}
