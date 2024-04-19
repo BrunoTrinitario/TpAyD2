@@ -1,15 +1,18 @@
 package servidor;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.util.HashMap;
 
 import cliente.Cliente;
 import empleado.Empleado;
+import empleado.NegociosEmpleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import util.Constantes;
 import util.DatosConexion;
+import util.EstadoEmpleado;
 
 public class Servidor extends Thread {
 	private GestorColas gestorcolas = new GestorColas(this);
@@ -43,21 +46,20 @@ public class Servidor extends Thread {
                 			this.empleadosConectados.put(empleado.getBox(), datosConexion);
                         	this.gestorcolas.registrarEmpleado((Empleado)objeto);
                         	datosConexion.out.println(Constantes.EMPLEADO_REGISTRO_OK);
+                        	escucharEmpleado((Empleado)objeto,datosConexion);
                         	System.out.println("Nuevo empleado, empleados actuales: "+empleadosConectados);
+                        	
                         	
                 		}catch(BoxYaRegistradoException e) {
                 			datosConexion.out.println(e.getMessage());
                 		}
                 	}
-                	else if (msg.equals(Constantes.EMPLEADO_CAMBIO_ESTADO)) {
-                			this.gestorcolas.cambioEstado(empleado);
-                	}
+
                 }
                 else{
                 	if (msg.equals(Constantes.SOLICITAR_METRICAS))                	
                 	datosConexion.oos.writeObject(gestorcolas.actualizarMetricas());
-                }
-                	
+                }   	
             }
             s.close();
         } catch (Exception e) {
@@ -73,5 +75,36 @@ public class Servidor extends Thread {
 			e.printStackTrace();
 		}
 	}
-
+	
+	private void escucharEmpleado(Empleado empleado, DatosConexion datosConexion) {
+	        new Thread() {
+	            public void run() {
+	                try {
+	            		while (datosConexion.socket.isConnected()) {
+	            			System.out.println("Escuchando a empleado "+empleado);
+	            			Object objeto = datosConexion.ois.readObject();
+	            			String line = datosConexion.in.readLine();
+	            			String[] mensajes = line.split(",");
+	            			String msg = mensajes[0];
+	            			String msg2 = mensajes[1];
+	            			System.out.println("Datos recibidos: "+objeto+""+msg+""+msg2);	            			
+	            			if (objeto instanceof Empleado) {
+	            				Empleado aux = (Empleado) objeto;
+	            				if (msg.equals(Constantes.EMPLEADO_CAMBIO_ESTADO)) {
+	            					if (msg2.equals(EstadoEmpleado.Disponible.toString())){
+	            						aux.cambioEstado(EstadoEmpleado.Disponible);
+	            						System.out.println(aux);
+	            					}
+	                        		System.out.println("Solicitud de cambio de estado a "+ msg2);
+	                        			gestorcolas.cambioEstado(aux);           				
+	            			}
+	                    }
+	                }
+	            } catch (Exception e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        }.start();
+			
+		}
 }

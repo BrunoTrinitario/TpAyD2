@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import cliente.Cliente;
 import controlador.ControladorEmpleado;
 import excepciones.BoxYaRegistradoException;
 import util.Constantes;
@@ -18,11 +19,12 @@ public class EmpleadoRegistro {
 	private JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
-	private ControladorEmpleado ce=new ControladorEmpleado();
+	private ControladorEmpleado ce;
 	/**
 	 * Launch the application.
 	 */
-	public EmpleadoRegistro() {
+	public EmpleadoRegistro(ControladorEmpleado ce) {
+		this.ce=ce;
 		initialize();
 		frame.setVisible(true);
 	}
@@ -78,4 +80,5 @@ public class EmpleadoRegistro {
 		btnNewButton.setBounds(74, 211, 89, 23);
 		frame.getContentPane().add(btnNewButton);
 	}
+
 }

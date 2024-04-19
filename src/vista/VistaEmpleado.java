@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import cliente.Cliente;
 import controlador.ControladorEmpleado;
 import util.EstadoEmpleado;
 
@@ -28,6 +29,7 @@ public class VistaEmpleado implements ActionListener{
 	 */
 	public VistaEmpleado(ControladorEmpleado ce,String nombre,int box) {
 		this.ce=ce;
+		this.ce.setVistaPrincipal(this);
 		this.nombre=nombre;
 		this.box=box;
 		this.botonFinalizar= new JButton("Finalizar atencion");
@@ -113,7 +115,6 @@ public class VistaEmpleado implements ActionListener{
 				this.labelEstado.setText("Estado: "+EstadoEmpleado.Disponible);
 				this.botonCambioEstado.setText("Cambiar a No Disponible");
 				this.labelEstado.repaint();
-
 			}
 		}
 		else {
@@ -136,8 +137,12 @@ public class VistaEmpleado implements ActionListener{
 		}
 	}
 	//cuando matchea y se le asigna el cliente se pone visible boton fin y no asistio
-	public void RecepcionClientes(){
+	public void recepcionClientes(Cliente cliente){
+		this.labelEstado.setText("Atendiendo");
 		this.botonFinalizar.setEnabled(true);
 		this.botonNoAsistio.setEnabled(true);
+		this.textoDniCliente.setText(cliente.getDni());
+		this.botonCambioEstado.setEnabled(false);
+		this.botonCambioEstado.setText("Cambiar a Disponible");
 	}
 }

@@ -6,6 +6,7 @@ import java.util.Objects;
 import cliente.Cliente;
 import util.EstadoEmpleado;
 
+@SuppressWarnings("serial")
 public class Empleado implements Serializable {
 	private int box;
 	private EstadoEmpleado estado;
@@ -23,6 +24,7 @@ public class Empleado implements Serializable {
 	public EstadoEmpleado getEstado() {
 		return this.estado;
 	}
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -31,6 +33,7 @@ public class Empleado implements Serializable {
 	}
 	public void cambioEstado(EstadoEmpleado estado) {
 		this.estado=estado;
+		this.nombre="asd";
 	}
 	public boolean equals(Object obj) {
 		 if (this == obj)
@@ -39,5 +42,13 @@ public class Empleado implements Serializable {
 	            return false;
 	        Empleado empleado = (Empleado) obj;
 	        return Objects.equals(box, empleado.box);
+	}
+	public void atenderCliente(Cliente cliente) {
+		this.cambioEstado(EstadoEmpleado.Atendiendo);
+		this.cliente=cliente;	
+	}
+	
+	public String toString() {
+		return ("nombre: "+this.nombre + "Box: "+ this.box +", Estado: "+ this.estado);
 	}
 }

@@ -43,6 +43,7 @@ public class GestorColas implements IClienteEmpleado {
 	}
 
 	private void matchClienteEmpleado() {
+		System.out.println("Intentando matchear cliente empleado");
 		if (this.clientesEnEspera.isEmpty()) {
 			Empleado empleado = getEmpleadoDisponible();
 			if (empleado!= null) {
@@ -105,25 +106,26 @@ public class GestorColas implements IClienteEmpleado {
 			this.empleadosNoAtendiendo.add(empleado);
 		}
 		else {
+			Queue<Empleado> auxQueue=new LinkedList<Empleado>();
 			while (!this.empleadosNoAtendiendo.isEmpty()) {
 				Empleado aux = this.empleadosNoAtendiendo.poll();
-				Queue<Empleado> auxQueue=new LinkedList<Empleado>();
 				if (aux.equals(empleado)) {
-					aux=empleado;
-					auxQueue.add(aux);
+					auxQueue.add(empleado);
 					break;
 				}
 				else {
 					auxQueue.add(aux);				
-				}				
-				while (!this.empleadosNoAtendiendo.isEmpty()) {
-					auxQueue.add(this.empleadosNoAtendiendo.poll());	
-				}
-				while (!auxQueue.isEmpty()) {
-					this.empleadosNoAtendiendo.add(auxQueue.poll());
 				}			
 			}						
-			
+			while (!this.empleadosNoAtendiendo.isEmpty()) {
+				auxQueue.add(this.empleadosNoAtendiendo.poll());	
+			}
+			while (!auxQueue.isEmpty()) {
+				this.empleadosNoAtendiendo.add(auxQueue.poll());
+			}
+			if(empleado.getEstado()==EstadoEmpleado.Disponible) {
+				matchClienteEmpleado();
+			}
 		}
 		
 	}

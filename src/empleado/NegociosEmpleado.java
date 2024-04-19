@@ -1,6 +1,7 @@
 package empleado;
 
 import cliente.Cliente;
+import controlador.ControladorEmpleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import util.Conexion;
@@ -10,14 +11,15 @@ import util.EstadoEmpleado;
 public class NegociosEmpleado implements IActualizar {
 	private Conexion conexion=new Conexion();
 	private Empleado empleado;
+	private ControladorEmpleado ce;
+	
+	public NegociosEmpleado(ControladorEmpleado ce) {
+		this.ce=ce;
+	}
 	
 	@Override
 	public void informaEstado(Empleado empleado) {
-		try {
-			conexion.envioEmpleadoAServidor(empleado,"estado");
-		} catch (BoxYaRegistradoException e) {
-			e.printStackTrace();
-		}
+		conexion.cambioEstadoEmpleado(empleado,Constantes.EMPLEADO_CAMBIO_ESTADO);
 	}
 
 	@Override
@@ -42,8 +44,6 @@ public class NegociosEmpleado implements IActualizar {
 		this.informaAtencionFinalizada(this.empleado.getCliente());
 	}
 
-
-
 	@Override
 	public void clienteAusente() throws DniYaRegistradoException {
 		this.empleado.cambioEstado(EstadoEmpleado.Disponible);
@@ -58,6 +58,11 @@ public class NegociosEmpleado implements IActualizar {
 
 	@Override
 	public void informarAcceso(Empleado empleado) throws BoxYaRegistradoException {
-		conexion.envioEmpleadoAServidor(empleado,Constantes.EMPLEADO_NUEVO);
+		conexion.envioEmpleadoAServidor(this,empleado,Constantes.EMPLEADO_NUEVO);
+	}
+
+	public void enviarClienteAEmpleado(Cliente cliente) {
+		this.empleado.atenderCliente(cliente);
+		this.ce.informarAtencionAVista(cliente);
 	}
 }

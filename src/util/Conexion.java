@@ -9,6 +9,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import cliente.Cliente;
+import empleado.Empleado;
+import empleado.NegociosEmpleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import servidor.Metrica;
@@ -21,9 +24,10 @@ public class Conexion {
 	private PrintWriter out;
 	private ObjectInputStream ois;
 	
-	public void envioEmpleadoAServidor(Object objeto,String mensaje)throws BoxYaRegistradoException {
+	public void envioEmpleadoAServidor(NegociosEmpleado negociosEmpleado, Empleado empleado,String mensaje)throws BoxYaRegistradoException {
 		 try {
-			envioDatosAServidor(objeto,mensaje);
+			envioDatosAServidor(empleado,mensaje);
+			escucharServidor(negociosEmpleado);
 		} catch (DniYaRegistradoException e) {
 			e.printStackTrace();
 		}
@@ -43,6 +47,7 @@ public class Conexion {
 	
 	public void envioDatosAServidor(Object objeto,String mensaje) throws DniYaRegistradoException, BoxYaRegistradoException{
 		 try {
+			 	
 			 	System.out.println("Abriendo conexion...");
 	            abrirConexion(Constantes.IP, Constantes.PUERTO);System.out.println("Conexion abierta");       
 	            System.out.println("Enviando datos...");   
@@ -96,6 +101,26 @@ public class Conexion {
 	private void enviarDatos(Object objeto, String mensaje) throws IOException {
 		oos.writeObject(objeto);
         out.println(mensaje);
+		System.out.println("Datos enviados: Objeto: "+objeto+", mensaje: "+mensaje); 
+	}
+	
+	
+	private void escucharServidor(NegociosEmpleado negociosEmpleado) {
+        new Thread() {
+            public void run() {
+                try {
+            		while (socket.isConnected()) {
+            			Object objeto = ois.readObject();
+            			if (objeto instanceof Cliente) {
+            				negociosEmpleado.enviarClienteAEmpleado((Cliente)objeto);            				
+            			}
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+		
 	}
 	
 	
@@ -109,6 +134,16 @@ public class Conexion {
 			e.printStackTrace();
 		}
 		
+	}
+
+
+	public void cambioEstadoEmpleado(Empleado empleado, String mensaje) {
+		try {
+			mensaje=mensaje+","+empleado.getEstado().toString();
+			enviarDatos(empleado,mensaje);;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
