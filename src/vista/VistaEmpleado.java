@@ -22,7 +22,6 @@ public class VistaEmpleado implements ActionListener{
 	private int box;
 	private JButton botonFinalizar,botonNoAsistio,botonCambioEstado;
 	private JLabel labelDniCliente,labelBox,labelEmpleado,labelEstado,textoDniCliente;
-	private JTextField textoInfoCliente,textoInfoIngresada;
 	private ControladorEmpleado ce;
 	/**
 	 * Create the application.
@@ -33,11 +32,13 @@ public class VistaEmpleado implements ActionListener{
 		this.nombre=nombre;
 		this.box=box;
 		this.botonFinalizar= new JButton("Finalizar atencion");
+		botonFinalizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		this.botonNoAsistio= new JButton("Cliente no asistió");
 		this.botonCambioEstado= new JButton("Cambiar a disponible");
 		this.labelDniCliente= new JLabel("DNI del cliente:");
-		this.textoInfoCliente= new JTextField();
-		this.textoInfoIngresada= new JTextField();
 		this.labelBox= new JLabel("BOX: "+this.box);
 		this.labelEmpleado= new JLabel("Empleado: "+this.nombre);
 		this.labelEstado= new JLabel("Estado: "+ EstadoEmpleado.NoDisponible);
@@ -53,7 +54,7 @@ public class VistaEmpleado implements ActionListener{
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 787, 615);
+		frame.setBounds(100, 100, 544, 271);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -62,23 +63,15 @@ public class VistaEmpleado implements ActionListener{
 		
 		botonFinalizar.setEnabled(false);
 		botonNoAsistio.setEnabled(false);
-		textoInfoCliente.setEnabled(false);
-		textoInfoCliente.setText("Informacion anterior del cliente");
-		textoInfoCliente.setColumns(10);
-		textoInfoIngresada.setEnabled(false);
-		textoInfoIngresada.setText("Informacion ingresada por el empleado sobre la atencion al cliente");
-		textoInfoIngresada.setColumns(10);
 		labelBox.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		labelEmpleado.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		labelEstado.setFont(new Font("Tahoma", Font.PLAIN, 15));
 	}
 	private void addBounds() {
-		botonFinalizar.setBounds(54, 413, 177, 41);
-		botonNoAsistio.setBounds(54, 465, 177, 41);
-		botonCambioEstado.setBounds(54, 361, 177, 41);
+		botonFinalizar.setBounds(340, 114, 177, 41);
+		botonNoAsistio.setBounds(340, 166, 177, 41);
+		botonCambioEstado.setBounds(340, 62, 177, 41);
 		labelDniCliente.setBounds(54, 75, 82, 14);
-		textoInfoCliente.setBounds(255, 90, 483, 242);
-		textoInfoIngresada.setBounds(255, 361, 483, 145);
 		labelBox.setBounds(54, 11, 66, 20);
 		labelEmpleado.setBounds(152, 11, 145, 20);
 		labelEstado.setBounds(346, 11, 145, 20);
@@ -90,8 +83,6 @@ public class VistaEmpleado implements ActionListener{
 		frame.getContentPane().add(botonNoAsistio);
 		frame.getContentPane().add(botonCambioEstado);
 		frame.getContentPane().add(labelDniCliente);
-		frame.getContentPane().add(textoInfoCliente);
-		frame.getContentPane().add(textoInfoIngresada);
 		frame.getContentPane().add(labelBox);
 		frame.getContentPane().add(labelEmpleado);
 		frame.getContentPane().add(labelEstado);
@@ -103,7 +94,6 @@ public class VistaEmpleado implements ActionListener{
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==botonCambioEstado) {
-			
 			if(ce.getEstado()==EstadoEmpleado.Disponible) {
 				ce.cambioEstado(EstadoEmpleado.NoDisponible);
 				this.labelEstado.setText("Estado: "+EstadoEmpleado.NoDisponible);

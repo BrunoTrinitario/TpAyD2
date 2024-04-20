@@ -23,6 +23,7 @@ import util.NotificacionAuxiliar;
 
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.Container;
 
 public class VistaNotificacion {
 
@@ -75,6 +76,8 @@ public class VistaNotificacion {
 		this.lista.add(aux);
 		frame.getContentPane().add(aux.getTextoBox());
 		frame.getContentPane().add(aux.getTextoDni());
+		frame.repaint();
 	}
+	
 	
 }

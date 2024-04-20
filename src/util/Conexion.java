@@ -120,7 +120,6 @@ public class Conexion {
                 }
             }
         }.start();
-		
 	}
 	
 	
@@ -136,11 +135,10 @@ public class Conexion {
 		
 	}
 
-
 	public void cambioEstadoEmpleado(Empleado empleado, String mensaje) {
 		try {
 			mensaje=mensaje+","+empleado.getEstado().toString();
-			enviarDatos(empleado,mensaje);;
+			enviarDatos(empleado,mensaje);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

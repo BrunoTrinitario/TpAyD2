@@ -38,27 +38,23 @@ public class Servidor extends Thread {
                 	}catch(DniYaRegistradoException e) {
                 		datosConexion.out.println(e.getMessage());
                 	}
-                
+        
                 else if (objeto instanceof Empleado) {
                 	Empleado empleado = (Empleado)objeto;
                 	if (msg.equals(Constantes.EMPLEADO_NUEVO)) {
                 		try {          			
+                			this.gestorcolas.registrarEmpleado((Empleado)objeto);
                 			this.empleadosConectados.put(empleado.getBox(), datosConexion);
-                        	this.gestorcolas.registrarEmpleado((Empleado)objeto);
                         	datosConexion.out.println(Constantes.EMPLEADO_REGISTRO_OK);
                         	escucharEmpleado((Empleado)objeto,datosConexion);
-                        	System.out.println("Nuevo empleado, empleados actuales: "+empleadosConectados);
-                        	
-                        	
                 		}catch(BoxYaRegistradoException e) {
                 			datosConexion.out.println(e.getMessage());
                 		}
                 	}
-
                 }
                 else{
                 	if (msg.equals(Constantes.SOLICITAR_METRICAS))                	
-                	datosConexion.oos.writeObject(gestorcolas.actualizarMetricas());
+                		datosConexion.oos.writeObject(gestorcolas.actualizarMetricas());
                 }   	
             }
             s.close();
@@ -108,5 +104,13 @@ public class Servidor extends Thread {
 	            }
 	        }.start();
 			
+	}
+	public void informarEmpleado(Empleado empleado, Cliente cliente) {
+		DatosConexion aux=this.empleadosConectados.get(empleado.getBox());
+		try {
+			aux.oos.writeObject(cliente);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+	}
 }
