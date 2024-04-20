@@ -49,10 +49,12 @@ public class GestorColas implements IClienteEmpleado {
 		if (!this.clientesEnEspera.isEmpty()) {
 			Empleado empleado = getEmpleadoDisponible();
 			if (empleado!= null) {
+				empleado.cambioEstado(EstadoEmpleado.Atendiendo);
 				this.empleadosNoAtendiendo.remove(empleado);
 				this.empleadosAtendiendo.add(empleado);
 				Cliente cliente = this.clientesEnEspera.poll();
 				cliente.setHoraAtencion();
+				System.out.println(cliente);
 				enviarClienteAEmpleado(empleado, cliente);
 				System.out.println(empleado+""+cliente);
 				cn.agregarCliente(cliente,empleado);
@@ -105,7 +107,6 @@ public class GestorColas implements IClienteEmpleado {
 		if (this.empleadosAtendiendo.contains(empleado)) {
 			this.empleadosAtendiendo.remove(empleado);
 			this.empleadosNoAtendiendo.add(empleado);
-			this.clientesAtendidos.add(empleado.getCliente());
 		}
 		else {
 			for (Empleado aux : empleadosNoAtendiendo) {
@@ -125,12 +126,12 @@ public class GestorColas implements IClienteEmpleado {
 	}
 	public void finalizarAtencion(Empleado empleado) {
 		for(Empleado aux:empleadosAtendiendo) {
-			if(aux.equals(empleado)) {
-				this.clientesAtendidos.add(aux.getCliente());
+			if(aux.equals(empleado)) {				
 				aux.quitarCliente();
 				break;
 			}
 		}
+		this.clientesAtendidos.add(empleado.getCliente());
 		this.cambioEstado(empleado);
 	}
 	public Metrica actualizarMetricas() {

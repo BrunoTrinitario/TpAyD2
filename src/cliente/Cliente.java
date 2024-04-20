@@ -48,5 +48,7 @@ public class Cliente implements Serializable {
 	public LocalTime getHoraEgreso() {
 		return horaEgreso;
 	}
-	
+	public String toString() {
+		return ("dni: "+this.dni+", hora ingreso: "+this.horaIngreso+", hora egreso: "+this.horaEgreso);
+	}
 }
