@@ -119,9 +119,9 @@ public class VistaEmpleado implements ActionListener{
 			}
 			else {
 				if(e.getSource()==botonNoAsistio) {
-					ce.cambioEstado(EstadoEmpleado.Disponible);
-					this.labelEstado.setText("Estado: "+EstadoEmpleado.Disponible);
-					this.botonCambioEstado.setText("Cambiar a No Disponible");
+					ce.clienteAusente();
+					this.labelEstado.setText("Estado: "+EstadoEmpleado.NoDisponible);	
+					this.botonCambioEstado.setText("Cambiar a Disponible");
 					this.botonCambioEstado.setEnabled(true);
 					this.botonFinalizar.setEnabled(false);
 					this.botonNoAsistio.setEnabled(false);

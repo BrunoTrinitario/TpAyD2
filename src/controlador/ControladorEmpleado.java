@@ -19,6 +19,10 @@ public class ControladorEmpleado {
 		ne.cambioEstado(estado);
 	}
 	
+	public void clienteAusente() {
+		this.ne.clienteAusente();
+	}
+	
 	public EstadoEmpleado getEstado() {
 		return ne.getEstado();
 	}

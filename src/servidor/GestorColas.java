@@ -75,17 +75,18 @@ public class GestorColas implements IClienteEmpleado {
 	}
 
 	@Override
-	public void clienteNoPresentado(Cliente cliente,Empleado empleado) {
-		
+	public void clienteNoPresentado(Empleado empleado) {
+		Cliente cliente = empleado.getCliente();
 		for(Empleado aux:empleadosAtendiendo) {
 			if(aux.equals(empleado)) {
 				aux.quitarCliente();
 				break;
 			}
 		}
-		if (cliente.getIntento()<3) {
+		if (cliente.getIntento()<2) {
 			cliente.sumarIntento();
 			this.clientesEnEspera.add(cliente);
+			matchClienteEmpleado();
 		}
 		this.cambioEstado(empleado);
 	}
@@ -138,4 +139,6 @@ public class GestorColas implements IClienteEmpleado {
 		aux.addAll(empleadosAtendiendo);
 		return new Metrica(aux,clientesAtendidos,clientesEnEspera);
 	}
+	
 }
+

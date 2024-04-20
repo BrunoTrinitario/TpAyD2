@@ -121,22 +121,13 @@ public class Conexion {
 		
 	}
 	
-	public void finalizarAtencion(Empleado empleado,String mensaje) {
-		Empleado aux= empleado;
+	public void informarAccionAServidor(Empleado e, String mensaje) {
 		try {
-			enviarDatos(aux,mensaje);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	public void cambioEstadoEmpleado(Empleado empleado, String mensaje) {
-		try {
-			mensaje=mensaje+","+empleado.getEstado().toString();
-			Empleado aux = empleado;
-			enviarDatos(aux,mensaje);
-		} catch (IOException e) {
-			e.printStackTrace();
+			//por patron DAO
+			Empleado empleado = new Empleado(e.getNombre(),e.getBox(),e.getEstado(),e.getCliente());
+			enviarDatos(empleado,mensaje);
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		}
 	}
 

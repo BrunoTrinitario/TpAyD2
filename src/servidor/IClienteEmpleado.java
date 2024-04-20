@@ -7,9 +7,8 @@ import excepciones.DniYaRegistradoException;
 
 public interface IClienteEmpleado {
 	void registrarCliente(Cliente cliente) throws DniYaRegistradoException;
-	void clienteNoPresentado(Cliente cliente);
 	void eliminaCliente(Cliente cliente);
 	void enviarClienteAEmpleado(Empleado empleado, Cliente cliente);
 	void registrarEmpleado(Empleado empleado) throws BoxYaRegistradoException;
-	void clienteNoPresentado(Cliente cliente, Empleado empleado);
+	void clienteNoPresentado(Empleado empleado);
 }

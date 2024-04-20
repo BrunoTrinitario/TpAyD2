@@ -19,7 +19,7 @@ public class NegociosEmpleado implements IActualizar {
 	
 	@Override
 	public void informaEstado(Empleado empleado) {
-		conexion.cambioEstadoEmpleado(empleado,Constantes.EMPLEADO_CAMBIO_ESTADO);
+		conexion.informarAccionAServidor(empleado,Constantes.EMPLEADO_CAMBIO_ESTADO);
 	}
 
 	@Override
@@ -30,20 +30,16 @@ public class NegociosEmpleado implements IActualizar {
 	public EstadoEmpleado getEstado() {
 		return empleado.getEstado();
 	}
-	public void informaAtencionFinalizada(Empleado empleado)   {
-			conexion.finalizarAtencion(empleado,Constantes.ATENCION_FINALIZADA);
-		
-	}
-	@Override
+
 	public void finalizarAtencion()  {
 		this.empleado.cambioEstado(EstadoEmpleado.NoDisponible);
-		this.informaAtencionFinalizada(this.empleado);
+		conexion.informarAccionAServidor(empleado,Constantes.ATENCION_FINALIZADA);
 	}
 
 	@Override
-	public void clienteAusente() throws DniYaRegistradoException {
-		this.empleado.cambioEstado(EstadoEmpleado.Disponible);
-		conexion.envioClienteAServidor(this.empleado.getCliente(),Constantes.CLIENTE_AUSENTE);
+	public void clienteAusente() {
+		this.empleado.cambioEstado(EstadoEmpleado.NoDisponible);
+		conexion.informarAccionAServidor(this.empleado,Constantes.CLIENTE_AUSENTE);
 	}
 
 	@Override

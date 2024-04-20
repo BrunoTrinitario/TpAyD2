@@ -18,6 +18,13 @@ public class Empleado implements Serializable {
 		this.box=box;
 		this.estado=estado;
 	}
+	
+	public Empleado(String nombre,int box, EstadoEmpleado estado, Cliente cliente) {
+		this.nombre=nombre;
+		this.box=box;
+		this.estado=estado;
+		this.cliente=cliente;
+	}
 	public int getBox() {
 		return box;
 	}
@@ -50,6 +57,6 @@ public class Empleado implements Serializable {
 		this.cliente=null;
 	}
 	public String toString() {
-		return ("nombre: "+this.nombre + "Box: "+ this.box +", Estado: "+ this.estado);
+		return ("Box: "+ this.box +", Estado: "+ this.estado+", Cliente: "+cliente);
 	}
 }

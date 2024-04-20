@@ -44,7 +44,7 @@ public class Servidor extends Thread {
                 			this.gestorcolas.registrarEmpleado((Empleado)objeto);
                 			this.empleadosConectados.put(empleado.getBox(), datosConexion);
                         	datosConexion.out.println(Constantes.EMPLEADO_REGISTRO_OK);
-                        	escucharEmpleado((Empleado)objeto,datosConexion);
+                        	escucharEmpleado(datosConexion);
                 		}catch(BoxYaRegistradoException e) {
                 			datosConexion.out.println(e.getMessage());
                 		}
@@ -75,32 +75,23 @@ public class Servidor extends Thread {
 		}
 	}
 	
-	private void escucharEmpleado(Empleado empleado, DatosConexion datosConexion) {
+	private void escucharEmpleado(DatosConexion datosConexion) {
 	        new Thread() {
 	            public void run() {
 	                try {
 	            		while (datosConexion.socket.isConnected()) {
-	            			System.out.println("Escuchando a : "+empleado);
 	            			Object object = datosConexion.ois.readObject();
-	            			System.out.println("////"+object+"////");
+	            			Empleado empleado = (Empleado) object;
 	            			String msg = datosConexion.in.readLine();
-	         
+	            			System.out.println("Datos recibidos: "+empleado);
 	            			if(msg.equals(Constantes.CLIENTE_AUSENTE)) {
-        						gestorcolas.clienteNoPresentado(empleado.getCliente());
+        						gestorcolas.clienteNoPresentado(empleado);
 	            			}
 	            			if(msg.equals(Constantes.ATENCION_FINALIZADA)) {
         							gestorcolas.finalizarAtencion(empleado);
         					}
-	            			if (msg.equals(Constantes.EMPLEADO_CAMBIO_A_DISPONIBLE)){
-	            				 empleado.cambioEstado(EstadoEmpleado.Disponible);
-		            			System.out.println(empleado);
-		            			System.out.println("Solicitud de cambio de estado a "+ msg);
-	                        	gestorcolas.cambioEstado(empleado);
-	            			}
-	            			if (msg.equals(Constantes.EMPLEADO_CAMBIO_A_NO_DISPONIBLE)){
-            					empleado.cambioEstado(EstadoEmpleado.NoDisponible);
-            					System.out.println(empleado);
-            					System.out.println("Solicitud de cambio de estado a "+ msg);
+	            			if (msg.equals(Constantes.EMPLEADO_CAMBIO_ESTADO)){
+	            				System.out.println("Solicitud de cambio de estado a "+ msg);
 	                        	gestorcolas.cambioEstado(empleado);
             				}
 	            		}
