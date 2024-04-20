@@ -9,7 +9,7 @@ public class NotificacionAuxiliar {
 	private String dni;
 	private int box;
 	private JTextField TextoDni,TextoBox;
-	private static int y0=99,x0=44,x1=371,ancho1=340,ancho2=327,alto=72;
+	private static int y0=99,x0=44,x1=371,ancho1=327,ancho2=340,alto=72;
 	
 	//x0 y 0 ancho alto
 	public NotificacionAuxiliar(String dni,int box) {
