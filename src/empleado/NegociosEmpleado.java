@@ -52,7 +52,7 @@ public class NegociosEmpleado implements IActualizar {
 
 	@Override
 	public void crearEmpleado(String nombre, int box) throws BoxYaRegistradoException {
-		this.empleado=new Empleado(nombre,box);
+		this.empleado=new Empleado(nombre,box,EstadoEmpleado.NoDisponible);
 		this.informarAcceso(empleado);
 	}
 

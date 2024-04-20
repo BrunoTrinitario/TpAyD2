@@ -1,5 +1,6 @@
 package servidor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -7,7 +8,7 @@ import java.util.Queue;
 import cliente.Cliente;
 import empleado.Empleado;
 
-public class Metrica implements iMetrica {
+public class Metrica implements iMetrica, Serializable {
 	private ArrayList<Empleado> empleados=new ArrayList<Empleado>();
 	private ArrayList<Cliente> clientesAtendidos=new ArrayList<Cliente>();
 	private Queue<Cliente> clientesEnEspera=new LinkedList<Cliente>();

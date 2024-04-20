@@ -13,10 +13,10 @@ public class Empleado implements Serializable {
 	private String nombre;
 	private Cliente cliente;
 	
-	public Empleado(String nombre,int box) {
+	public Empleado(String nombre,int box, EstadoEmpleado estado) {
 		this.nombre=nombre;
 		this.box=box;
-		this.estado=EstadoEmpleado.NoDisponible;
+		this.estado=estado;
 	}
 	public int getBox() {
 		return box;

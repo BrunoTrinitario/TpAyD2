@@ -31,11 +31,12 @@ public class VistaAdministrador implements ActionListener{
 	private JTable tabla;
 	private JTextField metrica1,metrica2,metrica3;
 	private JButton botonAct;
-	private ControladorAdministrador ca=new ControladorAdministrador();
+	private ControladorAdministrador ca;
 	private JTextField textField;
 	
 	
-	public VistaAdministrador() {
+	public VistaAdministrador(ControladorAdministrador ca) {
+		this.ca=ca;
 		labelTablaBox = new JLabel("Box");
 		labelTablaEstado = new JLabel("Estado");
 		tablaInside=new DefaultTableModel ();

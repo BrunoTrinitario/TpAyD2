@@ -25,68 +25,54 @@ public class Conexion {
 	private ObjectInputStream ois;
 	
 	public void envioEmpleadoAServidor(NegociosEmpleado negociosEmpleado, Empleado empleado,String mensaje)throws BoxYaRegistradoException {
-		 try {
-			envioDatosAServidor(empleado,mensaje);
+		String msg = envioDatosAServidor(empleado,mensaje);
 			escucharServidor(negociosEmpleado);
-		} catch (DniYaRegistradoException e) {
-			e.printStackTrace();
-		}
+    	if (msg.equals(Constantes.BOX_YA_REGISTRADO)) {
+    		throw new BoxYaRegistradoException(Constantes.BOX_YA_REGISTRADO);
+    	}	
 	}
 	
 
 	public void envioClienteAServidor(Object objeto, String mensaje) throws DniYaRegistradoException{
-		try {
-			envioDatosAServidor(objeto,mensaje);			    	
-		} catch (BoxYaRegistradoException e) {
-			e.printStackTrace();
-		}
-		 finally {
+			String msg = envioDatosAServidor(objeto,mensaje);
+            if (msg.equals(Constantes.DNI_YA_REGISTRADO)) {
+            	throw new DniYaRegistradoException(Constantes.DNI_YA_REGISTRADO);
+            }
 			cerrarConexion();
 		 }
-	}
 	
-	public void envioDatosAServidor(Object objeto,String mensaje) throws DniYaRegistradoException, BoxYaRegistradoException{
-		 try {
-			 	
+	public String envioDatosAServidor(Object objeto,String mensaje){
+		String msg = null; 
+		try {			 	
 			 	System.out.println("Abriendo conexion...");
 	            abrirConexion(Constantes.IP, Constantes.PUERTO);System.out.println("Conexion abierta");       
 	            System.out.println("Enviando datos...");   
 	            enviarDatos(objeto,mensaje);System.out.println("Datos enviados");   
 	            System.out.println("Leyendo respuesta"); 
-	            String msg = in.readLine(); System.out.println("Respuesta recibida: " +msg); 
-	            
-	            if (msg.equals(Constantes.DNI_YA_REGISTRADO)) {
-	            	throw new DniYaRegistradoException(Constantes.DNI_YA_REGISTRADO);
-	            }else if (msg.equals(Constantes.BOX_YA_REGISTRADO)) {
-	            	throw new BoxYaRegistradoException(Constantes.BOX_YA_REGISTRADO);
-	            }	            	                   	
-	        }catch (UnknownHostException e) {	        	
-	        	e.printStackTrace();
-	        }catch (IOException e) {
-	        	e.printStackTrace();
-	        }		 	
+	            msg = in.readLine(); System.out.println("Respuesta recibida: " +msg);             	                   	
+		}catch(Exception e) {
+			msg=e.getMessage();
+		}
+		return msg;
 
 	}
 	
 	public Metrica solicitudDeActulizacionMetricas(Object objeto,String mensaje) {
 		Object metrica=null;
-		try {
-			envioDatosAServidor(objeto,mensaje);
-			try {
-				metrica=this.ois.readObject();
-				return (Metrica)metrica;
-			} catch (ClassNotFoundException | IOException e) {
-			}
-		}catch (DniYaRegistradoException e){
-			e.printStackTrace();
-		}
-		catch (BoxYaRegistradoException e) {
-			e.printStackTrace();
-		}finally {
-			cerrarConexion();
-		}
-		return (Metrica)metrica;
-	}
+			String msg = envioDatosAServidor(objeto,mensaje);
+				try {
+					System.out.println(msg); 
+					System.out.println("Intentando leer metricas"); 
+					metrica=this.ois.readObject();
+					System.out.println("Metrica leida: "+metrica); 
+				} catch (Exception e) {
+					
+				}
+				finally {
+					cerrarConexion();
+				}
+				return (Metrica)metrica;				
+}
 	
 	private void abrirConexion(String Ip, int puerto) throws UnknownHostException, IOException {
 		this.socket = new Socket(Ip,puerto);
@@ -138,7 +124,8 @@ public class Conexion {
 	public void cambioEstadoEmpleado(Empleado empleado, String mensaje) {
 		try {
 			mensaje=mensaje+","+empleado.getEstado().toString();
-			enviarDatos(empleado,mensaje);
+			Empleado aux = empleado;
+			enviarDatos(aux,mensaje);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

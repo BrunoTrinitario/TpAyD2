@@ -1,11 +1,11 @@
 package main;
 
-import vista.VistaAdministrador;
+import controlador.ControladorAdministrador;
 
 public class MainAdministrador {
 
 	public static void main(String[] args) {
-		VistaAdministrador va=new VistaAdministrador();
+		ControladorAdministrador ca = new ControladorAdministrador();
 
 	}
 

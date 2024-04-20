@@ -1,13 +1,11 @@
 package servidor;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.util.HashMap;
 
 import cliente.Cliente;
 import empleado.Empleado;
-import empleado.NegociosEmpleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import util.Constantes;
@@ -68,8 +66,13 @@ public class Servidor extends Thread {
                 	}
                 }
                 else{
-                	if (msg.equals(Constantes.SOLICITAR_METRICAS))                	
-                		datosConexion.oos.writeObject(gestorcolas.actualizarMetricas());
+                	if (msg.equals(Constantes.SOLICITAR_METRICAS)) { 
+                		Object aux = gestorcolas.actualizarMetricas();
+                		System.out.println("Intentando enviar "+ aux);               		
+                		System.out.println("Metricas enviadas");
+                		datosConexion.out.println(Constantes.METRICAS_CREACION_OK);
+                		datosConexion.oos.writeObject(aux);
+                	}
                 }   	
             }
             s.close();
@@ -94,6 +97,7 @@ public class Servidor extends Thread {
 	            		while (datosConexion.socket.isConnected()) {
 	            			System.out.println("Escuchando a : "+empleado);
 	            			Object object = datosConexion.ois.readObject();
+	            			System.out.println("////"+object+"////");
 	            			String line = datosConexion.in.readLine();
 	            			String[] mensajes = line.split(",");
 	            			String msg = mensajes[0];
