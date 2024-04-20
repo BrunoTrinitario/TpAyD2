@@ -13,6 +13,6 @@ public class Constantes {
 	public static final String IP = "localhost";
 	public static final int PUERTO = 1234;
 	public static final String SOLICITAR_METRICAS = "solicitud de metricas";
-	public static final String ClienteAusente="Cliente ausente";
-	public static final String AtencionFinalizada="Atencion Finalizada";
+	public static final String CLIENTE_AUSENTE="Cliente ausente";
+	public static final String ATENCION_FINALIZADA="Atencion Finalizada";
 }

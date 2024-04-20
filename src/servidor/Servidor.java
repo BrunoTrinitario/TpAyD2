@@ -30,21 +30,6 @@ public class Servidor extends Thread {
                 System.out.println("Datos recibidos: "+objeto+" "+msg);
                 
                 if (objeto instanceof Cliente){
-                	/*
-                	if(msg.equals(Constantes.AtencionFinalizada)) {
-                		this.gestorcolas.agregarClienteAtendido((Cliente)objeto);
-                	}
-                	else {
-               				//iria lo mismo de abajo
-                			try {
-                        		this.gestorcolas.registrarCliente((Cliente)objeto);
-                        		datosConexion.out.println(Constantes.CLIENTE_REGISTRO_OK);
-                        	}catch(DniYaRegistradoException e) {
-                        		datosConexion.out.println(e.getMessage());
-                        	}
-                		}
-                	}  
-                	*/
                 	try {
                 		this.gestorcolas.registrarCliente((Cliente)objeto);
                 		datosConexion.out.println(Constantes.CLIENTE_REGISTRO_OK);
@@ -102,21 +87,36 @@ public class Servidor extends Thread {
 	            			String[] mensajes = line.split(",");
 	            			String msg = mensajes[0];
 	            			String msg2 = mensajes[1];
-	            			System.out.println("Datos recibidos:"+msg+""+msg2);	            			
-	            				if (msg.equals(Constantes.EMPLEADO_CAMBIO_ESTADO)) {
-	            					if (msg2.equals(EstadoEmpleado.Disponible.toString())){
-	            						empleado.cambioEstado(EstadoEmpleado.Disponible);
-	            						System.out.println(empleado);
-	            					}
-	            					if (msg2.equals(EstadoEmpleado.NoDisponible.toString())){
-	            						empleado.cambioEstado(EstadoEmpleado.NoDisponible);
-	            						System.out.println(empleado);
-	            					}
-	                        		System.out.println("Solicitud de cambio de estado a "+ msg2);
-	                        			gestorcolas.cambioEstado(empleado);           				
+	            			System.out.println("Datos recibidos:"+msg+""+msg2);	 
+	            			//Preguntar si va esto y no poner como parametro de entrada empleado
+	            			//Empleado empleado=(Empleado) object;
+	            			if (msg.equals(Constantes.EMPLEADO_CAMBIO_ESTADO)) {
+	            				if (msg2.equals(EstadoEmpleado.Disponible.toString())){
+	            					empleado.cambioEstado(EstadoEmpleado.Disponible);
+	            					System.out.println(empleado);
+	            				}
+	            				if (msg2.equals(EstadoEmpleado.NoDisponible.toString())){
+	            					empleado.cambioEstado(EstadoEmpleado.NoDisponible);
+	            					System.out.println(empleado);
+	            				}
+	                        	System.out.println("Solicitud de cambio de estado a "+ msg2);
+	                        	gestorcolas.cambioEstado(empleado);           				
 	            			}
-
-	                }
+	            				else {
+	            					//Preguntar lo de line si esta bien que use eso y en donde se setea empleado?
+	            					//Recibe object pero no le asigna a empleado
+	            					if(line.equals(Constantes.ATENCION_FINALIZADA)) {
+	            						gestorcolas.agregarClienteAtendido(empleado.getCliente());
+	            						gestorcolas.cambioEstado(empleado);
+	            					}
+	            					else {
+	            						if(line.equals(Constantes.CLIENTE_AUSENTE)) {
+		            						gestorcolas.clienteNoPresentado(empleado.getCliente());
+		            						gestorcolas.cambioEstado(empleado);
+	            						}
+	            					}
+	            				}	
+	            		}
 	            } catch (Exception e) {
 	                    e.printStackTrace();
 	                }

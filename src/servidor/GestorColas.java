@@ -52,10 +52,10 @@ public class GestorColas implements IClienteEmpleado {
 				this.empleadosNoAtendiendo.remove(empleado);
 				this.empleadosAtendiendo.add(empleado);
 				Cliente cliente = this.clientesEnEspera.poll();
+				cliente.setHoraAtencion();
 				enviarClienteAEmpleado(empleado, cliente);
 				System.out.println(empleado+""+cliente);
 				cn.agregarCliente(cliente,empleado);
-				cliente.setHoraAtencion();
 			}
 		}		
 		
@@ -116,7 +116,7 @@ public class GestorColas implements IClienteEmpleado {
 		aux.addAll(empleadosAtendiendo);
 		return new Metrica(aux,clientesAtendidos,clientesEnEspera);
 	}
-	//
+
 	public void agregarClienteAtendido(Cliente cliente) {
 		this.clientesAtendidos.add(cliente);
 	}

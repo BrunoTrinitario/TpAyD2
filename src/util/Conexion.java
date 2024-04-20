@@ -120,7 +120,16 @@ public class Conexion {
 		}
 		
 	}
-
+	
+	public void finalizarAtencion(Empleado empleado,String mensaje) {
+		Empleado aux= empleado;
+		try {
+			enviarDatos(aux,mensaje);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void cambioEstadoEmpleado(Empleado empleado, String mensaje) {
 		try {
 			mensaje=mensaje+","+empleado.getEstado().toString();
