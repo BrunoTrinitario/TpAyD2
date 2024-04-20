@@ -15,4 +15,8 @@ public class Constantes {
 	public static final String SOLICITAR_METRICAS = "solicitud de metricas";
 	public static final String CLIENTE_AUSENTE="Cliente ausente";
 	public static final String ATENCION_FINALIZADA="Atencion Finalizada";
+	public static final String EMPLEADO_CAMBIO_A_DISPONIBLE="Empleado disponible";
+	public static final String EMPLEADO_CAMBIO_A_NO_DISPONIBLE="Empleado NO disponible";
+	
+			
 }
