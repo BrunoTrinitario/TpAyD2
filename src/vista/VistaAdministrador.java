@@ -44,7 +44,7 @@ public class VistaAdministrador implements ActionListener{
 		tablaInside.addColumn("columna2");
 		tabla=new JTable(tablaInside);
 		labelMetrica1 = new JLabel("Cantidad de clientes atendidos:");
-		labelMetrica2 = new JLabel("Tiempo promedio en espera:");
+		labelMetrica2 = new JLabel("Tiempo promedio en espera (H:M:S):");
 		labelMetrica3 = new JLabel("Cantidad de clientes en espera:");
 		metrica2 = new JTextField();
 		metrica1 = new JTextField();
@@ -58,7 +58,7 @@ public class VistaAdministrador implements ActionListener{
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 524, 304);
+		frame.setBounds(100, 100, 622, 304);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		metrica1.setText("-");
@@ -81,13 +81,13 @@ public class VistaAdministrador implements ActionListener{
 		labelTablaEstado.setBounds(118, 54, 46, 14);
 		tabla.setBounds(62, 79, 129, 96);
 		labelMetrica1.setBounds(237, 79, 161, 14);
-		metrica1.setBounds(396, 76, 86, 20);
-		metrica2.setBounds(396, 101, 86, 20);
+		metrica1.setBounds(451, 76, 86, 20);
+		metrica2.setBounds(451, 101, 86, 20);
 		titulo.setBounds(160, 11, 238, 32);
 		botonAct.setBounds(237, 152, 245, 23);
 		labelMetrica3.setBounds(237, 129, 161, 14);
-		labelMetrica2.setBounds(237, 104, 161, 14);
-		metrica3.setBounds(396, 126, 86, 20);
+		labelMetrica2.setBounds(237, 104, 204, 14);
+		metrica3.setBounds(451, 126, 86, 20);
 	}
 	private void addToFrame() {
 		frame.getContentPane().add(labelTablaBox);

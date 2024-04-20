@@ -2,14 +2,14 @@ package main;
 
 import cliente.Cliente;
 import cliente.NegociosCliente;
-import vista.RegistroDni;
+import vista.VistaRegistroDni;
 
 public class MainCliente {
 
 	public static void main(String[] args) {
 		
 		
-		RegistroDni rc=new RegistroDni();
+		VistaRegistroDni rc=new VistaRegistroDni();
 		//NegociosCliente nc = new NegociosCliente();
 		//nc.crearCLiente("1234567");
 		

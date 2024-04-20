@@ -15,7 +15,7 @@ import excepciones.DniInvalidoException;
 import excepciones.DniYaRegistradoException;
 import util.Constantes;
 
-public class RegistroDni implements ActionListener {
+public class VistaRegistroDni implements ActionListener {
 
 	private JFrame frame;
 	private JButton boton1,boton2,boton3,boton4,boton5,boton6,boton7,boton8,boton9,boton0;
@@ -24,7 +24,7 @@ public class RegistroDni implements ActionListener {
 	private JLabel titulo;
 	private ControladorCliente cc=new ControladorCliente();
 	
-	public RegistroDni() {
+	public VistaRegistroDni() {
 		frame = new JFrame();
 		boton1 = new JButton("1");
 		boton2 = new JButton("2");
@@ -58,7 +58,6 @@ public class RegistroDni implements ActionListener {
 		
 		titulo.setHorizontalAlignment(SwingConstants.CENTER);
 		titulo.setFont(new Font("Tahoma", Font.PLAIN, 44));
-
 		frame.setVisible(true);
 	}
 	
