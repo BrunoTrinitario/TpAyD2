@@ -31,14 +31,29 @@ public class Servidor extends Thread {
                 String msg = datosConexion.in.readLine();      
                 System.out.println("Datos recibidos: "+objeto+" "+msg);
                 
-                if (objeto instanceof Cliente)
+                if (objeto instanceof Cliente){
+                	/*
+                	if(msg.equals(Constantes.AtencionFinalizada)) {
+                		this.gestorcolas.agregarClienteAtendido((Cliente)objeto);
+                	}
+                	else {
+               				//iria lo mismo de abajo
+                			try {
+                        		this.gestorcolas.registrarCliente((Cliente)objeto);
+                        		datosConexion.out.println(Constantes.CLIENTE_REGISTRO_OK);
+                        	}catch(DniYaRegistradoException e) {
+                        		datosConexion.out.println(e.getMessage());
+                        	}
+                		}
+                	}  
+                	*/
                 	try {
-                		this.gestorcolas.registrarCliente((Cliente)objeto);;
+                		this.gestorcolas.registrarCliente((Cliente)objeto);
                 		datosConexion.out.println(Constantes.CLIENTE_REGISTRO_OK);
                 	}catch(DniYaRegistradoException e) {
                 		datosConexion.out.println(e.getMessage());
                 	}
-        
+                }	
                 else if (objeto instanceof Empleado) {
                 	Empleado empleado = (Empleado)objeto;
                 	if (msg.equals(Constantes.EMPLEADO_NUEVO)) {

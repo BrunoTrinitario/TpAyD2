@@ -28,10 +28,10 @@ public class VistaEmpleado implements ActionListener{
 	 */
 	public VistaEmpleado(ControladorEmpleado ce,String nombre,int box) {
 		this.ce=ce;
-		this.ce.setVistaPrincipal(this);
 		this.nombre=nombre;
 		this.box=box;
 		this.botonFinalizar= new JButton("Finalizar atencion");
+		this.ce.setVistaPrincipal(this);
 		botonFinalizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -90,7 +90,9 @@ public class VistaEmpleado implements ActionListener{
 	}
 	
 	private void addActionListenerToButtons() {
-		botonCambioEstado.addActionListener(this);
+		this.botonCambioEstado.addActionListener(this);
+		this.botonFinalizar.addActionListener(this);
+		this.botonNoAsistio.addActionListener(this);
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==botonCambioEstado) {
@@ -98,22 +100,22 @@ public class VistaEmpleado implements ActionListener{
 				ce.cambioEstado(EstadoEmpleado.NoDisponible);
 				this.labelEstado.setText("Estado: "+EstadoEmpleado.NoDisponible);
 				this.botonCambioEstado.setText("Cambiar a Disponible");
-				this.labelEstado.repaint();
 			}
 			else {
 				ce.cambioEstado(EstadoEmpleado.Disponible);
 				this.labelEstado.setText("Estado: "+EstadoEmpleado.Disponible);
 				this.botonCambioEstado.setText("Cambiar a No Disponible");
-				this.labelEstado.repaint();
 			}
 		}
 		else {
 			if(e.getSource()==botonFinalizar) {
-			//	ce.cambioEstado(EstadoEmpleado.NoDisponible);
 				ce.finalizarAtencion();
 				this.labelEstado.setText("Estado: "+EstadoEmpleado.NoDisponible);	
 				this.botonCambioEstado.setText("Cambiar a Disponible");
 				this.botonCambioEstado.setEnabled(true);
+				this.botonFinalizar.setEnabled(false);
+				this.botonNoAsistio.setEnabled(false);
+				this.textoDniCliente.setText("-");
 			}
 			else {
 				if(e.getSource()==botonNoAsistio) {
@@ -121,7 +123,9 @@ public class VistaEmpleado implements ActionListener{
 					this.labelEstado.setText("Estado: "+EstadoEmpleado.Disponible);
 					this.botonCambioEstado.setText("Cambiar a No Disponible");
 					this.botonCambioEstado.setEnabled(true);
-					
+					this.botonFinalizar.setEnabled(false);
+					this.botonNoAsistio.setEnabled(false);
+					this.textoDniCliente.setText("-");
 				}
 			}
 		}

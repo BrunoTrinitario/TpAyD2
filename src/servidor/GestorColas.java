@@ -116,6 +116,9 @@ public class GestorColas implements IClienteEmpleado {
 		aux.addAll(empleadosAtendiendo);
 		return new Metrica(aux,clientesAtendidos,clientesEnEspera);
 	}
-	
+	//
+	public void agregarClienteAtendido(Cliente cliente) {
+		this.clientesAtendidos.add(cliente);
+	}
 	
 }

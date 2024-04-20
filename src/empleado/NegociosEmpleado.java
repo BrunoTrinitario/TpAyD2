@@ -32,7 +32,7 @@ public class NegociosEmpleado implements IActualizar {
 	}
 	public void informaAtencionFinalizada(Cliente cliente)   {
 		try {
-			conexion.envioClienteAServidor(cliente, "AtencionFinalizada");
+			conexion.envioClienteAServidor(cliente,Constantes.AtencionFinalizada);
 		} catch (DniYaRegistradoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

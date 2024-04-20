@@ -13,4 +13,5 @@ public class Constantes {
 	public static final int PUERTO = 1234;
 	public static final String SOLICITAR_METRICAS = "solicitud de metricas";
 	public static final String ClienteAusente="Cliente ausente";
+	public static final String AtencionFinalizada="Atencion Finalizada";
 }
