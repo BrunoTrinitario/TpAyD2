@@ -75,11 +75,19 @@ public class GestorColas implements IClienteEmpleado {
 	}
 
 	@Override
-	public void clienteNoPresentado(Cliente cliente) {
+	public void clienteNoPresentado(Cliente cliente,Empleado empleado) {
+		
+		for(Empleado aux:empleadosAtendiendo) {
+			if(aux.equals(empleado)) {
+				aux.quitarCliente();
+				break;
+			}
+		}
 		if (cliente.getIntento()<3) {
 			cliente.sumarIntento();
 			this.clientesEnEspera.add(cliente);
 		}
+		this.cambioEstado(empleado);
 	}
 
 	@Override
@@ -96,6 +104,7 @@ public class GestorColas implements IClienteEmpleado {
 		if (this.empleadosAtendiendo.contains(empleado)) {
 			this.empleadosAtendiendo.remove(empleado);
 			this.empleadosNoAtendiendo.add(empleado);
+			this.clientesAtendidos.add(empleado.getCliente());
 		}
 		else {
 			for (Empleado aux : empleadosNoAtendiendo) {
@@ -113,16 +122,20 @@ public class GestorColas implements IClienteEmpleado {
 			}
 		}
 	}
-
+	public void finalizarAtencion(Empleado empleado) {
+		for(Empleado aux:empleadosAtendiendo) {
+			if(aux.equals(empleado)) {
+				this.clientesAtendidos.add(aux.getCliente());
+				aux.quitarCliente();
+				break;
+			}
+		}
+		this.cambioEstado(empleado);
+	}
 	public Metrica actualizarMetricas() {
 		ArrayList<Empleado> aux=new ArrayList<Empleado>();
 		aux.addAll(empleadosNoAtendiendo);
 		aux.addAll(empleadosAtendiendo);
 		return new Metrica(aux,clientesAtendidos,clientesEnEspera);
 	}
-
-	public void agregarClienteAtendido(Cliente cliente) {
-		this.clientesAtendidos.add(cliente);
-	}
-	
 }

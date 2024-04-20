@@ -46,7 +46,9 @@ public class Empleado implements Serializable {
 		this.cambioEstado(EstadoEmpleado.Atendiendo);
 		this.cliente=cliente;	
 	}
-	
+	public void quitarCliente() {
+		this.cliente=null;
+	}
 	public String toString() {
 		return ("nombre: "+this.nombre + "Box: "+ this.box +", Estado: "+ this.estado);
 	}

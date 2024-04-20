@@ -83,39 +83,26 @@ public class Servidor extends Thread {
 	            			System.out.println("Escuchando a : "+empleado);
 	            			Object object = datosConexion.ois.readObject();
 	            			System.out.println("////"+object+"////");
-	            			String line = datosConexion.in.readLine();
-	            			String[] mensajes = line.split(",");
-	            			String msg = mensajes[0];
-	            			String msg2 = mensajes[1];
-	            			System.out.println("Datos recibidos:"+msg+""+msg2);	 
-	            			//Preguntar si va esto y no poner como parametro de entrada empleado
-	            			//Empleado empleado=(Empleado) object;
-	            			if (msg.equals(Constantes.EMPLEADO_CAMBIO_ESTADO)) {
-	            				if (msg2.equals(EstadoEmpleado.Disponible.toString())){
-	            					empleado.cambioEstado(EstadoEmpleado.Disponible);
-	            					System.out.println(empleado);
-	            				}
-	            				if (msg2.equals(EstadoEmpleado.NoDisponible.toString())){
-	            					empleado.cambioEstado(EstadoEmpleado.NoDisponible);
-	            					System.out.println(empleado);
-	            				}
-	                        	System.out.println("Solicitud de cambio de estado a "+ msg2);
-	                        	gestorcolas.cambioEstado(empleado);           				
+	            			String msg = datosConexion.in.readLine();
+	         
+	            			if(msg.equals(Constantes.CLIENTE_AUSENTE)) {
+        						gestorcolas.clienteNoPresentado(empleado.getCliente());
 	            			}
-	            				else {
-	            					//Preguntar lo de line si esta bien que use eso y en donde se setea empleado?
-	            					//Recibe object pero no le asigna a empleado
-	            					if(line.equals(Constantes.ATENCION_FINALIZADA)) {
-	            						gestorcolas.agregarClienteAtendido(empleado.getCliente());
-	            						gestorcolas.cambioEstado(empleado);
-	            					}
-	            					else {
-	            						if(line.equals(Constantes.CLIENTE_AUSENTE)) {
-		            						gestorcolas.clienteNoPresentado(empleado.getCliente());
-		            						gestorcolas.cambioEstado(empleado);
-	            						}
-	            					}
-	            				}	
+	            			if(msg.equals(Constantes.ATENCION_FINALIZADA)) {
+        							gestorcolas.finalizarAtencion(empleado);
+        					}
+	            			if (msg.equals(Constantes.EMPLEADO_CAMBIO_A_DISPONIBLE)){
+	            				 empleado.cambioEstado(EstadoEmpleado.Disponible);
+		            			System.out.println(empleado);
+		            			System.out.println("Solicitud de cambio de estado a "+ msg);
+	                        	gestorcolas.cambioEstado(empleado);
+	            			}
+	            			if (msg.equals(Constantes.EMPLEADO_CAMBIO_A_NO_DISPONIBLE)){
+            					empleado.cambioEstado(EstadoEmpleado.NoDisponible);
+            					System.out.println(empleado);
+            					System.out.println("Solicitud de cambio de estado a "+ msg);
+	                        	gestorcolas.cambioEstado(empleado);
+            				}
 	            		}
 	            } catch (Exception e) {
 	                    e.printStackTrace();
