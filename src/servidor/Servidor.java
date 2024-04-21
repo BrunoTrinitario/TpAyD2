@@ -90,7 +90,7 @@ public class Servidor extends Thread {
 						}
 						if (msg.equals(Constantes.EMPLEADO_CAMBIO_ESTADO)) {
 							System.out.println("Solicitud de cambio de estado a " + msg);
-							gestorcolas.cambioEstado(empleado);
+							gestorcolas.cambioEstadoEmpleado(empleado);
 						}
 					}
 				} catch (Exception e) {

@@ -17,98 +17,97 @@ import excepciones.DniYaRegistradoException;
 import servidor.Metrica;
 
 public class Conexion {
-	
+
 	private Socket socket;
 	private ObjectOutputStream oos;
-	private BufferedReader in;           
+	private BufferedReader in;
 	private PrintWriter out;
 	private ObjectInputStream ois;
-	
-	public void envioEmpleadoAServidor(NegociosEmpleado negociosEmpleado, Empleado empleado,String mensaje)throws BoxYaRegistradoException {
-		String msg = envioDatosAServidor(empleado,mensaje);
-			escucharServidor(negociosEmpleado);
-    	if (msg.equals(Constantes.BOX_YA_REGISTRADO)) {
-    		throw new BoxYaRegistradoException(Constantes.BOX_YA_REGISTRADO);
-    	}	
-	}
-	
 
-	public void envioClienteAServidor(Object objeto, String mensaje) throws DniYaRegistradoException{
-			String msg = envioDatosAServidor(objeto,mensaje);
-            if (msg.equals(Constantes.DNI_YA_REGISTRADO)) {
-            	throw new DniYaRegistradoException(Constantes.DNI_YA_REGISTRADO);
-            }
-			cerrarConexion();
-		 }
-	
-	public String envioDatosAServidor(Object objeto,String mensaje){
-		String msg = null; 
-		try {			 	
-			 	System.out.println("Abriendo conexion...");
-	            abrirConexion(Constantes.IP, Constantes.PUERTO);System.out.println("Conexion abierta");       
-	            System.out.println("Enviando datos...");   
-	            enviarDatos(objeto,mensaje);System.out.println("Datos enviados");   
-	            System.out.println("Leyendo respuesta"); 
-	            msg = in.readLine(); System.out.println("Respuesta recibida: " +msg);             	                   	
-		}catch(Exception e) {
-			msg=e.getMessage();
+	public void envioEmpleadoAServidor(NegociosEmpleado negociosEmpleado, Empleado empleado, String mensaje)
+			throws BoxYaRegistradoException {
+		String msg = envioDatosAServidor(empleado, mensaje);
+		escucharServidor(negociosEmpleado);
+		if (msg.equals(Constantes.BOX_YA_REGISTRADO)) {
+			throw new BoxYaRegistradoException(Constantes.BOX_YA_REGISTRADO);
+		}
+	}
+
+	public void envioClienteAServidor(Object objeto, String mensaje) throws DniYaRegistradoException {
+		String msg = envioDatosAServidor(objeto, mensaje);
+		if (msg.equals(Constantes.DNI_YA_REGISTRADO)) {
+			throw new DniYaRegistradoException(Constantes.DNI_YA_REGISTRADO);
+		}
+		cerrarConexion();
+	}
+
+	public String envioDatosAServidor(Object objeto, String mensaje) {
+		String msg = null;
+		try {
+			System.out.println("Abriendo conexion...");
+			abrirConexion(Constantes.IP, Constantes.PUERTO);
+			System.out.println("Conexion abierta");
+			System.out.println("Enviando datos...");
+			enviarDatos(objeto, mensaje);
+			System.out.println("Datos enviados");
+			System.out.println("Leyendo respuesta");
+			msg = in.readLine();
+			System.out.println("Respuesta recibida: " + msg);
+		} catch (Exception e) {
+			msg = e.getMessage();
 		}
 		return msg;
 
 	}
-	
-	public Metrica solicitudDeActulizacionMetricas(Object objeto,String mensaje) {
-		Object metrica=null;
-			String msg = envioDatosAServidor(objeto,mensaje);
-				try {
-					System.out.println(msg); 
-					System.out.println("Intentando leer metricas"); 
-					metrica=this.ois.readObject();
-					System.out.println("Metrica leida: "+metrica); 
-				} catch (Exception e) {
-					
-				}
-				finally {
-					cerrarConexion();
-				}
-				return (Metrica)metrica;				
-}
-	
-	private void abrirConexion(String Ip, int puerto) throws UnknownHostException, IOException {
-		this.socket = new Socket(Ip,puerto);
-    	this.oos = new ObjectOutputStream(socket.getOutputStream()); 
-    	this.in = new BufferedReader(new InputStreamReader(socket.getInputStream())); ;
-    	this.out = new PrintWriter(socket.getOutputStream(),true);
-    	this.ois = new ObjectInputStream(socket.getInputStream());
+
+	public Metrica solicitudDeActulizacionMetricas(Object objeto, String mensaje) {
+		Object metrica = null;
+		String msg = envioDatosAServidor(objeto, mensaje);
+		try {
+			System.out.println(msg);
+			System.out.println("Intentando leer metricas");
+			metrica = this.ois.readObject();
+			System.out.println("Metrica leida: " + metrica);
+		} catch (Exception e) {
+
+		} finally {
+			cerrarConexion();
+		}
+		return (Metrica) metrica;
 	}
-	
-	
-	
+
+	private void abrirConexion(String Ip, int puerto) throws UnknownHostException, IOException {
+		this.socket = new Socket(Ip, puerto);
+		this.oos = new ObjectOutputStream(socket.getOutputStream());
+		this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		;
+		this.out = new PrintWriter(socket.getOutputStream(), true);
+		this.ois = new ObjectInputStream(socket.getInputStream());
+	}
+
 	private void enviarDatos(Object objeto, String mensaje) throws IOException {
 		oos.writeObject(objeto);
-        out.println(mensaje);
-		System.out.println("Datos enviados: Objeto: "+objeto+", mensaje: "+mensaje); 
+		out.println(mensaje);
+		System.out.println("Datos enviados: Objeto: " + objeto + ", mensaje: " + mensaje);
 	}
-	
-	
+
 	private void escucharServidor(NegociosEmpleado negociosEmpleado) {
-        new Thread() {
-            public void run() {
-                try {
-            		while (socket.isConnected()) {
-            			Object objeto = ois.readObject();
-            			if (objeto instanceof Cliente) {
-            				negociosEmpleado.enviarClienteAEmpleado((Cliente)objeto);            				
-            			}
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
+		new Thread() {
+			public void run() {
+				try {
+					while (socket.isConnected()) {
+						Object objeto = ois.readObject();
+						if (objeto instanceof Cliente) {
+							negociosEmpleado.enviarClienteAEmpleado((Cliente) objeto);
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
 	}
-	
-	
+
 	private void cerrarConexion() {
 		try {
 			socket.close();
@@ -118,14 +117,14 @@ public class Conexion {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public void informarAccionAServidor(Empleado e, String mensaje) {
 		try {
-			//por patron DAO
-			Empleado empleado = new Empleado(e.getNombre(),e.getBox(),e.getEstado(),e.getCliente());
-			enviarDatos(empleado,mensaje);
+			// por patron DAO
+			Empleado empleado = new Empleado(e.getNombre(), e.getBox(), e.getEstado(), e.getCliente());
+			enviarDatos(empleado, mensaje);
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}

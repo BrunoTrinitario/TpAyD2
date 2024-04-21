@@ -36,6 +36,7 @@ public class VentanaEmergente {
 		txtpnSuDniHa.setText(mensaje);
 		txtpnSuDniHa.setBounds(75, 59, 237, 73);
 		frame.getContentPane().add(txtpnSuDniHa);
+		txtpnSuDniHa.setEditable(false);
 		
 		JButton btnNewButton = new JButton("Ok");
 		btnNewButton.addActionListener(new ActionListener() {

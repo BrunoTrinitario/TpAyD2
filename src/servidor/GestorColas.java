@@ -90,7 +90,7 @@ public class GestorColas implements IClienteEmpleado {
 			this.clientesEnEspera.add(cliente);
 			matchClienteEmpleado();
 		}
-		this.cambioEstado(empleado);
+		this.cambioEstadoEmpleado(empleado);
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class GestorColas implements IClienteEmpleado {
 		servidor.informarEmpleado(empleado, cliente);	
 	}
 
-	public void cambioEstado(Empleado empleado) {
+	public void cambioEstadoEmpleado(Empleado empleado) {
 		if (this.empleadosAtendiendo.contains(empleado)) {
 			this.empleadosAtendiendo.remove(empleado);
 			this.empleadosNoAtendiendo.add(empleado);
@@ -132,7 +132,7 @@ public class GestorColas implements IClienteEmpleado {
 			}
 		}
 		this.clientesAtendidos.add(empleado.getCliente());
-		this.cambioEstado(empleado);
+		this.cambioEstadoEmpleado(empleado);
 	}
 	public Metrica actualizarMetricas() {
 		ArrayList<Empleado> aux=new ArrayList<Empleado>();

@@ -14,7 +14,7 @@ import controlador.ControladorEmpleado;
 import excepciones.BoxYaRegistradoException;
 import util.Constantes;
 
-public class EmpleadoRegistro {
+public class VistaEmpleadoRegistro {
 
 	private JFrame frame;
 	private JTextField textField;
@@ -23,7 +23,7 @@ public class EmpleadoRegistro {
 	/**
 	 * Launch the application.
 	 */
-	public EmpleadoRegistro(ControladorEmpleado ce) {
+	public VistaEmpleadoRegistro(ControladorEmpleado ce) {
 		this.ce=ce;
 		initialize();
 		frame.setVisible(true);
