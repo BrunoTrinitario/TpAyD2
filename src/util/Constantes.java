@@ -17,6 +17,7 @@ public class Constantes {
 	public static final String ATENCION_FINALIZADA="Atencion Finalizada";
 	public static final String EMPLEADO_CAMBIO_A_DISPONIBLE="Empleado disponible";
 	public static final String EMPLEADO_CAMBIO_A_NO_DISPONIBLE="Empleado NO disponible";
+	public static final String ERROR_CONEXION="Se produjo un error al intentar conectar, es posible que el servidor no esté disponible";
 	
 			
 }

@@ -1,5 +1,7 @@
 package cliente;
 
+import java.io.IOException;
+
 import excepciones.DniInvalidoException;
 import excepciones.DniYaRegistradoException;
 import util.Conexion;
@@ -8,7 +10,7 @@ import util.Constantes;
 public class NegociosCliente implements IRegistro {
 	private Conexion conexion=new Conexion();
 	@Override
-	public void crearCLiente(String dni) throws DniInvalidoException,DniYaRegistradoException {
+	public void crearCLiente(String dni) throws DniInvalidoException,DniYaRegistradoException, IOException {
 		if (dni.length()>=6 && dni.length()<=9) {
 			Cliente cliente=new Cliente(dni);
 			this.enviarClienteAServidor(cliente);
@@ -17,7 +19,7 @@ public class NegociosCliente implements IRegistro {
 	}
 
 	@Override
-	public void enviarClienteAServidor(Cliente cliente) throws DniYaRegistradoException{
+	public void enviarClienteAServidor(Cliente cliente) throws DniYaRegistradoException, IOException{
 		this.conexion.envioClienteAServidor(cliente,"cliente");
 	}
 

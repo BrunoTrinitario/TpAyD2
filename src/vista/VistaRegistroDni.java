@@ -3,6 +3,7 @@ package vista;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -147,6 +148,9 @@ public class VistaRegistroDni implements ActionListener {
 				VentanaEmergente ventanaEmergente= new VentanaEmergente(Constantes.DNI_YA_REGISTRADO);
 			}catch (DniInvalidoException e1) {
 				VentanaEmergente ventanaEmergente= new VentanaEmergente(Constantes.DNI_INCORRECTO);
+			}catch (IOException e1) {
+				VentanaEmergente ve = new VentanaEmergente(Constantes.ERROR_CONEXION);
+				e1.printStackTrace();
 			}
 			AreaTexto.setText("");
 		}

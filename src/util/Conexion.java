@@ -15,6 +15,7 @@ import empleado.NegociosEmpleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import servidor.Metrica;
+import vista.VentanaEmergente;
 
 public class Conexion {
 
@@ -24,8 +25,7 @@ public class Conexion {
 	private PrintWriter out;
 	private ObjectInputStream ois;
 
-	public void envioEmpleadoAServidor(NegociosEmpleado negociosEmpleado, Empleado empleado, String mensaje)
-			throws BoxYaRegistradoException {
+	public void envioEmpleadoAServidor(NegociosEmpleado negociosEmpleado, Empleado empleado, String mensaje) throws BoxYaRegistradoException, IOException {
 		String msg = envioDatosAServidor(empleado, mensaje);
 		escucharServidor(negociosEmpleado);
 		if (msg.equals(Constantes.BOX_YA_REGISTRADO)) {
@@ -33,7 +33,7 @@ public class Conexion {
 		}
 	}
 
-	public void envioClienteAServidor(Object objeto, String mensaje) throws DniYaRegistradoException {
+	public void envioClienteAServidor(Object objeto, String mensaje) throws DniYaRegistradoException, IOException {
 		String msg = envioDatosAServidor(objeto, mensaje);
 		if (msg.equals(Constantes.DNI_YA_REGISTRADO)) {
 			throw new DniYaRegistradoException(Constantes.DNI_YA_REGISTRADO);
@@ -41,20 +41,16 @@ public class Conexion {
 		cerrarConexion();
 	}
 
-	public String envioDatosAServidor(Object objeto, String mensaje) {
+	public String envioDatosAServidor(Object objeto, String mensaje) throws IOException {
 		String msg = null;
-		try {
 			abrirConexion(Constantes.IP, Constantes.PUERTO);
 			enviarDatos(objeto, mensaje);
 			msg = in.readLine();
-		} catch (Exception e) {
-			msg = e.getMessage();
-		}
 		return msg;
 
 	}
 
-	public Metrica solicitudDeActulizacionMetricas(Object objeto, String mensaje) {
+	public Metrica solicitudDeActulizacionMetricas(Object objeto, String mensaje) throws IOException {
 		Object metrica = null;
 		String msg = envioDatosAServidor(objeto, mensaje);
 		try {
@@ -92,7 +88,7 @@ public class Conexion {
 						}
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					negociosEmpleado.conexionCaida();
 				}
 			}
 		}.start();

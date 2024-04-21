@@ -1,5 +1,7 @@
 package controlador;
 
+import java.io.IOException;
+
 import servidor.Metrica;
 import util.Conexion;
 import util.Constantes;
@@ -14,7 +16,7 @@ public class ControladorAdministrador {
 		conexion = new Conexion();
 	}
 	
-	public Metrica solicitarMetricas() {
+	public Metrica solicitarMetricas() throws IOException {
 		return conexion.solicitudDeActulizacionMetricas(null,Constantes.SOLICITAR_METRICAS);
 	}
 	

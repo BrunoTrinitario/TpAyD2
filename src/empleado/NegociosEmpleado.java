@@ -1,5 +1,7 @@
 package empleado;
 
+import java.io.IOException;
+
 import cliente.Cliente;
 import controlador.ControladorEmpleado;
 import excepciones.BoxYaRegistradoException;
@@ -43,18 +45,23 @@ public class NegociosEmpleado implements IActualizar {
 	}
 
 	@Override
-	public void crearEmpleado(String nombre, int box) throws BoxYaRegistradoException {
+	public void crearEmpleado(String nombre, int box) throws BoxYaRegistradoException, IOException {
 		this.empleado=new Empleado(nombre,box,EstadoEmpleado.NoDisponible);
 		this.informarAcceso(empleado);
 	}
 
 	@Override
-	public void informarAcceso(Empleado empleado) throws BoxYaRegistradoException {
+	public void informarAcceso(Empleado empleado) throws BoxYaRegistradoException, IOException {
 		conexion.envioEmpleadoAServidor(this,empleado,Constantes.EMPLEADO_NUEVO);
 	}
 
 	public void enviarClienteAEmpleado(Cliente cliente) {
 		this.empleado.atenderCliente(cliente);
 		this.ce.informarAtencionAVista(cliente);
+	}
+
+	public void conexionCaida() {
+		ce.conexionCaida();
+		
 	}
 }

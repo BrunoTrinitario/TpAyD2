@@ -3,6 +3,7 @@ package vista;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,6 +15,7 @@ import javax.swing.table.TableColumnModel;
 
 import controlador.ControladorAdministrador;
 import servidor.Metrica;
+import util.Constantes;
 
 public class VistaAdministrador implements ActionListener{
 
@@ -100,7 +102,9 @@ public class VistaAdministrador implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==botonAct) {
-			Metrica metrica=ca.solicitarMetricas();
+			Metrica metrica;
+			try {
+			metrica = ca.solicitarMetricas();
 			metrica1.setText(String.valueOf(metrica.cantidadAtendidos()));
 			metrica2.setText(metrica.promedioEspera());
 			metrica3.setText(String.valueOf(metrica.cantidadEnEspera()));
@@ -111,7 +115,10 @@ public class VistaAdministrador implements ActionListener{
 				String estado=String.valueOf(metrica.getListaEmpleados().get(i).getEstado());
 				tablaInside.addRow(new Object[]{box, estado});
 				i++;
+			}} catch (IOException e1) {
+				VentanaEmergente ve = new VentanaEmergente(Constantes.ERROR_CONEXION);
 			}
+			
 		}
 	}
 }
