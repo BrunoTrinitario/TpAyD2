@@ -1,27 +1,19 @@
 package vista;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import controlador.ControladorAdministrador;
 import servidor.Metrica;
-
-import java.awt.Font;
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
 
 public class VistaAdministrador implements ActionListener{
 
@@ -43,6 +35,8 @@ public class VistaAdministrador implements ActionListener{
 		tablaInside.addColumn("columna1");
 		tablaInside.addColumn("columna2");
 		tabla=new JTable(tablaInside);
+		TableColumnModel columnModel = tabla.getColumnModel();
+		columnModel.getColumn(0).setPreferredWidth(20);
 		labelMetrica1 = new JLabel("Cantidad de clientes atendidos:");
 		labelMetrica2 = new JLabel("Tiempo promedio en espera (H:M:S):");
 		labelMetrica3 = new JLabel("Cantidad de clientes en espera:");
@@ -80,13 +74,13 @@ public class VistaAdministrador implements ActionListener{
 		labelTablaBox.setBounds(62, 54, 46, 14);
 		labelTablaEstado.setBounds(118, 54, 46, 14);
 		tabla.setBounds(62, 79, 129, 96);
-		labelMetrica1.setBounds(237, 79, 161, 14);
+		labelMetrica1.setBounds(237, 79, 204, 14);
 		metrica1.setBounds(451, 76, 86, 20);
 		metrica2.setBounds(451, 101, 86, 20);
 		titulo.setBounds(160, 11, 238, 32);
 		botonAct.setBounds(237, 152, 245, 23);
-		labelMetrica3.setBounds(237, 129, 161, 14);
-		labelMetrica2.setBounds(237, 104, 204, 14);
+		labelMetrica3.setBounds(237, 129, 204, 14);
+		labelMetrica2.setBounds(237, 104, 341, 14);
 		metrica3.setBounds(451, 126, 86, 20);
 	}
 	private void addToFrame() {

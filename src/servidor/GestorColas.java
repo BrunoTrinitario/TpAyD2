@@ -54,9 +54,7 @@ public class GestorColas implements IClienteEmpleado {
 				this.empleadosAtendiendo.add(empleado);
 				Cliente cliente = this.clientesEnEspera.poll();
 				cliente.setHoraAtencion();
-				System.out.println(cliente);
 				enviarClienteAEmpleado(empleado, cliente);
-				System.out.println(empleado+""+cliente);
 				cn.agregarCliente(cliente,empleado);
 			}
 		}		
@@ -112,10 +110,6 @@ public class GestorColas implements IClienteEmpleado {
 			for (Empleado aux : empleadosNoAtendiendo) {
 			    if (aux.equals(empleado)) {
 			    	aux.cambioEstado(empleado.getEstado()); 
-			    	//no hay que agregar aux a empleadoNoAtendiendo
-			    	//ya que va a tener estado nuevo
-			    	//this.empleadosNoAtendiendo.remove(empleado);
-			    	//this.empleadosNoAtendiendo.add(aux);
 			    	if (empleado.getEstado().equals(EstadoEmpleado.Disponible)) {
 			    		matchClienteEmpleado();
 			    	}

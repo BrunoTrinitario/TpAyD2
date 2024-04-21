@@ -71,7 +71,7 @@ public class VistaEmpleado implements ActionListener{
 		botonFinalizar.setBounds(340, 114, 177, 41);
 		botonNoAsistio.setBounds(340, 166, 177, 41);
 		botonCambioEstado.setBounds(340, 62, 177, 41);
-		labelDniCliente.setBounds(54, 75, 82, 14);
+		labelDniCliente.setBounds(54, 75, 106, 14);
 		labelBox.setBounds(54, 11, 66, 20);
 		labelEmpleado.setBounds(152, 11, 145, 20);
 		labelEstado.setBounds(346, 11, 145, 20);

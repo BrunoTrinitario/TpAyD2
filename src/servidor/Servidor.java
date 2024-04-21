@@ -21,13 +21,11 @@ public class Servidor extends Thread {
 	public void run() {
 		try {
 			ServerSocket s = new ServerSocket(Constantes.PUERTO);
-			System.out.println("Servidor online");
 			while (servidorActivo) {
 
 				DatosConexion datosConexion = new DatosConexion(s.accept());
 				Object objeto = datosConexion.ois.readObject();
 				String msg = datosConexion.in.readLine();
-				System.out.println("Datos recibidos: " + objeto + " " + msg);
 
 				if (objeto instanceof Cliente) {
 					try {
@@ -51,8 +49,6 @@ public class Servidor extends Thread {
 				} else {
 					if (msg.equals(Constantes.SOLICITAR_METRICAS)) {
 						Object aux = gestorcolas.actualizarMetricas();
-						System.out.println("Intentando enviar " + aux);
-						System.out.println("Metricas enviadas");
 						datosConexion.out.println(Constantes.METRICAS_CREACION_OK);
 						datosConexion.oos.writeObject(aux);
 					}
@@ -81,7 +77,6 @@ public class Servidor extends Thread {
 						Object object = datosConexion.ois.readObject();
 						Empleado empleado = (Empleado) object;
 						String msg = datosConexion.in.readLine();
-						System.out.println("Datos recibidos: " + empleado);
 						if (msg.equals(Constantes.CLIENTE_AUSENTE)) {
 							gestorcolas.clienteNoPresentado(empleado);
 						}
@@ -89,7 +84,6 @@ public class Servidor extends Thread {
 							gestorcolas.finalizarAtencion(empleado);
 						}
 						if (msg.equals(Constantes.EMPLEADO_CAMBIO_ESTADO)) {
-							System.out.println("Solicitud de cambio de estado a " + msg);
 							gestorcolas.cambioEstadoEmpleado(empleado);
 						}
 					}

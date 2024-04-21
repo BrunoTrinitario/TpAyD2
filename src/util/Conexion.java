@@ -44,15 +44,9 @@ public class Conexion {
 	public String envioDatosAServidor(Object objeto, String mensaje) {
 		String msg = null;
 		try {
-			System.out.println("Abriendo conexion...");
 			abrirConexion(Constantes.IP, Constantes.PUERTO);
-			System.out.println("Conexion abierta");
-			System.out.println("Enviando datos...");
 			enviarDatos(objeto, mensaje);
-			System.out.println("Datos enviados");
-			System.out.println("Leyendo respuesta");
 			msg = in.readLine();
-			System.out.println("Respuesta recibida: " + msg);
 		} catch (Exception e) {
 			msg = e.getMessage();
 		}
@@ -64,10 +58,7 @@ public class Conexion {
 		Object metrica = null;
 		String msg = envioDatosAServidor(objeto, mensaje);
 		try {
-			System.out.println(msg);
-			System.out.println("Intentando leer metricas");
 			metrica = this.ois.readObject();
-			System.out.println("Metrica leida: " + metrica);
 		} catch (Exception e) {
 
 		} finally {
@@ -88,7 +79,6 @@ public class Conexion {
 	private void enviarDatos(Object objeto, String mensaje) throws IOException {
 		oos.writeObject(objeto);
 		out.println(mensaje);
-		System.out.println("Datos enviados: Objeto: " + objeto + ", mensaje: " + mensaje);
 	}
 
 	private void escucharServidor(NegociosEmpleado negociosEmpleado) {
