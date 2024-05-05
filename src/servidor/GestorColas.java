@@ -134,6 +134,12 @@ public class GestorColas implements IClienteEmpleado {
 		aux.addAll(empleadosAtendiendo);
 		return new Metrica(aux,clientesAtendidos,clientesEnEspera);
 	}
+
+	public void desconectarEmpleado(Empleado empleado) {
+		this.empleadosAtendiendo.remove(empleado);
+		this.empleadosNoAtendiendo.remove(empleado);
+		
+	}
 	
 }
 

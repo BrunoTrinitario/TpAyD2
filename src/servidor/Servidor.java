@@ -41,7 +41,7 @@ public class Servidor extends Thread {
 							this.gestorcolas.registrarEmpleado((Empleado) objeto);
 							this.empleadosConectados.put(empleado.getBox(), datosConexion);
 							datosConexion.out.println(Constantes.EMPLEADO_REGISTRO_OK);
-							escucharEmpleado(datosConexion);
+							escucharEmpleado(datosConexion, empleado);
 						} catch (BoxYaRegistradoException e) {
 							datosConexion.out.println(e.getMessage());
 						}
@@ -69,7 +69,7 @@ public class Servidor extends Thread {
 		}
 	}
 
-	private void escucharEmpleado(DatosConexion datosConexion) {
+	private void escucharEmpleado(DatosConexion datosConexion, Empleado empleado) {
 		new Thread() {
 			public void run() {
 				try {
@@ -87,7 +87,10 @@ public class Servidor extends Thread {
 							gestorcolas.cambioEstadoEmpleado(empleado);
 						}
 					}
-				} catch (Exception e) {
+				} catch(IOException e) {
+					gestorcolas.desconectarEmpleado(empleado);
+				} 
+				catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
