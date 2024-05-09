@@ -72,6 +72,10 @@ public class Servidor extends Thread {
 		}
 
 	}
+	
+	
+	
+	
 
 	public void enviarClienteAEmpleado(Empleado empleado, Cliente cliente) {
 		try {
@@ -126,6 +130,10 @@ public class Servidor extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
+	}
+	
+	public boolean getServidorActivo() {
+		return this.servidorActivo;
 	}
 
 

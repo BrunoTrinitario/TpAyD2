@@ -17,6 +17,7 @@ import empleado.NegociosEmpleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import servidor.Metrica;
+import servidor.Servidor;
 
 public class Conexion {
 
@@ -52,7 +53,17 @@ public class Conexion {
 		this.escucharServidorAdministrador(ca);
 	}
 	
-	public String envioDatosAServidor(Object objeto, String mensaje) {
+	public boolean verificarServidorActivo(Servidor servidor, String mensaje) throws IOException {
+			String msg = envioDatosAServidor(servidor, mensaje);
+			this.escucharServidorServidor(servidor);
+		return false;
+	}
+	
+	private void escucharServidorServidor(Servidor servidor) throws IOException {
+		
+	}
+
+	private String envioDatosAServidor(Object objeto, String mensaje) {
 		String msg = null;
 		boolean conectado = false;
 		for(int i=0;i<5 || !conectado;i++) {
@@ -175,7 +186,6 @@ public class Conexion {
     	try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		} 
     	try {
@@ -192,7 +202,6 @@ public class Conexion {
 								try {
 									Thread.sleep(2000);
 								} catch (InterruptedException e2) {
-									// TODO Auto-generated catch block
 									e2.printStackTrace();
 								} 
 							}
