@@ -5,6 +5,7 @@ import java.io.IOException;
 import servidor.Metrica;
 import util.Conexion;
 import util.Constantes;
+import util.PingEcho;
 import vista.VistaAdministrador;
 
 public class ControladorAdministrador {
@@ -14,18 +15,17 @@ public class ControladorAdministrador {
 	public ControladorAdministrador() {
 		this.va = new VistaAdministrador(this);
 		conexion = new Conexion();
+		for (int i:Constantes.PUERTOS) {
+			new PingEcho(Constantes.IP,i,this).start();
+		}
+
 	}
 	
 	public Metrica solicitarMetricas() throws IOException {
 		return conexion.solicitudDeActulizacionMetricas(null,Constantes.SOLICITAR_METRICAS);
 	}
 	
-	public void conexionAServidor() {
-		try {
-			conexion.envioAdministrador(this,Constantes.ADMINISTRADOR);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void pingEcho(String texto) {
+		va.pingEchoTabla(texto);
 	}
 }
