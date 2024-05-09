@@ -25,7 +25,7 @@ public class Conexion {
 	private BufferedReader in;
 	private PrintWriter out;
 	private ObjectInputStream ois;
-
+	
 	public void envioEmpleadoAServidor(NegociosEmpleado negociosEmpleado, Empleado empleado, String mensaje) throws BoxYaRegistradoException, IOException {
 		String msg = envioDatosAServidor(empleado, mensaje);
 		escucharServidorEmpleado(negociosEmpleado);
@@ -51,12 +51,31 @@ public class Conexion {
 		String msg = envioDatosAServidor(null, mensaje);
 		this.escucharServidorAdministrador(ca);
 	}
-
-	public String envioDatosAServidor(Object objeto, String mensaje) throws IOException {
+	
+	public String envioDatosAServidor(Object objeto, String mensaje) {
 		String msg = null;
-			abrirConexion(Constantes.IP, Constantes.PUERTO);
-			enviarDatos(objeto, mensaje);
-			msg = in.readLine();
+		boolean conectado = false;
+		for(int i=0;i<5 || !conectado;i++) {
+		    try {
+            	abrirConexion(Constantes.IP,Constantes.PUERTO);
+            	enviarDatos(objeto, mensaje);
+    			msg = in.readLine();	
+                conectado = true;
+            } catch ( IOException e1) {
+                try {
+                	abrirConexion(Constantes.IP,Constantes.PUERTO2);
+                	enviarDatos(objeto, mensaje);
+        			msg = in.readLine();	
+                	conectado = true;
+                } catch (IOException e2) {
+                    try {
+                        Thread.sleep(2000); 
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+		}
 		return msg;
 	}
 
@@ -136,7 +155,6 @@ public class Conexion {
 			}
 		}.start();
 	}
-
 	private void cerrarConexion() {
 		try {
 			socket.close();
@@ -145,9 +163,27 @@ public class Conexion {
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-
+		}	
 	}
+	private void reintentarConexion() throws InterruptedException {
+    	int puerto=	socket.getPort();
+    	cerrarConexion();
+    	Thread.sleep(2000); 
+    	try {
+			abrirConexion(Constantes.IP,puerto);		
+		} catch (IOException e) {
+			for(int i=0;i<5;i++) {
+				try {
+					for(int j=0;j<2;j++) {
+						abrirConexion(Constantes.IP,Constantes.PUERTOS.get(j));		
+					}
+				} catch (IOException e1) {
+			    	Thread.sleep(2000); 
+				}
+			}
+		}
+	}
+    		
 
 	public void informarAccionAServidor(Empleado e, String mensaje) {
 		try {
