@@ -2,10 +2,10 @@ package servidor;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import cliente.Cliente;
-import controlador.ControladorNotificaciones;
 import empleado.Empleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
@@ -15,8 +15,8 @@ import util.DatosConexion;
 public class Servidor extends Thread {
 	private GestorColas gestorcolas = new GestorColas(this);
 	private HashMap<Integer, DatosConexion> empleadosConectados = new HashMap<>();
+	private ArrayList<DatosConexion> notificaciones = new ArrayList<>();
 	private boolean servidorActivo = true;
-	private DatosConexion notificaciones;
 
 	@Override
 	public void run() {
@@ -48,7 +48,7 @@ public class Servidor extends Thread {
 						}
 					}
 				} else if (msg.equals(Constantes.NOTIFICACIONES)) {
-					this.notificaciones = datosConexion;
+					this.notificaciones.add(datosConexion);
 					datosConexion.out.println(Constantes.NOTIFICACION_REGISTRO_OK);
 				}
 				else {
@@ -114,7 +114,8 @@ public class Servidor extends Thread {
 
 	public void informarNotificaciones(Empleado empleado) {
 		try {
-			this.notificaciones.oos.writeObject(empleado);
+			for (DatosConexion aux : this.notificaciones)
+				aux.oos.writeObject(empleado);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
