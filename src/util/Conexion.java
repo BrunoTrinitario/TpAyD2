@@ -8,7 +8,6 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.concurrent.TimeUnit;
 
 import cliente.Cliente;
 import empleado.Empleado;
@@ -43,7 +42,6 @@ public class Conexion {
 	}
 
 	public String envioDatosAServidor(Object objeto, String mensaje) throws IOException {
-
 		String msg = null;
 			abrirConexion(Constantes.IP, Constantes.PUERTO);
 			enviarDatos(objeto, mensaje);

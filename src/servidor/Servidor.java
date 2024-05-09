@@ -3,7 +3,6 @@ package servidor;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 import cliente.Cliente;
 import empleado.Empleado;
@@ -27,6 +26,7 @@ public class Servidor extends Thread {
 				DatosConexion datosConexion = new DatosConexion(s.accept());
 				Object objeto = datosConexion.ois.readObject();
 				String msg = datosConexion.in.readLine();
+
 				if (objeto instanceof Cliente) {
 					try {
 						this.gestorcolas.registrarCliente((Cliente) objeto);

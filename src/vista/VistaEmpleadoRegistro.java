@@ -4,13 +4,13 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import cliente.Cliente;
 import controlador.ControladorEmpleado;
 import excepciones.BoxYaRegistradoException;
 import util.Constantes;
@@ -62,7 +62,6 @@ public class VistaEmpleadoRegistro {
 		JButton btnNewButton = new JButton("Aceptar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaEmergente ventanaEmergente1 = new VentanaEmergente("Intentando conectar...");
 				try {
 					ce.crearEmpleado(textField.getText(),Integer.parseInt(textField_1.getText()));
 					VistaEmpleado ve=new VistaEmpleado(ce,textField.getText(),Integer.parseInt(textField_1.getText()));
