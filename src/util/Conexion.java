@@ -10,12 +10,12 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import cliente.Cliente;
+import controlador.ControladorNotificaciones;
 import empleado.Empleado;
 import empleado.NegociosEmpleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import servidor.Metrica;
-import vista.VentanaEmergente;
 
 public class Conexion {
 
@@ -27,7 +27,7 @@ public class Conexion {
 
 	public void envioEmpleadoAServidor(NegociosEmpleado negociosEmpleado, Empleado empleado, String mensaje) throws BoxYaRegistradoException, IOException {
 		String msg = envioDatosAServidor(empleado, mensaje);
-		escucharServidor(negociosEmpleado);
+		escucharServidorEmpleado(negociosEmpleado);
 		if (msg.equals(Constantes.BOX_YA_REGISTRADO)) {
 			throw new BoxYaRegistradoException(Constantes.BOX_YA_REGISTRADO);
 		}
@@ -39,6 +39,11 @@ public class Conexion {
 			throw new DniYaRegistradoException(Constantes.DNI_YA_REGISTRADO);
 		}
 		cerrarConexion();
+	}
+	
+	public void envioNotificacionesAServidor(ControladorNotificaciones cn, String mensaje) throws IOException {
+		String msg = envioDatosAServidor(null, mensaje);
+		this.escucharServidorNotificaciones(cn);
 	}
 
 	public String envioDatosAServidor(Object objeto, String mensaje) throws IOException {
@@ -77,7 +82,7 @@ public class Conexion {
 		out.println(mensaje);
 	}
 
-	private void escucharServidor(NegociosEmpleado negociosEmpleado) {
+	private void escucharServidorEmpleado(NegociosEmpleado negociosEmpleado) {
 		new Thread() {
 			public void run() {
 				try {
@@ -89,6 +94,24 @@ public class Conexion {
 					}
 				} catch (Exception e) {
 					negociosEmpleado.conexionCaida();
+				}
+			}
+		}.start();
+	}
+	
+	private void escucharServidorNotificaciones(ControladorNotificaciones controladorNotificaciones) {
+		new Thread() {
+			public void run() {
+				try {
+					while (socket.isConnected()) {
+						System.out.println("Escuchando al servidor");
+						Object objeto = ois.readObject();
+						Empleado aux = (Empleado) objeto;
+						System.out.println("Objeto recibido: "+aux);
+						controladorNotificaciones.agregarCliente(aux.getCliente(), aux);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}.start();

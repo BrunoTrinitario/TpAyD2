@@ -5,17 +5,18 @@ import java.net.ServerSocket;
 import java.util.HashMap;
 
 import cliente.Cliente;
+import controlador.ControladorNotificaciones;
 import empleado.Empleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import util.Constantes;
 import util.DatosConexion;
-import util.EstadoEmpleado;
 
 public class Servidor extends Thread {
 	private GestorColas gestorcolas = new GestorColas(this);
 	private HashMap<Integer, DatosConexion> empleadosConectados = new HashMap<>();
 	private boolean servidorActivo = true;
+	private DatosConexion notificaciones;
 
 	@Override
 	public void run() {
@@ -46,7 +47,11 @@ public class Servidor extends Thread {
 							datosConexion.out.println(e.getMessage());
 						}
 					}
-				} else {
+				} else if (msg.equals(Constantes.NOTIFICACIONES)) {
+					this.notificaciones = datosConexion;
+					datosConexion.out.println(Constantes.NOTIFICACION_REGISTRO_OK);
+				}
+				else {
 					if (msg.equals(Constantes.SOLICITAR_METRICAS)) {
 						Object aux = gestorcolas.actualizarMetricas();
 						datosConexion.out.println(Constantes.METRICAS_CREACION_OK);
@@ -106,4 +111,14 @@ public class Servidor extends Thread {
 			e.printStackTrace();
 		}
 	}
+
+	public void informarNotificaciones(Empleado empleado) {
+		try {
+			this.notificaciones.oos.writeObject(empleado);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+	}
+
+
 }

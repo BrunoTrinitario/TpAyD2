@@ -1,10 +1,12 @@
 package controlador;
 
+import java.io.Serializable;
+
 import cliente.Cliente;
 import empleado.Empleado;
 import vista.VistaNotificacion;
 
-public class ControladorNotificaciones implements IVista {
+public class ControladorNotificaciones implements IVista{
 	private VistaNotificacion nt=new VistaNotificacion();
 	@Override
 	public void agregarCliente(Cliente cliente,Empleado empleado) {
@@ -13,4 +15,4 @@ public class ControladorNotificaciones implements IVista {
 
 
 
-}
+}	

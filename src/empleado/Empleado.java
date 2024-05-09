@@ -6,7 +6,7 @@ import java.util.Objects;
 import cliente.Cliente;
 import util.EstadoEmpleado;
 
-@SuppressWarnings("serial")
+
 public class Empleado implements Serializable {
 	private int box;
 	private EstadoEmpleado estado;
@@ -59,4 +59,5 @@ public class Empleado implements Serializable {
 	public String toString() {
 		return ("Box: "+ this.box +", Estado: "+ this.estado+", Cliente: "+cliente);
 	}
+
 }

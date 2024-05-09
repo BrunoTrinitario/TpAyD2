@@ -20,7 +20,6 @@ public class GestorColas implements IClienteEmpleado {
 	//empleados que SOLO ANTIENDEN EN UN ISNTANTE DADO
 	private ArrayList<Empleado> empleadosAtendiendo=new ArrayList<Empleado>();
 	private ArrayList<Cliente> clientesAtendidos=new ArrayList<Cliente>();
-	private ControladorNotificaciones cn = new ControladorNotificaciones();
 	
 	public GestorColas(Servidor servidor) {
 		this.servidor=servidor;
@@ -49,13 +48,13 @@ public class GestorColas implements IClienteEmpleado {
 		if (!this.clientesEnEspera.isEmpty()) {
 			Empleado empleado = getEmpleadoDisponible();
 			if (empleado!= null) {
-				empleado.cambioEstado(EstadoEmpleado.Atendiendo);
 				this.empleadosNoAtendiendo.remove(empleado);
 				this.empleadosAtendiendo.add(empleado);
 				Cliente cliente = this.clientesEnEspera.poll();
+				empleado.atenderCliente(cliente);
 				cliente.setHoraAtencion();
 				enviarClienteAEmpleado(empleado, cliente);
-				cn.agregarCliente(cliente,empleado);
+				servidor.informarNotificaciones(empleado);
 			}
 		}		
 		
