@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import cliente.Cliente;
+import controlador.ControladorAdministrador;
 import controlador.ControladorNotificaciones;
 import empleado.Empleado;
 import empleado.NegociosEmpleado;
@@ -45,6 +46,11 @@ public class Conexion {
 		String msg = envioDatosAServidor(null, mensaje);
 		this.escucharServidorNotificaciones(cn);
 	}
+	
+	public void envioAdministrador(ControladorAdministrador ca, String mensaje) throws IOException {
+		String msg = envioDatosAServidor(null, mensaje);
+		this.escucharServidorAdministrador(ca);
+	}
 
 	public String envioDatosAServidor(Object objeto, String mensaje) throws IOException {
 		String msg = null;
@@ -52,7 +58,6 @@ public class Conexion {
 			enviarDatos(objeto, mensaje);
 			msg = in.readLine();
 		return msg;
-
 	}
 
 	public Metrica solicitudDeActulizacionMetricas(Object objeto, String mensaje) throws IOException {
@@ -94,6 +99,21 @@ public class Conexion {
 					}
 				} catch (Exception e) {
 					negociosEmpleado.conexionCaida();
+				}
+			}
+		}.start();
+	}
+	
+	private void escucharServidorAdministrador(ControladorAdministrador ca) {
+		new Thread() {
+			public void run() {
+				try {
+					while (socket.isConnected()) {
+						String heartBeat = in.readLine();
+						
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}.start();

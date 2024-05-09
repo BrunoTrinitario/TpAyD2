@@ -17,13 +17,16 @@ public class Servidor extends Thread {
 	private HashMap<Integer, DatosConexion> empleadosConectados = new HashMap<>();
 	private ArrayList<DatosConexion> notificaciones = new ArrayList<>();
 	private boolean servidorActivo = true;
-
+	private int puerto;
+	private DatosConexion administrador;
+	public Servidor(int puerto) {
+		this.puerto=puerto;
+	}
 	@Override
 	public void run() {
 		try {
-			ServerSocket s = new ServerSocket(Constantes.PUERTO);
+			ServerSocket s = new ServerSocket(this.puerto);
 			while (servidorActivo) {
-
 				DatosConexion datosConexion = new DatosConexion(s.accept());
 				Object objeto = datosConexion.ois.readObject();
 				String msg = datosConexion.in.readLine();
@@ -52,6 +55,10 @@ public class Servidor extends Thread {
 					datosConexion.out.println(Constantes.NOTIFICACION_REGISTRO_OK);
 				}
 				else {
+					if (msg.equals(Constantes.ADMINISTRADOR)) {
+						this.administrador=datosConexion;
+						datosConexion.out.println(Constantes.ADMINISTRADOR_REGISTRO_OK);
+					}
 					if (msg.equals(Constantes.SOLICITAR_METRICAS)) {
 						Object aux = gestorcolas.actualizarMetricas();
 						datosConexion.out.println(Constantes.METRICAS_CREACION_OK);

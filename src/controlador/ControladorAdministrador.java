@@ -20,6 +20,12 @@ public class ControladorAdministrador {
 		return conexion.solicitudDeActulizacionMetricas(null,Constantes.SOLICITAR_METRICAS);
 	}
 	
-
-	
+	public void conexionAServidor() {
+		try {
+			conexion.envioAdministrador(this,Constantes.ADMINISTRADOR);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

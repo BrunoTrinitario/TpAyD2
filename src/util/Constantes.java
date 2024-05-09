@@ -1,5 +1,7 @@
 package util;
 
+import java.util.ArrayList;
+
 public class Constantes {
 	
 	public static final String CLIENTE_REGISTRO_OK = "Su dni ha sido registrado, por favor aguarde a ser llamado por la pantalla";
@@ -12,6 +14,7 @@ public class Constantes {
 	public static final String EMPLEADO_CAMBIO_ESTADO = "Empleado cambio estado";
 	public static final String IP = "localhost";
 	public static final int PUERTO = 1234;
+	public static final int PUERTO2 = 1235;
 	public static final String SOLICITAR_METRICAS = "solicitud de metricas";
 	public static final String CLIENTE_AUSENTE="Cliente ausente";
 	public static final String ATENCION_FINALIZADA="Atencion Finalizada";
@@ -19,7 +22,13 @@ public class Constantes {
 	public static final String EMPLEADO_CAMBIO_A_NO_DISPONIBLE="Empleado NO disponible";
 	public static final String ERROR_CONEXION="Se produjo un error al intentar conectar, es posible que el servidor no esté disponible";
 	public static final String NOTIFICACION_REGISTRO_OK = "El panel de notifiaciones se ha registrado en el servidor correctamente";
+	public static final String ADMINISTRADOR_REGISTRO_OK = "El administrador se registro correctamente en el servidor";
 	public static final String NOTIFICACIONES = "Notificaciones";
+	public static final String ADMINISTRADOR ="Administrador";
 	
-			
+	public static final ArrayList<Integer> PUERTOS=new ArrayList<Integer>();
+	static {
+		PUERTOS.add(PUERTO);
+		PUERTOS.add(PUERTO2);
+	}
 }
