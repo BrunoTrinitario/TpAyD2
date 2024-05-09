@@ -117,7 +117,9 @@ public class Conexion {
 						}
 					}
 				} catch (Exception e) {
-					negociosEmpleado.conexionCaida();
+					if(!reintentarConexion());
+						negociosEmpleado.conexionCaida();
+					
 				}
 			}
 		}.start();
@@ -150,7 +152,9 @@ public class Conexion {
 						controladorNotificaciones.agregarCliente(aux.getCliente(), aux);
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					while(true) {
+						reintentarConexion();
+					}
 				}
 			}
 		}.start();
@@ -165,23 +169,39 @@ public class Conexion {
 			e.printStackTrace();
 		}	
 	}
-	private void reintentarConexion() throws InterruptedException {
+	private boolean reintentarConexion()  {
     	int puerto=	socket.getPort();
     	cerrarConexion();
-    	Thread.sleep(2000); 
     	try {
-			abrirConexion(Constantes.IP,puerto);		
+			Thread.sleep(2000);
+		} catch (InterruptedException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} 
+    	try {
+			abrirConexion(Constantes.IP,puerto);	
+			return true;
 		} catch (IOException e) {
-			for(int i=0;i<5;i++) {
-				try {
-					for(int j=0;j<2;j++) {
-						abrirConexion(Constantes.IP,Constantes.PUERTOS.get(j));		
-					}
-				} catch (IOException e1) {
-			    	Thread.sleep(2000); 
+			for(int i=0;i<Constantes.INTENTO_CONEXION;i++) {
+					for(int j=0;j<Constantes.PUERTOS.size();j++) {		
+						if(Constantes.PUERTOS.get(j)!=puerto) {
+							try {
+								abrirConexion(Constantes.IP,Constantes.PUERTOS.get(j));	
+								return true;
+							}catch (IOException e1) {
+								try {
+									Thread.sleep(2000);
+								} catch (InterruptedException e2) {
+									// TODO Auto-generated catch block
+									e2.printStackTrace();
+								} 
+							}
+						}
 				}
 			}
+			
 		}
+    	return false;
 	}
     		
 
