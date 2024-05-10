@@ -150,7 +150,6 @@ public class VistaRegistroDni implements ActionListener {
 				VentanaEmergente ventanaEmergente= new VentanaEmergente(Constantes.DNI_INCORRECTO);
 			}catch (IOException e1) {
 				VentanaEmergente ve = new VentanaEmergente(Constantes.ERROR_CONEXION);
-				e1.printStackTrace();
 			}
 			AreaTexto.setText("");
 		}

@@ -25,8 +25,12 @@ public class Constantes {
 	public static final String ADMINISTRADOR_REGISTRO_OK = "El administrador se registro correctamente en el servidor";
 	public static final String NOTIFICACIONES = "Notificaciones";
 	public static final String ADMINISTRADOR ="Administrador";
-	public static final int INTENTO_CONEXION=5;
+	public static final String VERIFICAR_SERVIDOR_ACTIVO = "Verificar servidor activo";
+	public static final int INTENTO_CONEXION=2;
 	public static final ArrayList<Integer> PUERTOS=new ArrayList<Integer>();
+	public static final long TIEMPO_REINTENTO = 5000;
+	public static final String SERVIDOR_REGISTRO_OK = "Servidor registrado correctamente";
+	public static final String INFORMAR_SERVIDOR_RESPALDO = "Informar servidor respaldo";
 	static {
 		PUERTOS.add(PUERTO);
 		PUERTOS.add(PUERTO2);

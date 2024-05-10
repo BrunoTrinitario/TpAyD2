@@ -28,15 +28,16 @@ public class Conexion {
 	private ObjectInputStream ois;
 	
 	public void envioEmpleadoAServidor(NegociosEmpleado negociosEmpleado, Empleado empleado, String mensaje) throws BoxYaRegistradoException, IOException {
-		String msg = envioDatosAServidor(empleado, mensaje);
-		escucharServidorEmpleado(negociosEmpleado);
+		String msg = envioDatosAServidor(empleado, mensaje);		
 		if (msg.equals(Constantes.BOX_YA_REGISTRADO)) {
 			throw new BoxYaRegistradoException(Constantes.BOX_YA_REGISTRADO);
 		}
+		escucharServidorEmpleado(negociosEmpleado);
 	}
 
 	public void envioClienteAServidor(Object objeto, String mensaje) throws DniYaRegistradoException, IOException {
 		String msg = envioDatosAServidor(objeto, mensaje);
+		System.out.println("Llegue");
 		if (msg.equals(Constantes.DNI_YA_REGISTRADO)) {
 			throw new DniYaRegistradoException(Constantes.DNI_YA_REGISTRADO);
 		}
@@ -55,7 +56,11 @@ public class Conexion {
 	
 	public boolean verificarServidorActivo(Servidor servidor, String mensaje) throws IOException {
 			String msg = envioDatosAServidor(servidor, mensaje);
-			this.escucharServidorServidor(servidor);
+			try {
+				this.escucharServidorServidor(servidor);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		return false;
 	}
 	
@@ -63,31 +68,24 @@ public class Conexion {
 		
 	}
 
-	private String envioDatosAServidor(Object objeto, String mensaje) {
-		String msg = null;
-		boolean conectado = false;
-		for(int i=0;i<5 || !conectado;i++) {
-		    try {
-            	abrirConexion(Constantes.IP,Constantes.PUERTO);
-            	enviarDatos(objeto, mensaje);
-    			msg = in.readLine();	
-                conectado = true;
-            } catch ( IOException e1) {
-                try {
-                	abrirConexion(Constantes.IP,Constantes.PUERTO2);
-                	enviarDatos(objeto, mensaje);
-        			msg = in.readLine();	
-                	conectado = true;
-                } catch (IOException e2) {
-                    try {
-                        Thread.sleep(2000); 
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+	private String envioDatosAServidor(Object objeto, String mensaje) throws IOException {
+		
+		for (int i=0; i<Constantes.INTENTO_CONEXION;i++) {
+			for (int puerto : Constantes.PUERTOS) {
+				try {
+					abrirConexion(Constantes.IP, puerto);
+					oos.writeObject(objeto);
+					out.println(mensaje);
+					return in.readLine();
+				} catch (Exception e) {}			
+			}
+			try {
+				if (!mensaje.equals(Constantes.VERIFICAR_SERVIDOR_ACTIVO))
+				Thread.sleep(Constantes.TIEMPO_REINTENTO);
+			} catch (InterruptedException e) {}
 		}
-		return msg;
+		throw new IOException();
+		
 	}
 
 	public Metrica solicitudDeActulizacionMetricas(Object objeto, String mensaje) throws IOException {

@@ -9,10 +9,10 @@ public class MainServer2 {
 
 	public static void main(String[] args) {
 		
-		Servidor servidor = new Servidor(Constantes.PUERTO2);
-		servidor.start();
-		VistaServidor vistaServidor = new VistaServidor(2, Constantes.PUERTO2);
-		ControladorServidor controladorServidor = new ControladorServidor(vistaServidor, servidor);	
-	}
+		final int puerto = Constantes.PUERTO2;
+		final int numeroServidor = 2;
+		VistaServidor vistaServidor = new VistaServidor(numeroServidor, puerto);
+		ControladorServidor controladorServidor = new ControladorServidor(vistaServidor, puerto);	
 
+	}
 }

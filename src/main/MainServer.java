@@ -16,19 +16,11 @@ public class MainServer {
 		
 		final int puerto = Constantes.PUERTO;
 		final int numeroServidor = 1;
+		VistaServidor vistaServidor = new VistaServidor(numeroServidor, puerto);
+		ControladorServidor controladorServidor = new ControladorServidor(vistaServidor, puerto);	
 		
-		Servidor servidor = new Servidor(puerto);
-		Conexion conexion = new Conexion();
-		String msg = null;
-		for (int aux : Constantes.PUERTOS) {
-			if (aux != puerto) {
-				
-					break;
-			}
-		}
 		
-		servidor.start();
-		VistaServidor vistaServidor = new VistaServidor(1, puerto);
-		ControladorServidor controladorServidor = new ControladorServidor(vistaServidor, servidor);		
+		
+			
 	}
 }

@@ -7,11 +7,9 @@ public class ControladorServidor {
 	private Servidor servidor;
 	private VistaServidor vistaServidor;
 	
-	public ControladorServidor(VistaServidor vistaServer, Servidor servidor) {
+	public ControladorServidor(VistaServidor vistaServer, int puerto) {
 		this.vistaServidor=vistaServidor;
-		this.servidor= new Servidor(0);
-		this.servidor.start();
-
+		servidor = new Servidor(puerto);
 	}
 
 }
