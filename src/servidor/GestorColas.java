@@ -139,7 +139,7 @@ public class GestorColas implements IClienteEmpleado {
 		this.empleadosNoAtendiendo.remove(empleado);
 	}
 	public void gestorColasDTO() {
-		GestorColasDTO dto=new GestorColasDTO(clientesAtendidos, clientesEnEspera, empleadosAtendiendo, empleadosAtendiendo);
+		GestorColasDTO dto=new GestorColasDTO(clientesAtendidos, clientesEnEspera, empleadosAtendiendo, empleadosNoAtendiendo);
 		System.out.println("invocando metodo resincronizar pasivos");
 		servidor.resincronizarServidoresPasivos(dto);
 	}
