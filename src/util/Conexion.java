@@ -130,9 +130,8 @@ public class Conexion {
 						}
 					}
 				} catch (Exception e) {
-					if(!reintentarConexion());
+					if(!reintentarConexion(negociosEmpleado,Constantes.REINTENTO_EMPLEADO));
 						negociosEmpleado.conexionCaida();
-					
 				}
 			}
 		}.start();
@@ -166,7 +165,7 @@ public class Conexion {
 					}
 				} catch (Exception e) {
 					while(true) {
-						reintentarConexion();
+						reintentarConexion(controladorNotificaciones,Constantes.REINTENTO_NOTIFICACION);
 					}
 				}
 			}
@@ -182,10 +181,14 @@ public class Conexion {
 			e.printStackTrace();
 		}	
 	}
-	private boolean reintentarConexion()  {
-				
+	private void reintentarConexion(Object objeto,String mensaje)  {
+		try {
+			envioDatosAServidor(objeto,mensaje);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		/*		
     	int puerto=	socket.getPort();
-    	cerrarConexion();
     	try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e2) {
@@ -213,7 +216,7 @@ public class Conexion {
 			}
 			
 		}
-    	return false;
+    	return false; */
 	}
 	
 	

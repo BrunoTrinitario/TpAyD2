@@ -32,6 +32,8 @@ public class Constantes {
 	public static final String SERVIDOR_REGISTRO_OK = "Servidor registrado correctamente";
 	public static final String INFORMAR_SERVIDOR_RESPALDO = "Informar servidor respaldo";
 	public static final Object RESINCRONIZAR_ESTADO = "Resincronizar estado";
+	public static final String REINTENTO_EMPLEADO = "Reintento conectar empleado";
+	public static final String REINTENTO_NOTIFICACION = "Reintento conectar notificaciones";
 	static {
 		PUERTOS.add(PUERTO);
 		PUERTOS.add(PUERTO2);
