@@ -134,11 +134,9 @@ public class Conexion {
 					}
 				} catch (Exception e) {
 					try {
-						if(!reintentarConexion(negociosEmpleado,Constantes.REINTENTO_EMPLEADO));
-							negociosEmpleado.conexionCaida();
+						reintentarConexion(negociosEmpleado,Constantes.REINTENTO_EMPLEADO);
 					} catch (IOException e1) {
-						//negociosEmpleado.conexionCaida(); //va aca o solo abajo de if
-						e1.printStackTrace();
+						negociosEmpleado.conexionCaida(); 
 					}
 						
 				}
@@ -176,9 +174,10 @@ public class Conexion {
 					boolean conecto=false;
 					while(!conecto) {
 						try {
-							conecto=reintentarConexion(controladorNotificaciones,Constantes.REINTENTO_NOTIFICACION);
+							reintentarConexion(controladorNotificaciones,Constantes.REINTENTO_NOTIFICACION);
+							conecto=true;
 						} catch (IOException e1) {
-						e1.printStackTrace();
+							//sigue intentando conectar
 						}
 					}
 				}
@@ -197,39 +196,11 @@ public class Conexion {
 	}
 	private boolean reintentarConexion(Object objeto,String mensaje) throws IOException  {
 		boolean conecto=false;
-		if(envioDatosAServidor(objeto,mensaje)=="") // que msj debe verificar
+		String tipoRegistro;
+		tipoRegistro=envioDatosAServidor(objeto,mensaje);
+		if(tipoRegistro==Constantes.REINTENTAR_NOTIFICACION_OK || tipoRegistro==Constantes.REINTENTAR_EMPLEADO_OK )
 			conecto=true;
 		return conecto;
-		/*		
-    	int puerto=	socket.getPort();
-    	try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e2) {
-			e2.printStackTrace();
-		} 
-    	try {
-			abrirConexion(Constantes.IP,puerto);	
-			return true;
-		} catch (IOException e) {
-			for(int i=0;i<Constantes.INTENTO_CONEXION;i++) {
-					for(int j=0;j<Constantes.PUERTOS.size();j++) {		
-						if(Constantes.PUERTOS.get(j)!=puerto) {
-							try {
-								abrirConexion(Constantes.IP,Constantes.PUERTOS.get(j));	
-								return true;
-							}catch (IOException e1) {
-								try {
-									Thread.sleep(2000);
-								} catch (InterruptedException e2) {
-									e2.printStackTrace();
-								} 
-							}
-						}
-				}
-			}
-			
-		}
-    	return false; */
 	}
 	
 	

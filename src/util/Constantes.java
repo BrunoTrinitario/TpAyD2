@@ -34,6 +34,8 @@ public class Constantes {
 	public static final Object RESINCRONIZAR_ESTADO = "Resincronizar estado";
 	public static final String REINTENTO_EMPLEADO = "Reintento conectar empleado";
 	public static final String REINTENTO_NOTIFICACION = "Reintento conectar notificaciones";
+	public static final String REINTENTAR_NOTIFICACION_OK = "Reintentar conexion de notificacion exitosa";
+	public static final String REINTENTAR_EMPLEADO_OK = "Reintentar conexion de empleado ok";
 	static {
 		PUERTOS.add(PUERTO);
 		PUERTOS.add(PUERTO2);
