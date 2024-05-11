@@ -52,7 +52,8 @@ public class Servidor extends Thread {
 		while (escuchando) {
 			try {
 				System.out.println("Escuchando servidor activo");
-				msg = this.conexion.escucharServidorServidor();				
+				msg = this.conexion.escucharServidorServidor();
+				System.out.println("mensaje recibido: "+msg);
 				if (msg.equals(Constantes.RESINCRONIZAR_ESTADO)){
 					dto = ((GestorColasDTO) this.conexion.escucharServidorServidorObjeto());
 					System.out.println("Recibido dto: "+dto);
@@ -136,8 +137,8 @@ public class Servidor extends Thread {
 					}
 					else if (msg.equals(Constantes.VERIFICAR_SERVIDOR_ACTIVO)) {
 						System.out.println("registrando servidor pasivo");
-						this.registrarServidor(datosConexion);
 						datosConexion.out.println(Constantes.SERVIDOR_REGISTRO_OK);
+						this.registrarServidor(datosConexion);					
 						System.out.println("invocando dto");
 						this.gestorcolas.gestorColasDTO();
 					}
@@ -165,7 +166,7 @@ public class Servidor extends Thread {
 		this.informarServidorRespaldo(servidor);
 	}
 
-	private void informarServidorRespaldo(final DatosConexion servidor) {
+	private void informarServidorRespaldo(DatosConexion servidor) {
 	    servidor.out.println(Constantes.INFORMAR_SERVIDOR_RESPALDO);
 	    
 	    Thread thread = new Thread(new Runnable() {
