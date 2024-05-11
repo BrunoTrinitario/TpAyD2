@@ -33,7 +33,7 @@ public class Servidor extends Thread {
 		this.puerto=puerto;
 		this.conexion = new Conexion();
 		try {
-			this.conexion.verificarServidorActivo(this, Constantes.VERIFICAR_SERVIDOR_ACTIVO);
+			this.conexion.verificarServidorActivo(null, Constantes.VERIFICAR_SERVIDOR_ACTIVO);
 			this.escucharServidorActivo();
 		} catch (IOException e) {
 			this.start();
@@ -82,8 +82,11 @@ public class Servidor extends Thread {
 			ServerSocket s = new ServerSocket(this.puerto);
 			while (servidorActivo) {
 				DatosConexion datosConexion = new DatosConexion(s.accept());
+				System.out.println("Recibiendo conexion");
 				Object objeto = datosConexion.ois.readObject();
+				System.out.println("objeto leido: "+objeto);
 				String msg = datosConexion.in.readLine();
+				System.out.println("mensaje leido: "+ msg);
 
 				if (objeto instanceof Cliente) {
 					try {
@@ -109,11 +112,8 @@ public class Servidor extends Thread {
 					}
 				}else if (objeto instanceof Servidor) {
 					this.registrarServidor(datosConexion);
-					datosConexion.out.println(Constantes.SERVIDOR_REGISTRO_OK);
-					
-				}
-							
-				
+					datosConexion.out.println(Constantes.SERVIDOR_REGISTRO_OK);					
+				}										
 				else {
 					if (msg.equals(Constantes.NOTIFICACIONES)) {
 					this.notificaciones.add(datosConexion);

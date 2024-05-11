@@ -57,9 +57,8 @@ public class Conexion {
 		this.escucharServidorAdministrador(ca);
 	}
 	
-	public boolean verificarServidorActivo(Servidor servidor, String mensaje) throws IOException {
+	public void verificarServidorActivo(Servidor servidor, String mensaje) throws IOException {
 			String msg = envioDatosAServidor(servidor, mensaje);
-		return false;
 	}
 	
 	public String escucharServidorServidor() throws IOException {
