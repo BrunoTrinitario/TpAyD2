@@ -154,10 +154,17 @@ public class VistaEmpleado implements ActionListener{
 	}
 	public void cambiarNumeroServidor(int servidorConectado) {
 		try {
-			System.out.println("Llego acaaaa"+servidorConectado);
 			lblServidor.setText("Conectado a: Servidor "+servidorConectado+" en "+InetAddress.getLocalHost().getHostAddress()+" : "+Constantes.PUERTOS.get(servidorConectado-1));
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
+	}
+	// si se cayeron todos los servidores no hay chance de que vuelva 
+	// abrir otro y se reconecte
+	public void ConexionCaida() {
+		this.botonFinalizar.setEnabled(false);
+		this.botonNoAsistio.setEnabled(false);
+		this.botonCambioEstado.setEnabled(false);
+		lblServidor.setText("Error: Servidor no disponible");
 	}
 }

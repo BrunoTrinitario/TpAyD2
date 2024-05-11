@@ -75,25 +75,20 @@ public class Conexion {
 	}
 
 	private String envioDatosAServidor(Object objeto, String mensaje) throws IOException {
-		String respuesta=null;
 		for (int i=0; i<Constantes.INTENTO_CONEXION;i++) {
 			for ( int puerto : Constantes.PUERTOS) {
 				try {
 					abrirConexion(Constantes.IP, puerto);
 					oos.writeObject(objeto);
 					out.println(mensaje);
-					respuesta=in.readLine();
 					this.puerto=puerto;
+					return in.readLine();
 				} catch (Exception e) {}			
 			}
 			try {
 				if (!mensaje.equals(Constantes.VERIFICAR_SERVIDOR_ACTIVO))
 					Thread.sleep(Constantes.TIEMPO_REINTENTO);
 			} catch (InterruptedException e) {}
-			System.out.println(respuesta+"pepe");
-			if(respuesta!=null) {
-				return respuesta;
-			}
 		}
 		
 		throw new IOException();
@@ -143,7 +138,9 @@ public class Conexion {
 						reintentarConexion(negociosEmpleado.getEmpleado(),Constantes.REINTENTO_EMPLEADO);
 						negociosEmpleado.numeroServidorConectado(Constantes.PUERTOS.indexOf(puerto)+1);
 					} catch (IOException e1) {
+						System.out.println("Llego a conexion caida");
 						negociosEmpleado.conexionCaida(); 
+						
 					}
 						
 				}
