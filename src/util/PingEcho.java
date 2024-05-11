@@ -17,8 +17,8 @@ public class PingEcho extends Thread {
 		this.ca=ca;
 	}
 	public void run() {
-		String texto;
 		String aux=""+ip+":"+puerto;
+		String texto;
 		while(true) {
 			if (conecto()) {
 				texto=aux+" conexion existosa";

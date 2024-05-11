@@ -47,7 +47,6 @@ public class VistaAdministrador implements ActionListener{
 		labelMetrica1 = new JLabel("Cantidad de clientes atendidos:");
 		labelMetrica2 = new JLabel("Tiempo promedio en espera (H:M:S):");
 		labelMetrica3 = new JLabel("Cantidad de clientes en espera:");
-		labelAreaTexto = new JLabel("log de conexion:");
 		metrica2 = new JTextField();
 		metrica1 = new JTextField();
 		titulo = new JLabel("Panel de administrador");
@@ -60,7 +59,7 @@ public class VistaAdministrador implements ActionListener{
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 622, 391);
+		frame.setBounds(100, 100, 622, 339);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		metrica1.setText("-");
@@ -77,12 +76,14 @@ public class VistaAdministrador implements ActionListener{
 		metrica3.setEditable(false);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(62, 233, 475, 96);
+		scrollPane.setBounds(62, 185, 475, 96);
 		frame.getContentPane().add(scrollPane);
 		areatexto=new JTextArea();
 		scrollPane.setViewportView(areatexto);
 		areatexto.setEditable(false);
-		
+		labelAreaTexto = new JLabel("log de conexion:");
+		this.scrollPane.setColumnHeaderView(this.labelAreaTexto);
+		areatexto.setText("");
 	}
 	private void addBounds() {
 		labelTablaBox.setBounds(62, 54, 46, 14);
@@ -96,8 +97,6 @@ public class VistaAdministrador implements ActionListener{
 		labelMetrica3.setBounds(237, 129, 204, 14);
 		labelMetrica2.setBounds(237, 104, 341, 14);
 		metrica3.setBounds(451, 126, 86, 20);
-		labelAreaTexto.setBounds(62, 186, 102, 14);
-		frame.getContentPane().add(labelAreaTexto);
 	}
 	private void addToFrame() {
 		frame.getContentPane().add(labelTablaBox);
@@ -136,6 +135,9 @@ public class VistaAdministrador implements ActionListener{
 		}
 	}
 	public void pingEchoTabla(String texto) {
-		this.areatexto.setText(this.areatexto.getText()+"\n"+texto);
+		if (this.areatexto.getText().isEmpty())
+			this.areatexto.setText(texto);
+		else
+			this.areatexto.setText(this.areatexto.getText()+"\n"+texto);
 	}
 }
