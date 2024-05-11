@@ -12,6 +12,8 @@ public class VistaServidor {
 
 	private JFrame frame;
 	private ControladorCliente cc=new ControladorCliente();
+	private String estadoServidor="Pasivo";
+	private JLabel lblNewLabel_1;
 	
 	public VistaServidor(int numeroServidor, int puerto) {
 		frame = new JFrame();
@@ -29,8 +31,8 @@ public class VistaServidor {
 		lblPuerto.setBounds(27, 56, 110, 14);
 		frame.getContentPane().add(lblPuerto);
 		
-		JLabel lblNewLabel_1 = new JLabel("Estado: ");
-		lblNewLabel_1.setBounds(27, 81, 46, 14);
+		lblNewLabel_1 = new JLabel("Estado: "+estadoServidor);
+		lblNewLabel_1.setBounds(27, 81, 198, 14);
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Servidor "+numeroServidor);
@@ -56,5 +58,10 @@ public class VistaServidor {
 	}
 	
 	private void addActionListenerToButtons() {
+	}
+
+	public void informarServidorActivo() {
+		this.estadoServidor="Activo";
+		this.lblNewLabel_1.setText("Estado: "+estadoServidor);
 	}
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cliente.Cliente;
+import controlador.ControladorServidor;
 import empleado.Empleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
@@ -15,6 +16,7 @@ import util.DatosConexion;
 import util.GestorColasDTO;
 
 public class Servidor extends Thread {
+	private ControladorServidor cs;
 	private GestorColas gestorcolas = new GestorColas(this);
 	private HashMap<Integer, DatosConexion> empleadosConectados = new HashMap<>();
 	private ArrayList<DatosConexion> notificaciones = new ArrayList<>();
@@ -26,12 +28,12 @@ public class Servidor extends Thread {
 	private ArrayList<DatosConexion> servidoresPasivos = new ArrayList<DatosConexion>();
 	private Conexion conexion;
 	
-	public Servidor(int puerto) {
+	public Servidor(int puerto, ControladorServidor cs) {
+		this.cs=cs;
 		this.puerto=puerto;
 		this.conexion = new Conexion();
 		try {
 			this.conexion.verificarServidorActivo(this, Constantes.VERIFICAR_SERVIDOR_ACTIVO);
-			//this.resincronizacionDeEstado();
 			this.escucharServidorActivo();
 		} catch (IOException e) {
 			this.start();
@@ -49,12 +51,13 @@ public class Servidor extends Thread {
 		Object dto;
 		while (escuchando) {
 			try {
-				msg = this.conexion.escucharServidorServidor();
-				dto = this.conexion.escucharServidorServidorObjeto();
+				msg = this.conexion.escucharServidorServidor();				
 				if (msg.equals(Constantes.RESINCRONIZAR_ESTADO)){
+					dto = this.conexion.escucharServidorServidorObjeto();
 					this.resincronizacionDeEstado((GestorColasDTO)dto);
 				}
-				this.isServidorRespaldo=true;
+				else if (msg.equals(Constantes.INFORMAR_SERVIDOR_RESPALDO))
+					this.isServidorRespaldo=true;
 			} catch (IOException e) {
 				if (this.isServidorRespaldo) {
 					this.start();
@@ -63,7 +66,8 @@ public class Servidor extends Thread {
 				else {
 					try {
 						Thread.sleep(1000);
-					} catch (InterruptedException e1) {}						
+						this.conexion.verificarServidorActivo(this, Constantes.VERIFICAR_SERVIDOR_ACTIVO);
+					} catch (InterruptedException | IOException e1) {}						
 				}
 			}			
 		}
@@ -72,6 +76,7 @@ public class Servidor extends Thread {
 	@Override
 	public void run() {
 		try {
+			this.cs.informarServidorActivo();
 			this.servidorActivo=true;
 			this.isServidorRespaldo=false;
 			ServerSocket s = new ServerSocket(this.puerto);
