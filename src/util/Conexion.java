@@ -56,16 +56,11 @@ public class Conexion {
 	
 	public boolean verificarServidorActivo(Servidor servidor, String mensaje) throws IOException {
 			String msg = envioDatosAServidor(servidor, mensaje);
-			try {
-				this.escucharServidorServidor(servidor);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		return false;
 	}
 	
-	private void escucharServidorServidor(Servidor servidor) throws IOException {
-		
+	public String escucharServidorServidor() throws IOException {
+		return this.in.readLine();
 	}
 
 	private String envioDatosAServidor(Object objeto, String mensaje) throws IOException {
@@ -179,6 +174,7 @@ public class Conexion {
 		}	
 	}
 	private boolean reintentarConexion()  {
+				
     	int puerto=	socket.getPort();
     	cerrarConexion();
     	try {
@@ -210,6 +206,8 @@ public class Conexion {
 		}
     	return false;
 	}
+	
+	
     		
 
 	public void informarAccionAServidor(Empleado e, String mensaje) {
