@@ -5,12 +5,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import cliente.Cliente;
-import controlador.ControladorNotificaciones;
 import empleado.Empleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import util.Constantes;
 import util.EstadoEmpleado;
+import util.GestorColasDTO;
 
 public class GestorColas implements IClienteEmpleado {
 	private Servidor servidor;
@@ -138,6 +138,14 @@ public class GestorColas implements IClienteEmpleado {
 		this.empleadosAtendiendo.remove(empleado);
 		this.empleadosNoAtendiendo.remove(empleado);
 		
+	}
+	public void gestorColasDTO() {
+		GestorColasDTO dto=new GestorColasDTO();
+		dto.setClientesAtendidos(clientesAtendidos);
+		dto.setClientesEnEspera(clientesEnEspera);
+		dto.setEmpleadosAtendiendo(empleadosAtendiendo);
+		dto.setEmpleadosNoAtendiendo(empleadosNoAtendiendo);
+		servidor.resincronizarServidoresPasivos(dto);
 	}
 	
 }
