@@ -75,21 +75,27 @@ public class Conexion {
 	}
 
 	private String envioDatosAServidor(Object objeto, String mensaje) throws IOException {
-		
+		String respuesta=null;
 		for (int i=0; i<Constantes.INTENTO_CONEXION;i++) {
-			for (int puerto : Constantes.PUERTOS) {
+			for ( int puerto : Constantes.PUERTOS) {
 				try {
 					abrirConexion(Constantes.IP, puerto);
 					oos.writeObject(objeto);
 					out.println(mensaje);
-					return in.readLine();
+					respuesta=in.readLine();
+					this.puerto=puerto;
 				} catch (Exception e) {}			
 			}
 			try {
 				if (!mensaje.equals(Constantes.VERIFICAR_SERVIDOR_ACTIVO))
-				Thread.sleep(Constantes.TIEMPO_REINTENTO);
+					Thread.sleep(Constantes.TIEMPO_REINTENTO);
 			} catch (InterruptedException e) {}
+			System.out.println(respuesta+"pepe");
+			if(respuesta!=null) {
+				return respuesta;
+			}
 		}
+		
 		throw new IOException();
 		
 	}
@@ -134,7 +140,8 @@ public class Conexion {
 					}
 				} catch (Exception e) {
 					try {
-						reintentarConexion(negociosEmpleado,Constantes.REINTENTO_EMPLEADO);
+						reintentarConexion(negociosEmpleado.getEmpleado(),Constantes.REINTENTO_EMPLEADO);
+						negociosEmpleado.numeroServidorConectado(Constantes.PUERTOS.indexOf(puerto)+1);
 					} catch (IOException e1) {
 						negociosEmpleado.conexionCaida(); 
 					}
@@ -198,7 +205,8 @@ public class Conexion {
 		boolean conecto=false;
 		String tipoRegistro;
 		tipoRegistro=envioDatosAServidor(objeto,mensaje);
-		if(tipoRegistro==Constantes.REINTENTAR_NOTIFICACION_OK || tipoRegistro==Constantes.REINTENTAR_EMPLEADO_OK )
+		System.out.println(tipoRegistro+" bOQUITA");
+		if(tipoRegistro.equals(Constantes.REINTENTAR_NOTIFICACION_OK) || tipoRegistro.equals(Constantes.REINTENTAR_EMPLEADO_OK ))
 			conecto=true;
 		return conecto;
 	}
@@ -215,7 +223,6 @@ public class Conexion {
 			ex.printStackTrace();
 		}
 	}
-	
 	public int getPuertoConectado() {
 		return puerto;
 	}

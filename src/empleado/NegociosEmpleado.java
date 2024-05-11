@@ -19,6 +19,10 @@ public class NegociosEmpleado implements IActualizar {
 		this.ce=ce;
 	}
 	
+	public Empleado getEmpleado() {
+		return empleado;
+	}
+
 	@Override
 	public void informaEstado(Empleado empleado) {
 		conexion.informarAccionAServidor(empleado,Constantes.EMPLEADO_CAMBIO_ESTADO);
@@ -63,6 +67,8 @@ public class NegociosEmpleado implements IActualizar {
 
 	public void conexionCaida() {
 		ce.conexionCaida();
-		
+	}
+	public void numeroServidorConectado(int servidorConectado) {
+		ce.numeroServidorConectado(servidorConectado);
 	}
 }

@@ -152,4 +152,12 @@ public class VistaEmpleado implements ActionListener{
 		this.botonCambioEstado.setEnabled(false);
 		this.botonCambioEstado.setText("Cambiar a Disponible");
 	}
+	public void cambiarNumeroServidor(int servidorConectado) {
+		try {
+			System.out.println("Llego acaaaa"+servidorConectado);
+			lblServidor.setText("Conectado a: Servidor "+servidorConectado+" en "+InetAddress.getLocalHost().getHostAddress()+" : "+Constantes.PUERTOS.get(servidorConectado-1));
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+	}
 }

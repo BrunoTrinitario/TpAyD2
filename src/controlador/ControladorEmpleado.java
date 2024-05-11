@@ -51,6 +51,8 @@ public class ControladorEmpleado {
 	}
 	public void conexionCaida() {
 		VentanaEmergente ve = new VentanaEmergente(Constantes.ERROR_CONEXION);
-		
+	}
+	public void numeroServidorConectado(int servidorConectado) {
+		this.vistaEmpleado.cambiarNumeroServidor(servidorConectado);
 	}
 }
