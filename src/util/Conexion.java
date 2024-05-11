@@ -28,8 +28,8 @@ public class Conexion {
 	private ObjectInputStream ois;
 	private int puerto;
 	
-	public String envioEmpleadoAServidor(NegociosEmpleado negociosEmpleado, Empleado empleado, String mensaje) throws BoxYaRegistradoException, IOException {
-		String msg = envioDatosAServidor(empleado, mensaje);		
+	public String envioEmpleadoAServidor(NegociosEmpleado negociosEmpleado, String mensaje) throws BoxYaRegistradoException, IOException {
+		String msg = envioDatosAServidor(negociosEmpleado.getEmpleado(), mensaje);		
 		if (msg.equals(Constantes.BOX_YA_REGISTRADO)) {
 			throw new BoxYaRegistradoException(Constantes.BOX_YA_REGISTRADO);
 		}
@@ -125,12 +125,11 @@ public class Conexion {
 					}
 				} catch (Exception e) {
 					try {
-						reintentarConexion(negociosEmpleado.getEmpleado(),Constantes.REINTENTO_EMPLEADO);
+						envioEmpleadoAServidor(negociosEmpleado,Constantes.REINTENTO_EMPLEADO);
 						negociosEmpleado.numeroServidorConectado(Constantes.PUERTOS.indexOf(puerto)+1);
-					} catch (IOException e1) {
+					} catch (IOException | BoxYaRegistradoException e1) {
 						System.out.println("Llego a conexion caida");
-						negociosEmpleado.conexionCaida(); 
-						
+						negociosEmpleado.conexionCaida(); 						
 					}
 						
 				}
@@ -191,15 +190,13 @@ public class Conexion {
 						controladorNotificaciones.agregarCliente(aux.getCliente(), aux);
 					}
 				} catch (Exception e) {
-					boolean conecto=false;
-					while(!conecto) {
 						try {
-							reintentarConexion(null,Constantes.REINTENTO_NOTIFICACION);
-							conecto=true;
+							System.out.println("Intentando rec notif");
+							envioNotificacionesAServidor(controladorNotificaciones,Constantes.REINTENTO_NOTIFICACION);
+							System.out.println("reconectado");
 						} catch (IOException e1) {
-							//sigue intentando conectar
+							e.printStackTrace();
 						}
-					}
 				}
 			}
 		}.start();
@@ -214,6 +211,7 @@ public class Conexion {
 			e.printStackTrace();
 		}	
 	}
+	/*
 	private boolean reintentarConexion(Object objeto,String mensaje) throws IOException  {
 		boolean conecto=false;
 		String tipoRegistro;
@@ -224,7 +222,7 @@ public class Conexion {
 		return conecto;
 	}
 	
-	
+	*/
     		
 
 	public void informarAccionAServidor(Empleado e, String mensaje) {

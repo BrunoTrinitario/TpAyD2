@@ -92,13 +92,14 @@ public class Servidor extends Thread {
 					else if(msg.equals(Constantes.REINTENTO_EMPLEADO)) {
 						datosConexion.out.println(Constantes.REINTENTAR_EMPLEADO_OK);
 						escucharEmpleado(datosConexion, empleado);
+						this.empleadosConectados.put(empleado.getBox(), datosConexion);
 					}
 				}
 									
 				else {
 					if (msg.equals(Constantes.NOTIFICACIONES)) {
 						this.notificaciones.add(datosConexion);
-					datosConexion.out.println(Constantes.NOTIFICACION_REGISTRO_OK);
+						datosConexion.out.println(Constantes.NOTIFICACION_REGISTRO_OK);
 					}
 					else if(msg.equals(Constantes.REINTENTO_NOTIFICACION)){
 						this.notificaciones.add(datosConexion);
@@ -185,9 +186,10 @@ public class Servidor extends Thread {
 			public void run() {
 				try {
 					while (datosConexion.socket.isConnected()) {
-						Object object = datosConexion.ois.readObject();
+						Object object = datosConexion.ois.readObject();						
 						Empleado empleado = (Empleado) object;
 						String msg = datosConexion.in.readLine();
+						System.out.println("mensaje recibido: "+msg);
 						if (msg.equals(Constantes.CLIENTE_AUSENTE)) {
 							gestorcolas.clienteNoPresentado(empleado);
 						}
@@ -197,6 +199,7 @@ public class Servidor extends Thread {
 						if (msg.equals(Constantes.EMPLEADO_CAMBIO_ESTADO)) {
 							gestorcolas.cambioEstadoEmpleado(empleado);
 						}
+						gestorcolas.gestorColasDTO();
 					}
 				} catch(IOException e) {
 					gestorcolas.desconectarEmpleado(empleado);

@@ -57,7 +57,7 @@ public class NegociosEmpleado implements IActualizar {
 
 	@Override
 	public void informarAcceso(Empleado empleado) throws BoxYaRegistradoException, IOException {
-		conexion.envioEmpleadoAServidor(this,empleado,Constantes.EMPLEADO_NUEVO);
+		conexion.envioEmpleadoAServidor(this,Constantes.EMPLEADO_NUEVO);
 	}
 
 	public void enviarClienteAEmpleado(Cliente cliente) {
