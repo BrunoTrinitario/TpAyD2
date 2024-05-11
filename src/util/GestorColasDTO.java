@@ -1,5 +1,6 @@
 package util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -7,11 +8,17 @@ import java.util.Queue;
 import cliente.Cliente;
 import empleado.Empleado;
 
-public class GestorColasDTO {
-	private Queue<Cliente> clientesEnEspera=new LinkedList<Cliente>();
-	private ArrayList<Empleado> empleadosNoAtendiendo=new ArrayList<Empleado>();
-	private ArrayList<Empleado> empleadosAtendiendo=new ArrayList<Empleado>();
-	private ArrayList<Cliente> clientesAtendidos=new ArrayList<Cliente>();
+public class GestorColasDTO implements Serializable {
+	@Override
+	public String toString() {
+		return "GestorColasDTO [clientesEnEspera=" + clientesEnEspera + ", empleadosNoAtendiendo="
+				+ empleadosNoAtendiendo + ", empleadosAtendiendo=" + empleadosAtendiendo + ", clientesAtendidos="
+				+ clientesAtendidos + "]";
+	}
+	private Queue<Cliente> clientesEnEspera;
+	private ArrayList<Empleado> empleadosNoAtendiendo;
+	private ArrayList<Empleado> empleadosAtendiendo;
+	private ArrayList<Cliente> clientesAtendidos;
 	
 	public Queue<Cliente> getClientesEnEspera() {
 		return clientesEnEspera;

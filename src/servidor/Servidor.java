@@ -48,13 +48,16 @@ public class Servidor extends Thread {
 	private void escucharServidorActivo() {
 		boolean escuchando = true;
 		String msg;
-		Object dto;
+		GestorColasDTO dto;
 		while (escuchando) {
 			try {
+				System.out.println("Escuchando servidor activo");
 				msg = this.conexion.escucharServidorServidor();				
 				if (msg.equals(Constantes.RESINCRONIZAR_ESTADO)){
-					dto = this.conexion.escucharServidorServidorObjeto();
-					this.resincronizacionDeEstado((GestorColasDTO)dto);
+					dto = ((GestorColasDTO) this.conexion.escucharServidorServidorObjeto());
+					System.out.println("Recibido dto: "+dto);
+					this.resincronizacionDeEstado(dto);
+					
 				}
 				else if (msg.equals(Constantes.INFORMAR_SERVIDOR_RESPALDO))
 					this.isServidorRespaldo=true;
@@ -110,10 +113,12 @@ public class Servidor extends Thread {
 							}
 						
 					}
-				}else if (objeto instanceof Servidor) {
-					this.registrarServidor(datosConexion);
-					datosConexion.out.println(Constantes.SERVIDOR_REGISTRO_OK);					
-				}										
+					else if(msg.equals(Constantes.REINTENTO_EMPLEADO)) {
+						datosConexion.out.println(Constantes.REINTENTAR_EMPLEADO_OK);
+						escucharEmpleado(datosConexion, empleado);
+					}
+				}
+									
 				else {
 					if (msg.equals(Constantes.NOTIFICACIONES)) {
 					this.notificaciones.add(datosConexion);
@@ -129,7 +134,15 @@ public class Servidor extends Thread {
 						datosConexion.out.println(Constantes.METRICAS_CREACION_OK);
 						datosConexion.oos.writeObject(aux);
 					}
+					else if (msg.equals(Constantes.VERIFICAR_SERVIDOR_ACTIVO)) {
+						System.out.println("registrando servidor pasivo");
+						this.registrarServidor(datosConexion);
+						datosConexion.out.println(Constantes.SERVIDOR_REGISTRO_OK);
+						System.out.println("invocando dto");
+						this.gestorcolas.gestorColasDTO();
+					}
 				}
+				
 			}
 			
 			s.close();
@@ -144,10 +157,7 @@ public class Servidor extends Thread {
 		if(this.servidoresPasivos.isEmpty()) {
 			this.registrarServidorRespaldo(servidor);
 		}
-		else {
-			this.servidoresPasivos.add(servidor);
-		}
-		
+			this.servidoresPasivos.add(servidor);		
 	}
 
 	private void registrarServidorRespaldo(DatosConexion servidor) {
@@ -237,13 +247,16 @@ public class Servidor extends Thread {
 	public boolean getServidorActivo() {
 		return this.servidorActivo;
 	}
+	
+	
 	public void resincronizarServidoresPasivos(GestorColasDTO dto) {
 		for (DatosConexion i:servidoresPasivos) {
 			i.out.println(Constantes.RESINCRONIZAR_ESTADO);
 			try {
 				i.oos.writeObject(dto);
+				System.out.println("dto enviado:" +dto);
 			} catch (IOException e) {
-				
+				e.printStackTrace();
 			}
 		}
 	}

@@ -13,6 +13,7 @@ import util.EstadoEmpleado;
 import util.GestorColasDTO;
 
 public class GestorColas implements IClienteEmpleado {
+
 	private Servidor servidor;
 	private Queue<Cliente> clientesEnEspera=new LinkedList<Cliente>();
 	//emplados disponibles y no disponibles
@@ -150,6 +151,7 @@ public class GestorColas implements IClienteEmpleado {
 		dto.setClientesEnEspera(clientesEnEspera);
 		dto.setEmpleadosAtendiendo(empleadosAtendiendo);
 		dto.setEmpleadosNoAtendiendo(empleadosNoAtendiendo);
+		System.out.println("invocando metodo resincronizar pasivos");
 		servidor.resincronizarServidoresPasivos(dto);
 	}
 	
@@ -158,8 +160,15 @@ public class GestorColas implements IClienteEmpleado {
 		this.clientesEnEspera=dto.getClientesEnEspera();
 		this.empleadosAtendiendo=dto.getEmpleadosAtendiendo();
 		this.empleadosNoAtendiendo=dto.getEmpleadosNoAtendiendo();
+		System.out.println("db resincronizada: "+this);
 	}
-	
+	@Override
+	public String toString() {
+		return "GestorColas [servidor=" + servidor + ", clientesEnEspera=" + clientesEnEspera
+				+ ", empleadosNoAtendiendo=" + empleadosNoAtendiendo + ", empleadosAtendiendo=" + empleadosAtendiendo
+				+ ", clientesAtendidos=" + clientesAtendidos + "]";
+	}
+
 	
 }
 
