@@ -16,8 +16,18 @@ public class ControladorEmpleado {
 	VistaEmpleadoRegistro er = new VistaEmpleadoRegistro(this);
 	VistaEmpleado vistaEmpleado;
 		
-	public void crearEmpleado(String dni,int box) throws BoxYaRegistradoException, IOException{
-		ne.crearEmpleado(dni, box);
+	public int crearEmpleado(String dni,int box) throws BoxYaRegistradoException, IOException{	
+		
+		int servidor = ne.crearEmpleado(dni, box);
+		System.out.println(servidor);
+		for (int i=0; i<Constantes.PUERTOS.size();i++) {
+			if (servidor == Constantes.PUERTOS.get(i)) {
+				servidor=i+1;
+				break;
+			}
+		}
+		System.out.println(servidor);
+		return servidor;
 	}
 	public void cambioEstado(EstadoEmpleado estado) {
 		ne.cambioEstado(estado);

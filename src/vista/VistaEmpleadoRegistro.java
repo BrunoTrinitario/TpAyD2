@@ -62,9 +62,9 @@ public class VistaEmpleadoRegistro {
 		JButton btnNewButton = new JButton("Aceptar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					ce.crearEmpleado(textField.getText(),Integer.parseInt(textField_1.getText()));
-					VistaEmpleado ve=new VistaEmpleado(ce,textField.getText(),Integer.parseInt(textField_1.getText()));
+				try {					
+					int puertoConectado = ce.crearEmpleado(textField.getText(),Integer.parseInt(textField_1.getText()));
+					VistaEmpleado ve=new VistaEmpleado(ce,textField.getText(),Integer.parseInt(textField_1.getText()),puertoConectado);
 					frame.dispose();
 				} catch (NumberFormatException e1) {
 					if (textField_1.getText().equals("")) {

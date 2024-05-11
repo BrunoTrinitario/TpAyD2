@@ -10,7 +10,7 @@ import util.EstadoEmpleado;
 public interface IActualizar {
 	void informaEstado(Empleado empleado);
 	void clienteAusente() throws DniYaRegistradoException;
-	void crearEmpleado(String nombre,int box) throws BoxYaRegistradoException, IOException;
+	int crearEmpleado(String nombre,int box) throws BoxYaRegistradoException, IOException;
 	void informarAcceso(Empleado empleado) throws BoxYaRegistradoException, IOException;
 	void cambioEstado(EstadoEmpleado estado);
 	void finalizarAtencion();

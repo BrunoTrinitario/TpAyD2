@@ -3,6 +3,8 @@ package vista;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,6 +13,7 @@ import javax.swing.JTextField;
 
 import cliente.Cliente;
 import controlador.ControladorEmpleado;
+import util.Constantes;
 import util.EstadoEmpleado;
 
 public class VistaEmpleado implements ActionListener{
@@ -21,12 +24,15 @@ public class VistaEmpleado implements ActionListener{
 	private String nombre;
 	private int box;
 	private JButton botonFinalizar,botonNoAsistio,botonCambioEstado;
-	private JLabel labelDniCliente,labelBox,labelEmpleado,labelEstado,textoDniCliente;
+	private JLabel labelDniCliente,labelBox,labelEmpleado,labelEstado,textoDniCliente,lblServidor;
 	private ControladorEmpleado ce;
+	private int servidorConectado;
 	/**
 	 * Create the application.
+	 * @param puertoConectado 
 	 */
-	public VistaEmpleado(ControladorEmpleado ce,String nombre,int box) {
+	public VistaEmpleado(ControladorEmpleado ce,String nombre,int box, int servidorConectado) {
+		this.servidorConectado=servidorConectado;
 		this.ce=ce;
 		this.nombre=nombre;
 		this.box=box;
@@ -54,7 +60,7 @@ public class VistaEmpleado implements ActionListener{
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 544, 271);
+		frame.setBounds(100, 100, 544, 303);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -66,6 +72,13 @@ public class VistaEmpleado implements ActionListener{
 		labelBox.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		labelEmpleado.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		labelEstado.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		
+		try {
+			lblServidor = new JLabel("Conectado a: Servidor "+this.servidorConectado+" en "+InetAddress.getLocalHost().getHostAddress()+" : "+Constantes.PUERTOS.get(this.servidorConectado-1));
+		} catch (UnknownHostException e) {
+		}
+		lblServidor.setBounds(10, 250, 517, 14);
+		frame.getContentPane().add(lblServidor);
 	}
 	private void addBounds() {
 		botonFinalizar.setBounds(340, 114, 177, 41);

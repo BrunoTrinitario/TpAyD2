@@ -26,22 +26,25 @@ public class Conexion {
 	private BufferedReader in;
 	private PrintWriter out;
 	private ObjectInputStream ois;
+	private int puerto;
 	
-	public void envioEmpleadoAServidor(NegociosEmpleado negociosEmpleado, Empleado empleado, String mensaje) throws BoxYaRegistradoException, IOException {
+	public String envioEmpleadoAServidor(NegociosEmpleado negociosEmpleado, Empleado empleado, String mensaje) throws BoxYaRegistradoException, IOException {
 		String msg = envioDatosAServidor(empleado, mensaje);		
 		if (msg.equals(Constantes.BOX_YA_REGISTRADO)) {
 			throw new BoxYaRegistradoException(Constantes.BOX_YA_REGISTRADO);
 		}
 		escucharServidorEmpleado(negociosEmpleado);
+		return msg;
 	}
 
-	public void envioClienteAServidor(Object objeto, String mensaje) throws DniYaRegistradoException, IOException {
+	public String envioClienteAServidor(Object objeto, String mensaje) throws DniYaRegistradoException, IOException {
 		String msg = envioDatosAServidor(objeto, mensaje);
 		System.out.println("Llegue");
 		if (msg.equals(Constantes.DNI_YA_REGISTRADO)) {
 			throw new DniYaRegistradoException(Constantes.DNI_YA_REGISTRADO);
 		}
 		cerrarConexion();
+		return msg;
 	}
 	
 	public void envioNotificacionesAServidor(ControladorNotificaciones cn, String mensaje) throws IOException {
@@ -107,6 +110,7 @@ public class Conexion {
 
 	private void abrirConexion(String Ip, int puerto) throws UnknownHostException, IOException {
 		this.socket = new Socket(Ip, puerto);
+		this.puerto=puerto;
 		this.oos = new ObjectOutputStream(socket.getOutputStream());
 		this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		;
@@ -240,6 +244,10 @@ public class Conexion {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+	}
+	
+	public int getPuertoConectado() {
+		return puerto;
 	}
 
 }

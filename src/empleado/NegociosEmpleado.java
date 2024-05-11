@@ -45,9 +45,10 @@ public class NegociosEmpleado implements IActualizar {
 	}
 
 	@Override
-	public void crearEmpleado(String nombre, int box) throws BoxYaRegistradoException, IOException {
+	public int crearEmpleado(String nombre, int box) throws BoxYaRegistradoException, IOException {
 		this.empleado=new Empleado(nombre,box,EstadoEmpleado.NoDisponible);
 		this.informarAcceso(empleado);
+		return conexion.getPuertoConectado();
 	}
 
 	@Override
