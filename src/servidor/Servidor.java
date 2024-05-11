@@ -29,12 +29,41 @@ public class Servidor extends Thread {
 		this.puerto=puerto;
 		this.conexion = new Conexion();
 		try {
-			if (!this.conexion.verificarServidorActivo(this, Constantes.VERIFICAR_SERVIDOR_ACTIVO)) {				
-			}
+			this.conexion.verificarServidorActivo(this, Constantes.VERIFICAR_SERVIDOR_ACTIVO);
+			this.resincronizacionDeEstado();
+			this.escucharServidorActivo();
 		} catch (IOException e) {
 			this.start();
 		}
 		
+	}
+
+	private void resincronizacionDeEstado() {
+		
+	}
+
+	private void escucharServidorActivo() {
+		boolean escuchando = true;
+		String msg;
+		while (escuchando) {
+			try {
+				msg = this.conexion.escucharServidorServidor();
+				if (msg.equals(Constantes.RESINCRONIZAR_ESTADO)){
+					this.resincronizacionDeEstado();
+				}
+				this.isServidorRespaldo=true;
+			} catch (IOException e) {
+				if (this.isServidorRespaldo) {
+					this.start();
+					escuchando=false;
+				}
+				else {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e1) {}						
+				}
+			}			
+		}
 	}
 
 	@Override
@@ -102,9 +131,6 @@ public class Servidor extends Thread {
 
 	}
 	
-	
-	
-	
 
 	private void registrarServidor(DatosConexion servidor) {
 		if(this.servidoresPasivos.isEmpty()) {
@@ -134,8 +160,6 @@ public class Servidor extends Thread {
 	            }
 	        }
 	    });
-	    
-	    // Iniciar el hilo
 	    thread.start();
 	}
 
