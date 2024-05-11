@@ -11,6 +11,7 @@ import vista.VistaAdministrador;
 public class ControladorAdministrador {
 	private VistaAdministrador va;
 	private Conexion conexion;
+	private int contador=1;
 	
 	public ControladorAdministrador() {
 		this.va = new VistaAdministrador(this);
@@ -25,7 +26,8 @@ public class ControladorAdministrador {
 		return conexion.solicitudDeActulizacionMetricas(null,Constantes.SOLICITAR_METRICAS);
 	}
 	
-	public void pingEcho(String texto) {
-		va.pingEchoTabla(texto);
+	public synchronized void pingEcho(String texto) {
+		va.pingEchoTabla(contador+". "+texto);
+		contador++;
 	}
 }
