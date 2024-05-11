@@ -27,11 +27,16 @@ public class Servidor extends Thread {
 	private DatosConexion servidorRespaldo;
 	private ArrayList<DatosConexion> servidoresPasivos = new ArrayList<DatosConexion>();
 	private Conexion conexion;
+	private ServerSocket socketDePing;
 	
 	public Servidor(int puerto, ControladorServidor cs) {
 		this.cs=cs;
 		this.puerto=puerto;
 		this.conexion = new Conexion();
+		try {
+			socketDePing=new ServerSocket(this.puerto+1000);
+		} catch (IOException e1) {
+		}
 		try {
 			this.conexion.verificarServidorActivo(null, Constantes.VERIFICAR_SERVIDOR_ACTIVO);
 			this.escucharServidorActivo();
