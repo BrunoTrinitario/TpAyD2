@@ -17,70 +17,40 @@ import util.GestorColasDTO;
 
 public class Servidor extends Thread {
 	private ControladorServidor cs;
-	private GestorColas gestorcolas = new GestorColas(this);
+	private GestorColas gestorcolas;
 	private HashMap<Integer, DatosConexion> empleadosConectados = new HashMap<>();
 	private ArrayList<DatosConexion> notificaciones = new ArrayList<>();
 	private boolean servidorActivo = false;
-	private boolean isServidorRespaldo = false;
+	public boolean isServidorRespaldo = false;
 	private int puerto;
 	private DatosConexion administrador;
 	private DatosConexion servidorRespaldo;
 	private ArrayList<DatosConexion> servidoresPasivos = new ArrayList<DatosConexion>();
 	private Conexion conexion;
 	private ServerSocket socketDePing;
+	private int contador=0;
 	
 	public Servidor(int puerto, ControladorServidor cs) {
 		this.cs=cs;
 		this.puerto=puerto;
+		this.gestorcolas = new GestorColas(this);
 		this.conexion = new Conexion();
 		try {
 			socketDePing=new ServerSocket(this.puerto+1000);
 		} catch (IOException e1) {
 		}
 		try {
-			this.conexion.verificarServidorActivo(null, Constantes.VERIFICAR_SERVIDOR_ACTIVO);
-			this.escucharServidorActivo();
+			this.conexion.verificarServidorActivo(this, Constantes.VERIFICAR_SERVIDOR_ACTIVO);
 		} catch (IOException e) {
 			this.start();
 		}
 		
 	}
 
-	private void resincronizacionDeEstado(GestorColasDTO dto) {
-		this.gestorcolas.reesincronizar(dto);
+	public void resincronizacionDeEstado(GestorColasDTO dto2) {
+		this.gestorcolas.reesincronizar(dto2);
 	}
 	
-	private void escucharServidorActivo() {
-		boolean escuchando = true;
-		String msg;
-		GestorColasDTO dto;
-		while (escuchando) {
-			try {
-				System.out.println("Escuchando servidor activo");
-				msg = this.conexion.escucharServidorServidor();
-				System.out.println("mensaje recibido: "+msg);
-				if (msg.equals(Constantes.RESINCRONIZAR_ESTADO)){
-					dto = ((GestorColasDTO) this.conexion.escucharServidorServidorObjeto());
-					System.out.println("Recibido dto: "+dto);
-					this.resincronizacionDeEstado(dto);
-					
-				}
-				else if (msg.equals(Constantes.INFORMAR_SERVIDOR_RESPALDO))
-					this.isServidorRespaldo=true;
-			} catch (IOException e) {
-				if (this.isServidorRespaldo) {
-					this.start();
-					escuchando=false;
-				}
-				else {
-					try {
-						Thread.sleep(1000);
-						this.conexion.verificarServidorActivo(this, Constantes.VERIFICAR_SERVIDOR_ACTIVO);
-					} catch (InterruptedException | IOException e1) {}						
-				}
-			}			
-		}
-	}
 
 	@Override
 	public void run() {
@@ -127,10 +97,13 @@ public class Servidor extends Thread {
 									
 				else {
 					if (msg.equals(Constantes.NOTIFICACIONES)) {
-					this.notificaciones.add(datosConexion);
+						this.notificaciones.add(datosConexion);
 					datosConexion.out.println(Constantes.NOTIFICACION_REGISTRO_OK);
 					}
-				
+					else if(msg.equals(Constantes.REINTENTO_NOTIFICACION)){
+						this.notificaciones.add(datosConexion);
+						datosConexion.out.println(Constantes.REINTENTAR_NOTIFICACION_OK);						
+					}
 					else if (msg.equals(Constantes.ADMINISTRADOR)) {
 						this.administrador=datosConexion;
 						datosConexion.out.println(Constantes.ADMINISTRADOR_REGISTRO_OK);
@@ -145,10 +118,9 @@ public class Servidor extends Thread {
 						datosConexion.out.println(Constantes.SERVIDOR_REGISTRO_OK);
 						this.registrarServidor(datosConexion);					
 						System.out.println("invocando dto");
-						this.gestorcolas.gestorColasDTO();
 					}
 				}
-				
+				this.gestorcolas.gestorColasDTO();
 			}
 			
 			s.close();
@@ -172,7 +144,11 @@ public class Servidor extends Thread {
 	}
 
 	private void informarServidorRespaldo(DatosConexion servidor) {
-	    servidor.out.println(Constantes.INFORMAR_SERVIDOR_RESPALDO);
+		try {
+			servidor.oos.writeObject(null);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	    
 	    Thread thread = new Thread(new Runnable() {
 	        @Override
@@ -180,6 +156,7 @@ public class Servidor extends Thread {
 	            try {
 	                servidor.in.read();
 	            } catch (IOException e) {
+	            	e.printStackTrace();
 	                servidorRespaldoCaido();
 	            }
 	        }
@@ -256,14 +233,17 @@ public class Servidor extends Thread {
 	
 	
 	public void resincronizarServidoresPasivos(GestorColasDTO dto) {
+		System.out.println("dto a enviar:" +dto);
+		//GestorColasDTO auxdto = new GestorColasDTO(dto.getClientesAtendidos(),dto.getClientesEnEspera(),dto.getEmpleadosAtendiendo(),dto.getEmpleadosNoAtendiendo());
 		for (DatosConexion i:servidoresPasivos) {
-			i.out.println(Constantes.RESINCRONIZAR_ESTADO);
 			try {
 				i.oos.writeObject(dto);
 				System.out.println("dto enviado:" +dto);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			//i.out.println(dto);
+			
 		}
 	}
 

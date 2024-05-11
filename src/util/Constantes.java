@@ -15,6 +15,7 @@ public class Constantes {
 	public static final String IP = "localhost";
 	public static final int PUERTO = 1234;
 	public static final int PUERTO2 = 1235;
+	public static final int PUERTO3 = 1236;
 	public static final String SOLICITAR_METRICAS = "solicitud de metricas";
 	public static final String CLIENTE_AUSENTE="Cliente ausente";
 	public static final String ATENCION_FINALIZADA="Atencion Finalizada";
@@ -39,5 +40,6 @@ public class Constantes {
 	static {
 		PUERTOS.add(PUERTO);
 		PUERTOS.add(PUERTO2);
+		PUERTOS.add(PUERTO3);
 	}
 }

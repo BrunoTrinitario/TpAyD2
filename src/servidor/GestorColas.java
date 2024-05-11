@@ -34,7 +34,6 @@ public class GestorColas implements IClienteEmpleado {
 		else {
 			throw new DniYaRegistradoException(Constantes.DNI_YA_REGISTRADO);
 		}
-		this.gestorColasDTO();
 	}
 	
 	public void registrarEmpleado(Empleado empleado) throws BoxYaRegistradoException {
@@ -44,7 +43,6 @@ public class GestorColas implements IClienteEmpleado {
 		else {
 			throw new BoxYaRegistradoException(Constantes.BOX_YA_REGISTRADO);
 		}
-		this.gestorColasDTO();
 	}
 
 	private void matchClienteEmpleado() {
@@ -60,7 +58,6 @@ public class GestorColas implements IClienteEmpleado {
 				servidor.informarNotificaciones(empleado);
 			}
 		}
-		this.gestorColasDTO();	
 	}
 	
 	
@@ -91,7 +88,6 @@ public class GestorColas implements IClienteEmpleado {
 			matchClienteEmpleado();
 		}
 		this.cambioEstadoEmpleado(empleado);
-		this.gestorColasDTO();
 	}
 
 	@Override
@@ -120,7 +116,6 @@ public class GestorColas implements IClienteEmpleado {
 			    }	
 			}
 		}
-		this.gestorColasDTO();
 	}
 	public void finalizarAtencion(Empleado empleado) {
 		for(Empleado aux:empleadosAtendiendo) {
@@ -131,7 +126,6 @@ public class GestorColas implements IClienteEmpleado {
 		}
 		this.clientesAtendidos.add(empleado.getCliente());
 		this.cambioEstadoEmpleado(empleado);
-		this.gestorColasDTO();
 	}
 	public Metrica actualizarMetricas() {
 		ArrayList<Empleado> aux=new ArrayList<Empleado>();
@@ -143,23 +137,19 @@ public class GestorColas implements IClienteEmpleado {
 	public void desconectarEmpleado(Empleado empleado) {
 		this.empleadosAtendiendo.remove(empleado);
 		this.empleadosNoAtendiendo.remove(empleado);
-		this.gestorColasDTO();
 	}
 	public void gestorColasDTO() {
-		GestorColasDTO dto=new GestorColasDTO();
-		dto.setClientesAtendidos(clientesAtendidos);
-		dto.setClientesEnEspera(clientesEnEspera);
-		dto.setEmpleadosAtendiendo(empleadosAtendiendo);
-		dto.setEmpleadosNoAtendiendo(empleadosNoAtendiendo);
+		GestorColasDTO dto=new GestorColasDTO(clientesAtendidos, clientesEnEspera, empleadosAtendiendo, empleadosAtendiendo);
 		System.out.println("invocando metodo resincronizar pasivos");
 		servidor.resincronizarServidoresPasivos(dto);
 	}
 	
-	public void reesincronizar(GestorColasDTO dto) {
-		this.clientesAtendidos=dto.getClientesAtendidos();
-		this.clientesEnEspera=dto.getClientesEnEspera();
-		this.empleadosAtendiendo=dto.getEmpleadosAtendiendo();
-		this.empleadosNoAtendiendo=dto.getEmpleadosNoAtendiendo();
+	public void reesincronizar(GestorColasDTO dto2) {
+		System.out.println("Sincronizando desde: "+dto2);
+		this.clientesAtendidos=dto2.getClientesAtendidos();
+		this.clientesEnEspera=dto2.getClientesEnEspera();
+		this.empleadosAtendiendo=dto2.getEmpleadosAtendiendo();
+		this.empleadosNoAtendiendo=dto2.getEmpleadosNoAtendiendo();
 		System.out.println("db resincronizada: "+this);
 	}
 	@Override

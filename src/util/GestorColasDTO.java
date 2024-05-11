@@ -9,16 +9,39 @@ import cliente.Cliente;
 import empleado.Empleado;
 
 public class GestorColasDTO implements Serializable {
+	
+	
+	public Queue<Cliente> clientesEnEspera=new LinkedList<>();
+	public ArrayList<Empleado> empleadosNoAtendiendo=new ArrayList<>();
+	public ArrayList<Empleado> empleadosAtendiendo=new ArrayList<>();
+	public ArrayList<Cliente> clientesAtendidos=new ArrayList<>();
+	
+	public GestorColasDTO(ArrayList<Cliente> clientesAtendidos2, Queue<Cliente> clientesEnEspera2,
+			ArrayList<Empleado> empleadosAtendiendo2, ArrayList<Empleado> empleadosNoAtendiendo2) {
+		for (Empleado i : empleadosNoAtendiendo2) {
+			Empleado empleado = new Empleado(i.getNombre(), i.getBox(), i.getEstado(), i.getCliente());
+			this.empleadosNoAtendiendo.add(empleado);
+		}
+		for (Empleado i : empleadosAtendiendo2) {
+			Empleado empleado = new Empleado(i.getNombre(), i.getBox(), i.getEstado(), i.getCliente());
+			this.empleadosAtendiendo.add(empleado);
+		}
+		for (Cliente i : clientesAtendidos2) {
+			Cliente cliente = new Cliente(i.getDni());
+			this.clientesAtendidos.add(cliente);
+		}
+		for (Cliente i : clientesEnEspera2) {
+			Cliente cliente = new Cliente(i.getDni());
+			this.clientesEnEspera.add(cliente);
+		}
+	}
 	@Override
 	public String toString() {
 		return "GestorColasDTO [clientesEnEspera=" + clientesEnEspera + ", empleadosNoAtendiendo="
 				+ empleadosNoAtendiendo + ", empleadosAtendiendo=" + empleadosAtendiendo + ", clientesAtendidos="
 				+ clientesAtendidos + "]";
 	}
-	private Queue<Cliente> clientesEnEspera;
-	private ArrayList<Empleado> empleadosNoAtendiendo;
-	private ArrayList<Empleado> empleadosAtendiendo;
-	private ArrayList<Cliente> clientesAtendidos;
+
 	
 	public Queue<Cliente> getClientesEnEspera() {
 		return clientesEnEspera;

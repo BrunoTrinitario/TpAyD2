@@ -58,21 +58,11 @@ public class Conexion {
 	}
 	
 	public void verificarServidorActivo(Servidor servidor, String mensaje) throws IOException {
-			String msg = envioDatosAServidor(servidor, mensaje);
+			String msg = envioDatosAServidor(null, mensaje);
+			this.escucharServidorServidor(servidor);
 	}
 	
-	public String escucharServidorServidor() throws IOException {
-		return this.in.readLine();
-	}
-	public Object escucharServidorServidorObjeto() {
-		try {
-			return this.ois.readObject();
-		} catch (ClassNotFoundException e) {
-			return null;
-		} catch (IOException e) {
-			return null;
-		}
-	}
+
 
 	private String envioDatosAServidor(Object objeto, String mensaje) throws IOException {
 		for (int i=0; i<Constantes.INTENTO_CONEXION;i++) {
@@ -148,6 +138,32 @@ public class Conexion {
 		}.start();
 	}
 	
+	public void escucharServidorServidor(Servidor servidor) throws IOException {
+		new Thread() {
+			public void run() {
+				Object objeto;
+				String objeto3;
+				try {
+					while (socket.isConnected()) {
+						objeto = ois.readObject();
+					//	objeto3 = in.readLine();
+						System.out.println("Objeto recibido: "+objeto);
+					//	System.out.println("Mensaje recibido: "+objeto3);
+						if (objeto instanceof GestorColasDTO) {
+							servidor.resincronizacionDeEstado((GestorColasDTO) objeto);
+						}
+						else {
+							servidor.isServidorRespaldo=true;
+						}
+					}
+				} catch (Exception e) {
+					servidor.start();						
+				}
+			}
+		}.start();
+	}
+	
+	
 	private void escucharServidorAdministrador(ControladorAdministrador ca) {
 		new Thread() {
 			public void run() {
@@ -178,7 +194,7 @@ public class Conexion {
 					boolean conecto=false;
 					while(!conecto) {
 						try {
-							reintentarConexion(controladorNotificaciones,Constantes.REINTENTO_NOTIFICACION);
+							reintentarConexion(null,Constantes.REINTENTO_NOTIFICACION);
 							conecto=true;
 						} catch (IOException e1) {
 							//sigue intentando conectar
