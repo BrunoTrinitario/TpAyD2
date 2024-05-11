@@ -33,6 +33,7 @@ public class GestorColas implements IClienteEmpleado {
 		else {
 			throw new DniYaRegistradoException(Constantes.DNI_YA_REGISTRADO);
 		}
+		this.gestorColasDTO();
 	}
 	
 	public void registrarEmpleado(Empleado empleado) throws BoxYaRegistradoException {
@@ -42,6 +43,7 @@ public class GestorColas implements IClienteEmpleado {
 		else {
 			throw new BoxYaRegistradoException(Constantes.BOX_YA_REGISTRADO);
 		}
+		this.gestorColasDTO();
 	}
 
 	private void matchClienteEmpleado() {
@@ -56,8 +58,8 @@ public class GestorColas implements IClienteEmpleado {
 				enviarClienteAEmpleado(empleado, cliente);
 				servidor.informarNotificaciones(empleado);
 			}
-		}		
-		
+		}
+		this.gestorColasDTO();	
 	}
 	
 	
@@ -88,6 +90,7 @@ public class GestorColas implements IClienteEmpleado {
 			matchClienteEmpleado();
 		}
 		this.cambioEstadoEmpleado(empleado);
+		this.gestorColasDTO();
 	}
 
 	@Override
@@ -116,6 +119,7 @@ public class GestorColas implements IClienteEmpleado {
 			    }	
 			}
 		}
+		this.gestorColasDTO();
 	}
 	public void finalizarAtencion(Empleado empleado) {
 		for(Empleado aux:empleadosAtendiendo) {
@@ -126,6 +130,7 @@ public class GestorColas implements IClienteEmpleado {
 		}
 		this.clientesAtendidos.add(empleado.getCliente());
 		this.cambioEstadoEmpleado(empleado);
+		this.gestorColasDTO();
 	}
 	public Metrica actualizarMetricas() {
 		ArrayList<Empleado> aux=new ArrayList<Empleado>();
@@ -137,7 +142,7 @@ public class GestorColas implements IClienteEmpleado {
 	public void desconectarEmpleado(Empleado empleado) {
 		this.empleadosAtendiendo.remove(empleado);
 		this.empleadosNoAtendiendo.remove(empleado);
-		
+		this.gestorColasDTO();
 	}
 	public void gestorColasDTO() {
 		GestorColasDTO dto=new GestorColasDTO();
@@ -147,6 +152,14 @@ public class GestorColas implements IClienteEmpleado {
 		dto.setEmpleadosNoAtendiendo(empleadosNoAtendiendo);
 		servidor.resincronizarServidoresPasivos(dto);
 	}
+	
+	public void reesincronizar(GestorColasDTO dto) {
+		this.clientesAtendidos=dto.getClientesAtendidos();
+		this.clientesEnEspera=dto.getClientesEnEspera();
+		this.empleadosAtendiendo=dto.getEmpleadosAtendiendo();
+		this.empleadosNoAtendiendo=dto.getEmpleadosNoAtendiendo();
+	}
+	
 	
 }
 

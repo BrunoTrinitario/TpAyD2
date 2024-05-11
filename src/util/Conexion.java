@@ -62,6 +62,15 @@ public class Conexion {
 	public String escucharServidorServidor() throws IOException {
 		return this.in.readLine();
 	}
+	public Object escucharServidorServidorObjeto() {
+		try {
+			return this.ois.readObject();
+		} catch (ClassNotFoundException e) {
+			return null;
+		} catch (IOException e) {
+			return null;
+		}
+	}
 
 	private String envioDatosAServidor(Object objeto, String mensaje) throws IOException {
 		

@@ -12,6 +12,7 @@ import excepciones.DniYaRegistradoException;
 import util.Conexion;
 import util.Constantes;
 import util.DatosConexion;
+import util.GestorColasDTO;
 
 public class Servidor extends Thread {
 	private GestorColas gestorcolas = new GestorColas(this);
@@ -30,7 +31,7 @@ public class Servidor extends Thread {
 		this.conexion = new Conexion();
 		try {
 			this.conexion.verificarServidorActivo(this, Constantes.VERIFICAR_SERVIDOR_ACTIVO);
-			this.resincronizacionDeEstado();
+			//this.resincronizacionDeEstado();
 			this.escucharServidorActivo();
 		} catch (IOException e) {
 			this.start();
@@ -38,18 +39,20 @@ public class Servidor extends Thread {
 		
 	}
 
-	private void resincronizacionDeEstado() {
-		
+	private void resincronizacionDeEstado(GestorColasDTO dto) {
+		this.gestorcolas.reesincronizar(dto);
 	}
 
 	private void escucharServidorActivo() {
 		boolean escuchando = true;
 		String msg;
+		Object dto;
 		while (escuchando) {
 			try {
 				msg = this.conexion.escucharServidorServidor();
+				dto = this.conexion.escucharServidorServidorObjeto();
 				if (msg.equals(Constantes.RESINCRONIZAR_ESTADO)){
-					this.resincronizacionDeEstado();
+					this.resincronizacionDeEstado((GestorColasDTO)dto);
 				}
 				this.isServidorRespaldo=true;
 			} catch (IOException e) {
@@ -228,6 +231,16 @@ public class Servidor extends Thread {
 	
 	public boolean getServidorActivo() {
 		return this.servidorActivo;
+	}
+	public void resincronizarServidoresPasivos(GestorColasDTO dto) {
+		for (DatosConexion i:servidoresPasivos) {
+			i.out.println(Constantes.RESINCRONIZAR_ESTADO);
+			try {
+				i.oos.writeObject(dto);
+			} catch (IOException e) {
+				
+			}
+		}
 	}
 
 
