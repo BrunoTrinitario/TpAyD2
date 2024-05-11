@@ -130,8 +130,14 @@ public class Conexion {
 						}
 					}
 				} catch (Exception e) {
-					if(!reintentarConexion(negociosEmpleado,Constantes.REINTENTO_EMPLEADO));
-						negociosEmpleado.conexionCaida();
+					try {
+						if(!reintentarConexion(negociosEmpleado,Constantes.REINTENTO_EMPLEADO));
+							negociosEmpleado.conexionCaida();
+					} catch (IOException e1) {
+						//negociosEmpleado.conexionCaida(); //va aca o solo abajo de if
+						e1.printStackTrace();
+					}
+						
 				}
 			}
 		}.start();
@@ -164,8 +170,13 @@ public class Conexion {
 						controladorNotificaciones.agregarCliente(aux.getCliente(), aux);
 					}
 				} catch (Exception e) {
-					while(true) {
-						reintentarConexion(controladorNotificaciones,Constantes.REINTENTO_NOTIFICACION);
+					boolean conecto=false;
+					while(!conecto) {
+						try {
+							conecto=reintentarConexion(controladorNotificaciones,Constantes.REINTENTO_NOTIFICACION);
+						} catch (IOException e1) {
+						e1.printStackTrace();
+						}
 					}
 				}
 			}
@@ -181,12 +192,11 @@ public class Conexion {
 			e.printStackTrace();
 		}	
 	}
-	private void reintentarConexion(Object objeto,String mensaje)  {
-		try {
-			envioDatosAServidor(objeto,mensaje);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	private boolean reintentarConexion(Object objeto,String mensaje) throws IOException  {
+		boolean conecto=false;
+		if(envioDatosAServidor(objeto,mensaje)=="") // que msj debe verificar
+			conecto=true;
+		return conecto;
 		/*		
     	int puerto=	socket.getPort();
     	try {
