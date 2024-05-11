@@ -42,7 +42,7 @@ public class Servidor extends Thread {
 	private void resincronizacionDeEstado(GestorColasDTO dto) {
 		this.gestorcolas.reesincronizar(dto);
 	}
-
+	
 	private void escucharServidorActivo() {
 		boolean escuchando = true;
 		String msg;
