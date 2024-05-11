@@ -15,6 +15,13 @@ public class Cliente implements Serializable {
 		this.intento=0;
 		this.horaIngreso=LocalTime.now();
 	}
+	public Cliente(String dni,LocalTime horaIngreso,LocalTime horaEgreso, int intento) {
+		super();
+		this.dni = dni;
+		this.intento=intento;
+		this.horaIngreso=horaIngreso;
+		this.horaEgreso=horaEgreso;
+	}
 
 	public String getDni() {
 		return this.dni;

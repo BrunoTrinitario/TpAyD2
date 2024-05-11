@@ -27,11 +27,11 @@ public class GestorColasDTO implements Serializable {
 			this.empleadosAtendiendo.add(empleado);
 		}
 		for (Cliente i : clientesAtendidos2) {
-			Cliente cliente = new Cliente(i.getDni());
+			Cliente cliente = new Cliente(i.getDni(),i.getHoraIngreso(),i.getHoraEgreso(),i.getIntento());
 			this.clientesAtendidos.add(cliente);
 		}
 		for (Cliente i : clientesEnEspera2) {
-			Cliente cliente = new Cliente(i.getDni());
+			Cliente cliente = new Cliente(i.getDni(),i.getHoraIngreso(),i.getHoraEgreso(),i.getIntento());
 			this.clientesEnEspera.add(cliente);
 		}
 	}
