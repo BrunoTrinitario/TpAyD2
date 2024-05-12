@@ -71,4 +71,13 @@ public class NegociosEmpleado implements IActualizar {
 	public void numeroServidorConectado(int servidorConectado) {
 		ce.numeroServidorConectado(servidorConectado);
 	}
+
+	public void bloquearVista() {
+		this.ce.bloquearVista();
+		
+	}
+	public void desbloquearVista() {
+		this.ce.desbloquearVista();
+		
+	}
 }

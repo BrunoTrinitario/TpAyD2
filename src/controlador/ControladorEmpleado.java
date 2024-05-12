@@ -56,4 +56,12 @@ public class ControladorEmpleado {
 	public void numeroServidorConectado(int servidorConectado) {
 		this.vistaEmpleado.cambiarNumeroServidor(servidorConectado);
 	}
+	public void bloquearVista() {
+		this.vistaEmpleado.bloquearVista();
+		
+	}
+	public void desbloquearVista() {
+		this.vistaEmpleado.desbloquearVista();
+		
+	}
 }

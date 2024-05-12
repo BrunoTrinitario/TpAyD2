@@ -25,6 +25,7 @@ public class VistaEmpleado implements ActionListener{
 	private int box;
 	private JButton botonFinalizar,botonNoAsistio,botonCambioEstado;
 	private JLabel labelDniCliente,labelBox,labelEmpleado,labelEstado,textoDniCliente,lblServidor;
+	private boolean estadoAnteriorBotonFinalizar,estadoAnterioBotonNoAsistio,estadoAnteriorBotonCambioEstado;
 	private ControladorEmpleado ce;
 	private int servidorConectado;
 	/**
@@ -166,5 +167,25 @@ public class VistaEmpleado implements ActionListener{
 		this.botonNoAsistio.setEnabled(false);
 		this.botonCambioEstado.setEnabled(false);
 		lblServidor.setText("Error: Servidor no disponible");
+	}
+	public void bloquearVista() {
+		lblServidor.setText("Intentando reconectar...");
+		this.estadoAnteriorBotonCambioEstado=this.botonCambioEstado.isEnabled();
+		this.estadoAnterioBotonNoAsistio=this.botonNoAsistio.isEnabled();
+		this.estadoAnteriorBotonFinalizar=this.botonFinalizar.isEnabled();
+		this.botonFinalizar.setEnabled(false);
+		this.botonNoAsistio.setEnabled(false);
+		this.botonCambioEstado.setEnabled(false);
+	}
+
+	public void desbloquearVista() {
+		this.botonFinalizar.setEnabled(this.estadoAnteriorBotonFinalizar);
+		this.botonNoAsistio.setEnabled(this.estadoAnterioBotonNoAsistio);
+		this.botonCambioEstado.setEnabled(this.estadoAnteriorBotonCambioEstado);
+		try {
+			lblServidor.setText("Conectado a: Servidor "+servidorConectado+" en "+InetAddress.getLocalHost().getHostAddress()+" : "+Constantes.PUERTOS.get(servidorConectado-1));
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 	}
 }

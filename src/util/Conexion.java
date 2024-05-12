@@ -125,7 +125,9 @@ public class Conexion {
 					}
 				} catch (Exception e) {
 					try {
+						negociosEmpleado.bloquearVista();
 						envioEmpleadoAServidor(negociosEmpleado,Constantes.REINTENTO_EMPLEADO);
+						negociosEmpleado.desbloquearVista();
 						negociosEmpleado.numeroServidorConectado(Constantes.PUERTOS.indexOf(puerto)+1);
 					} catch (IOException | BoxYaRegistradoException e1) {
 						System.out.println("Llego a conexion caida");
