@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Random;
 
 import cliente.Cliente;
 import controlador.ControladorAdministrador;
@@ -165,7 +166,18 @@ public class Conexion {
 						try {
 							verificarServidorActivo(servidor, Constantes.VERIFICAR_SERVIDOR_ACTIVO);
 						} catch (IOException e1) {
-							//servidor.start();
+							Random random = new Random();
+			                int tiempoAleatorio = random.nextInt(2001);
+			                try {
+								Thread.sleep(tiempoAleatorio);
+							} catch (InterruptedException e2) {
+								e2.printStackTrace();
+							}
+			                try {
+								verificarServidorActivo(servidor, Constantes.VERIFICAR_SERVIDOR_ACTIVO);
+							} catch (IOException e2) {
+								servidor.start();
+							}
 						}
 					}
 				}
