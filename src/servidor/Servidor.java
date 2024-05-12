@@ -24,9 +24,9 @@ public class Servidor extends Thread {
 	public boolean isServidorRespaldo = false;
 	private int puerto;
 	private SocketConexion administrador;
-	private SocketConexion servidorRespaldo;
 	private ArrayList<SocketConexion> servidoresPasivos = new ArrayList<SocketConexion>();
 	private Conexion conexion;
+	private SocketConexion servidorRespaldo;
 	private ServerSocket socketDePing;
 	private int contador=0;
 	
@@ -118,26 +118,22 @@ public class Servidor extends Thread {
 						System.out.println("registrando servidor pasivo");
 						datosConexion.out.println(Constantes.SERVIDOR_REGISTRO_OK);
 						this.registrarServidor(datosConexion);					
-						System.out.println("invocando dto");
 					}
 				}
 				this.gestorcolas.gestorColasDTO();
 				System.out.println(this.servidoresPasivos);
 			}
-			
 			s.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 	
-
 	private void registrarServidor(SocketConexion servidor) {
 		if(this.servidoresPasivos.isEmpty()) {
 			this.registrarServidorRespaldo(servidor);
 		}
-			this.servidoresPasivos.add(servidor);		
+		this.servidoresPasivos.add(servidor);		
 	}
 
 	private void registrarServidorRespaldo(SocketConexion servidor) {
@@ -150,7 +146,6 @@ public class Servidor extends Thread {
 			System.out.println("Intentando informar respaldo a servidor"+ servidor);
 			servidor.oos.writeObject(Constantes.INFORMAR_SERVIDOR_RESPALDO);
 		} catch (IOException e1) {
-			System.out.println("F");
 			e1.printStackTrace();
 		}
 	    
