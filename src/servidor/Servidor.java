@@ -12,20 +12,20 @@ import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import util.Conexion;
 import util.Constantes;
-import util.DatosConexion;
+import util.Sockets;
 import util.GestorColasDTO;
 
 public class Servidor extends Thread {
 	private ControladorServidor cs;
 	private GestorColas gestorcolas;
-	private HashMap<Integer, DatosConexion> empleadosConectados = new HashMap<>();
-	private ArrayList<DatosConexion> notificaciones = new ArrayList<>();
+	private HashMap<Integer, Sockets> empleadosConectados = new HashMap<>();
+	private ArrayList<Sockets> notificaciones = new ArrayList<>();
 	private boolean servidorActivo = false;
 	public boolean isServidorRespaldo = false;
 	private int puerto;
-	private DatosConexion administrador;
-	private DatosConexion servidorRespaldo;
-	private ArrayList<DatosConexion> servidoresPasivos = new ArrayList<DatosConexion>();
+	private Sockets administrador;
+	private Sockets servidorRespaldo;
+	private ArrayList<Sockets> servidoresPasivos = new ArrayList<Sockets>();
 	private Conexion conexion;
 	private ServerSocket socketDePing;
 	private int contador=0;
@@ -60,7 +60,7 @@ public class Servidor extends Thread {
 			this.isServidorRespaldo=false;
 			ServerSocket s = new ServerSocket(this.puerto);
 			while (servidorActivo) {
-				DatosConexion datosConexion = new DatosConexion(s.accept());
+				Sockets datosConexion = new Sockets(s.accept());
 				System.out.println("Recibiendo conexion");
 				Object objeto = datosConexion.ois.readObject();
 				System.out.println("objeto leido: "+objeto);
@@ -132,22 +132,24 @@ public class Servidor extends Thread {
 	}
 	
 
-	private void registrarServidor(DatosConexion servidor) {
+	private void registrarServidor(Sockets servidor) {
 		if(this.servidoresPasivos.isEmpty()) {
 			this.registrarServidorRespaldo(servidor);
 		}
 			this.servidoresPasivos.add(servidor);		
 	}
 
-	private void registrarServidorRespaldo(DatosConexion servidor) {
+	private void registrarServidorRespaldo(Sockets servidor) {
 		this.servidorRespaldo=servidor;
 		this.informarServidorRespaldo(servidor);
 	}
 
-	private void informarServidorRespaldo(DatosConexion servidor) {
+	private void informarServidorRespaldo(Sockets servidor) {
 		try {
-			servidor.oos.writeObject(null);
+			System.out.println("Intentando informar respaldo a servidor"+ servidor);
+			servidor.oos.writeObject(Constantes.INFORMAR_SERVIDOR_RESPALDO);
 		} catch (IOException e1) {
+			System.out.println("F");
 			e1.printStackTrace();
 		}
 	    
@@ -166,10 +168,9 @@ public class Servidor extends Thread {
 	}
 
 	private void servidorRespaldoCaido() {
-		if (!this.servidoresPasivos.isEmpty()) {
-			registrarServidorRespaldo(this.servidoresPasivos.get(0));
-			this.servidoresPasivos.remove(0);
-			
+		this.servidoresPasivos.remove(0);
+		if (!this.servidoresPasivos.isEmpty()) {			
+			registrarServidorRespaldo(this.servidoresPasivos.get(0));			
 		}
 	}
 
@@ -181,7 +182,7 @@ public class Servidor extends Thread {
 		}
 	}
 
-	private void escucharEmpleado(DatosConexion datosConexion, Empleado empleado) {
+	private void escucharEmpleado(Sockets datosConexion, Empleado empleado) {
 		new Thread() {
 			public void run() {
 				try {
@@ -213,7 +214,7 @@ public class Servidor extends Thread {
 	}
 
 	public void informarEmpleado(Empleado empleado, Cliente cliente) {
-		DatosConexion aux = this.empleadosConectados.get(empleado.getBox());
+		Sockets aux = this.empleadosConectados.get(empleado.getBox());
 		try {
 			aux.oos.writeObject(cliente);
 		} catch (IOException e) {
@@ -223,7 +224,7 @@ public class Servidor extends Thread {
 
 	public void informarNotificaciones(Empleado empleado) {
 		try {
-			for (DatosConexion aux : this.notificaciones)
+			for (Sockets aux : this.notificaciones)
 				aux.oos.writeObject(empleado);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -237,16 +238,18 @@ public class Servidor extends Thread {
 	
 	public void resincronizarServidoresPasivos(GestorColasDTO dto) {
 		System.out.println("dto a enviar:" +dto);
-		//GestorColasDTO auxdto = new GestorColasDTO(dto.getClientesAtendidos(),dto.getClientesEnEspera(),dto.getEmpleadosAtendiendo(),dto.getEmpleadosNoAtendiendo());
-		for (DatosConexion i:servidoresPasivos) {
+		ArrayList<Sockets> servidoresARemover = new ArrayList<Sockets>();
+		for (Sockets i:servidoresPasivos) {
 			try {
 				i.oos.writeObject(dto);
 				System.out.println("dto enviado:" +dto);
 			} catch (IOException e) {
-				e.printStackTrace();
+				servidoresARemover.add(i);
 			}
-			//i.out.println(dto);
-			
+		
+		}
+		for (Sockets i:servidoresARemover) {
+			servidoresPasivos.remove(i);
 		}
 	}
 
