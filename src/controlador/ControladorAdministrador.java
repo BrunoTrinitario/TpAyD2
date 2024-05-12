@@ -28,6 +28,8 @@ public class ControladorAdministrador {
 	
 	public synchronized void pingEcho(String texto) {
 		va.pingEchoTabla(contador+". "+texto);
+		String pal[] =texto.split(" ");
+		va.agregarATablaLog(pal[0],pal[2]);
 		contador++;
 	}
 }
