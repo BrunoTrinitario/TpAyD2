@@ -8,14 +8,14 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class DatosConexion {
+public class SocketConexion {
     public Socket socket;
     public PrintWriter out;
     public BufferedReader in;
     public ObjectInputStream ois;
     public ObjectOutputStream oos;
     
-    public DatosConexion(Socket socket) {
+    public SocketConexion(Socket socket) {
         this.socket = socket;
         try {
 			this.out = new PrintWriter(socket.getOutputStream(), true);
