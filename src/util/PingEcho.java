@@ -36,6 +36,7 @@ public class PingEcho extends Thread {
 	public boolean conecto() {
 		try {
 			Socket s=new Socket(this.ip,this.puerto);
+			s.close();
 			return true;
 		} catch (UnknownHostException e) {
 			return false;

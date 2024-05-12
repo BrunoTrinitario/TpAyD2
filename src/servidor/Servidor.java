@@ -122,6 +122,7 @@ public class Servidor extends Thread {
 					}
 				}
 				this.gestorcolas.gestorColasDTO();
+				System.out.println(this.servidoresPasivos);
 			}
 			
 			s.close();
@@ -253,5 +254,11 @@ public class Servidor extends Thread {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "Servidor [servidorActivo=" + servidorActivo + ", isServidorRespaldo=" + isServidorRespaldo + ", puerto="
+				+ puerto + "]";
+	}
 
+	
 }

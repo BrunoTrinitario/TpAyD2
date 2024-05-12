@@ -17,7 +17,6 @@ public class MainServerN {
 		ServerSocket s=null;
 		for (int i : Constantes.PUERTOS) {
 			try {
-				System.out.println(i);
 				 s = new ServerSocket(i+1000);
 				 puerto=i;
 				break;
