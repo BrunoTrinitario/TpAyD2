@@ -17,12 +17,12 @@ public class PingEcho extends Thread {
 		this.ca=ca;
 	}
 	public void run() {
-		int aux2=puerto-1000;
+		int aux2=puerto-2000;
 		String aux=""+ip+":"+aux2;
 		String texto;
 		while(true) {
 			if (conecto()) {
-				texto=aux+" conexion existosa";
+				texto=aux+" conexion exitosa";
 			}else
 				texto=aux+" conexion fallida";
 			ca.pingEcho(texto);

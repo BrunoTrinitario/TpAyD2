@@ -36,7 +36,7 @@ public class Servidor extends Thread {
 		this.gestorcolas = new GestorColas(this);
 		this.conexion = new Conexion();
 		try {
-			socketDePing=new ServerSocket(this.puerto+1000);
+			socketDePing=new ServerSocket(this.puerto+2000);
 		} catch (IOException e1) {
 		}
 		try {

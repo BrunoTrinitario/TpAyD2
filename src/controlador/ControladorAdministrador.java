@@ -17,7 +17,7 @@ public class ControladorAdministrador {
 		this.va = new VistaAdministrador(this);
 		conexion = new Conexion();
 		for (int i:Constantes.PUERTOS) {
-			new PingEcho(Constantes.IP,i+1000,this).start();
+			new PingEcho(Constantes.IP,i+2000,this).start();
 		}
 
 	}
