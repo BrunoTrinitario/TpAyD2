@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import controlador.ControladorAdministrador;
 
@@ -21,10 +23,13 @@ public class PingEcho extends Thread {
 		String aux=""+ip+":"+aux2;
 		String texto;
 		while(true) {
+			LocalTime tl=LocalTime.now();
+			DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm:ss");
+			String ha=tl.format(formatoHora);
 			if (conecto()) {
-				texto=aux+" conexion exitosa";
+				texto=aux+" conexion exitosa " + ha;
 			}else
-				texto=aux+" conexion fallida";
+				texto=aux+" conexion fallida " + ha;
 			ca.pingEcho(texto);
 			try {
 				this.sleep(5000);

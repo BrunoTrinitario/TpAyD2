@@ -10,8 +10,6 @@ import vista.VistaServidor;
 
 public class MainServerN {
 
-	
-	
 	public static void main(String[] args) {
 		int puerto=0;
 		ServerSocket s=null;
@@ -26,12 +24,9 @@ public class MainServerN {
 		if (s!=null) {
 			VistaServidor vistaServidor = new VistaServidor(Constantes.PUERTOS.indexOf(puerto)+1, puerto);
 			ControladorServidor controladorServidor = new ControladorServidor(vistaServidor, puerto);	
-		
 		}
 		else {
 			VentanaEmergente ve = new VentanaEmergente("No hay mas puertos disponibles");
 		}
-		
-			
 	}
 }
