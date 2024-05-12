@@ -54,12 +54,13 @@ public class Conexion {
 	
 	public void envioAdministrador(ControladorAdministrador ca, String mensaje) throws IOException {
 		String msg = envioDatosAServidor(null, mensaje);
-		this.escucharServidorAdministrador(ca);
 	}
 	
 	public void verificarServidorActivo(Servidor servidor, String mensaje) throws IOException {
+		
 			String msg = envioDatosAServidor(null, mensaje);
 			this.escucharServidorServidor(servidor);
+
 	}
 	
 
@@ -143,43 +144,36 @@ public class Conexion {
 		new Thread() {
 			public void run() {
 				Object objeto;
-				String objeto3;
 				try {
 					while (socket.isConnected()) {
 						objeto = ois.readObject();
-					//	objeto3 = in.readLine();
 						System.out.println("Objeto recibido: "+objeto);
-					//	System.out.println("Mensaje recibido: "+objeto3);
 						if (objeto instanceof GestorColasDTO) {
 							servidor.resincronizacionDeEstado((GestorColasDTO) objeto);
 						}
 						else {
-							servidor.isServidorRespaldo=true;
+							if (objeto instanceof String) {
+								if (objeto.equals(Constantes.INFORMAR_SERVIDOR_RESPALDO))
+								servidor.isServidorRespaldo=true;
+							}
 						}
 					}
 				} catch (Exception e) {
-					servidor.start();						
-				}
-			}
-		}.start();
-	}
-	
-	
-	private void escucharServidorAdministrador(ControladorAdministrador ca) {
-		new Thread() {
-			public void run() {
-				try {
-					while (socket.isConnected()) {
-						String heartBeat = in.readLine();
-						
+					if (servidor.isServidorRespaldo)
+						servidor.start();
+					else {
+						try {
+							verificarServidorActivo(servidor, Constantes.VERIFICAR_SERVIDOR_ACTIVO);
+						} catch (IOException e1) {
+							//servidor.start();
+						}
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
 		}.start();
 	}
 	
+
 	private void escucharServidorNotificaciones(ControladorNotificaciones controladorNotificaciones) {
 		new Thread() {
 			public void run() {

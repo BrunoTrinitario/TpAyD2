@@ -13,9 +13,7 @@ public class Constantes {
 	public static final String BOX_YA_REGISTRADO = "Su box ya se encuentra registrado en el sistema";
 	public static final String EMPLEADO_CAMBIO_ESTADO = "Empleado cambio estado";
 	public static final String IP = "localhost";
-	public static final int PUERTO = 1234;
-	public static final int PUERTO2 = 1235;
-	public static final int PUERTO3 = 1236;
+	public static final int PUERTO_INICIAL = 1234;
 	public static final String SOLICITAR_METRICAS = "solicitud de metricas";
 	public static final String CLIENTE_AUSENTE="Cliente ausente";
 	public static final String ATENCION_FINALIZADA="Atencion Finalizada";
@@ -37,9 +35,10 @@ public class Constantes {
 	public static final String REINTENTO_NOTIFICACION = "Reintento conectar notificaciones";
 	public static final String REINTENTAR_NOTIFICACION_OK = "Reintentar conexion de notificacion exitosa";
 	public static final String REINTENTAR_EMPLEADO_OK = "Reintentar conexion de empleado ok";
+	public static final int MAX_PUERTOS = 5;
+	
 	static {
-		PUERTOS.add(PUERTO);
-		PUERTOS.add(PUERTO2);
-		PUERTOS.add(PUERTO3);
+		for (int i=PUERTO_INICIAL; i<PUERTO_INICIAL+MAX_PUERTOS;i++)
+		PUERTOS.add(i);
 	}
 }
