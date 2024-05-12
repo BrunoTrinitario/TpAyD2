@@ -20,18 +20,22 @@ import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.table.TableModel;
 
 public class VistaAdministrador implements ActionListener{
 
 	private JFrame frame;
 	private JLabel titulo,labelMetrica1,labelMetrica2,labelMetrica3,labelTablaEstado,labelTablaBox,labelAreaTexto;
-	private DefaultTableModel tablaInside;
+	private DefaultTableModel tablaInside,tablainsidelog;
 	private JTable tabla;
 	private JTextField metrica1,metrica2,metrica3;
 	private JButton botonAct;
 	private ControladorAdministrador ca;
 	private JTextArea areatexto;
 	private JScrollPane scrollPane;
+	private JTable table,tablalog;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1;
 	
 	
 	public VistaAdministrador(ControladorAdministrador ca) {
@@ -52,6 +56,16 @@ public class VistaAdministrador implements ActionListener{
 		titulo = new JLabel("Panel de administrador");
 		botonAct = new JButton("Actualizar metricas");
 		metrica3 = new JTextField();
+		
+		tablainsidelog=new DefaultTableModel () {
+			 public boolean isCellEditable(int row, int column) {
+	                return false; // Hacer que todas las celdas no sean editables
+	           }
+		};
+		tablainsidelog.addColumn("columna1");
+		tablainsidelog.addColumn("columna2");
+		tablalog=new JTable(tablainsidelog);
+		
 		botonAct.addActionListener(this);
 		initialize();
 		frame.setVisible(true);
@@ -76,7 +90,7 @@ public class VistaAdministrador implements ActionListener{
 		metrica3.setEditable(false);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(62, 185, 475, 96);
+		scrollPane.setBounds(62, 185, 281, 96);
 		frame.getContentPane().add(scrollPane);
 		areatexto=new JTextArea();
 		scrollPane.setViewportView(areatexto);
@@ -84,6 +98,15 @@ public class VistaAdministrador implements ActionListener{
 		labelAreaTexto = new JLabel("log de conexion:");
 		this.scrollPane.setColumnHeaderView(this.labelAreaTexto);
 		areatexto.setText("");
+		
+		this.lblNewLabel = new JLabel("Servidor:");
+		this.lblNewLabel.setBounds(353, 185, 45, 13);
+		this.frame.getContentPane().add(this.lblNewLabel);
+		
+		this.lblNewLabel_1 = new JLabel("Disponibilidad:");
+		this.lblNewLabel_1.setBounds(451, 186, 86, 13);
+		this.frame.getContentPane().add(this.lblNewLabel_1);
+		
 	}
 	private void addBounds() {
 		labelTablaBox.setBounds(62, 54, 46, 14);
@@ -97,6 +120,8 @@ public class VistaAdministrador implements ActionListener{
 		labelMetrica3.setBounds(237, 129, 204, 14);
 		labelMetrica2.setBounds(237, 104, 341, 14);
 		metrica3.setBounds(451, 126, 86, 20);
+		tablalog.setBounds(353, 200, 184, 81);
+
 	}
 	private void addToFrame() {
 		frame.getContentPane().add(labelTablaBox);
@@ -110,6 +135,7 @@ public class VistaAdministrador implements ActionListener{
 		frame.getContentPane().add(botonAct);
 		frame.getContentPane().add(labelMetrica3);
 		frame.getContentPane().add(metrica3);
+		frame.getContentPane().add(tablalog);
 	}
 
 	@Override
@@ -139,5 +165,23 @@ public class VistaAdministrador implements ActionListener{
 			this.areatexto.setText(texto);
 		else
 			this.areatexto.setText(this.areatexto.getText()+"\n"+texto);
+	}
+	public void agregarATablaLog(String dir,String estado) {
+		if (tablainsidelog.getRowCount()!=0){
+			int i;
+			String pal;
+			for (i=0;i<tablainsidelog.getRowCount();i++) {
+				pal=tablainsidelog.getValueAt(i,0).toString();
+				if (pal.equals(dir)) {
+					tablainsidelog.setValueAt(estado, i, 1);
+					break;
+				}
+			}
+			if (i==tablainsidelog.getRowCount()) {
+				tablainsidelog.addRow(new Object[]{dir, estado});
+			}
+		}else {
+			tablainsidelog.addRow(new Object[]{dir, estado});
+		}
 	}
 }
