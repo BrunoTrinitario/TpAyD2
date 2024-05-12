@@ -8,7 +8,7 @@ import util.Conexion;
 import util.Constantes;
 import vista.VistaServidor;
 
-public class MainServer {
+public class MainServer1 {
 
 	
 	
