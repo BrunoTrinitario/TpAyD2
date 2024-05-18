@@ -2,6 +2,7 @@ package vista;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -35,11 +36,11 @@ public class VistaConfiguracion {
 	private JList<String> listaIzquierda;
 	private JList<String> listaDerecha;
 	 public VistaConfiguracion() {
-		 	frame = new JFrame();	
-		    frame.setTitle("Panel de configuracion");
+	        frame = new JFrame();
+	        frame.setTitle("Panel de configuracion");
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame.setSize(600, 400);
-	        
+
 	        // Panel principal con BorderLayout
 	        JPanel panelPrincipal = new JPanel(new BorderLayout());
 
@@ -76,7 +77,7 @@ public class VistaConfiguracion {
 	        panelPrincipal.add(panelCentral, BorderLayout.CENTER);
 
 	        // Panel inferior para el botón aceptar
-	        JPanel panelInferior = new JPanel(new BorderLayout());
+	        JPanel panelInferior = new JPanel(new FlowLayout(FlowLayout.CENTER)); // FlowLayout con centrado horizontal
 	        JButton botonAceptar = new JButton("Aceptar");
 	        botonAceptar.addActionListener(new ActionListener() {
 	            @Override
@@ -88,24 +89,20 @@ public class VistaConfiguracion {
 	                    
 	                    System.out.println("Formato de texto seleccionado: " + elementoSeleccionado);
 	                }
-	                
+
 	                // Verificar si se ha seleccionado un elemento en la lista derecha
 	                if (!listaDerecha.isSelectionEmpty()) {
 	                    int indiceSeleccionado = listaDerecha.getSelectedIndex();
 	                    String elementoSeleccionado = listaDerecha.getModel().getElementAt(indiceSeleccionado);
-	                    
+
 	                    System.out.println("Tipo de atención seleccionado: " + elementoSeleccionado);
 	                }
 	            }
 	        });
-	        botonAceptar.setPreferredSize(new Dimension(40, 25));
-	        panelInferior.add(botonAceptar, BorderLayout.NORTH);
+	        // Ajustar el tamaño del botón
+	        botonAceptar.setPreferredSize(new Dimension(100, 30));
 
-	        // Agregar un espacio adicional en la parte inferior para evitar el movimiento del botón Aceptar
-	        JPanel espacio = new JPanel();
-	        espacio.setPreferredSize(new Dimension(panelInferior.getWidth(), 50)); // Cambia 50 por el tamaño deseado
-	        panelInferior.add(espacio, BorderLayout.CENTER);
-
+	        panelInferior.add(botonAceptar);
 	        // Agregar panel inferior al panel principal
 	        panelPrincipal.add(panelInferior, BorderLayout.SOUTH);
 
