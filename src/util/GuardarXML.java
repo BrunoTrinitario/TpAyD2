@@ -28,10 +28,8 @@ public class GuardarXML implements IGuardado {
 				XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(dir)));
 				encoder.writeObject(lectura);
 				encoder.close();
-			} catch (FileNotFoundException e) {
-				
+			} catch (FileNotFoundException e) {	
 			}
-			
 		}else {
 			try {
 				XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(dir)));
