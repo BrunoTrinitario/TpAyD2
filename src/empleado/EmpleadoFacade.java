@@ -10,12 +10,13 @@ import util.Constantes;
 import util.EstadoEmpleado;
 
 public class EmpleadoFacade implements IActualizar {
-	private Conexion conexion=new Conexion();
+	private Conexion conexion;
 	private Empleado empleado;
 	private ControladorEmpleado ce;
 	
 	public EmpleadoFacade(ControladorEmpleado ce) {
 		this.ce=ce;
+		this.conexion=new Conexion(ce);
 	}
 	
 	public Empleado getEmpleado() {
@@ -69,16 +70,6 @@ public class EmpleadoFacade implements IActualizar {
 	public void conexionCaida() {
 		ce.conexionCaida();
 	}
-	public void numeroServidorConectado(int servidorConectado) {
-		ce.numeroServidorConectado(servidorConectado);
-	}
 
-	public void bloquearVista() {
-		this.ce.bloquearVista();
-		
-	}
-	public void desbloquearVista() {
-		this.ce.desbloquearVista();
-		
-	}
+
 }

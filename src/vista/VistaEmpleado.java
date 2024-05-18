@@ -162,7 +162,9 @@ public class VistaEmpleado implements ActionListener{
 	}
 	public void cambiarNumeroServidor(int servidorConectado) {
 		try {
+			System.out.println("Servidor conectado en vista "+servidorConectado);
 			lblServidor.setText("Conectado a: Servidor "+servidorConectado+" en "+InetAddress.getLocalHost().getHostAddress()+" : "+Constantes.PUERTOS.get(servidorConectado-1));
+			System.out.println("Conectado a: Servidor "+servidorConectado+" en "+InetAddress.getLocalHost().getHostAddress()+" : "+Constantes.PUERTOS.get(servidorConectado-1));
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -189,10 +191,6 @@ public class VistaEmpleado implements ActionListener{
 		this.botonFinalizar.setEnabled(this.estadoAnteriorBotonFinalizar);
 		this.botonNoAsistio.setEnabled(this.estadoAnterioBotonNoAsistio);
 		this.botonCambioEstado.setEnabled(this.estadoAnteriorBotonCambioEstado);
-		try {
-			lblServidor.setText("Conectado a: Servidor "+servidorConectado+" en "+InetAddress.getLocalHost().getHostAddress()+" : "+Constantes.PUERTOS.get(servidorConectado-1));
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
+
 	}
 }

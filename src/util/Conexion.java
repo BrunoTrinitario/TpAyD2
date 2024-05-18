@@ -8,21 +8,22 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Observable;
 import java.util.Random;
 
 import cliente.Cliente;
 import controlador.ControladorAdministrador;
+import controlador.ControladorEmpleado;
 import controlador.ControladorNotificaciones;
 import empleado.Empleado;
 import empleado.EmpleadoFacade;
-import empleado.IStateEmpleado;
-import empleado.StateEmpleadoNoDisponible;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import servidor.Metrica;
 import servidor.Servidor;
 
-public class Conexion {
+@SuppressWarnings("deprecation")
+public class Conexion extends Observable {
 
 	private Socket socket;
 	private ObjectOutputStream oos;
@@ -31,11 +32,19 @@ public class Conexion {
 	private ObjectInputStream ois;
 	private int puerto;
 	
+	public Conexion (ControladorEmpleado controlador) {
+		this.addObserver(controlador);
+		
+	}
+	
+	public Conexion () {
+	}
+	
 	public String envioEmpleadoAServidor(EmpleadoFacade negociosEmpleado, String mensaje) throws BoxYaRegistradoException, IOException {
 		String msg = envioDatosAServidor(negociosEmpleado.getEmpleado(), mensaje);		
 		if (msg.equals(Constantes.BOX_YA_REGISTRADO)) {
 			throw new BoxYaRegistradoException(Constantes.BOX_YA_REGISTRADO);
-		}
+		}		
 		escucharServidorEmpleado(negociosEmpleado);
 		return msg;
 	}
@@ -128,12 +137,15 @@ public class Conexion {
 					}
 				} catch (Exception e) {
 					try {
-						negociosEmpleado.bloquearVista();
+						System.out.println("Informando observers");
+						System.out.println(countObservers());
+						setChanged();
+						notifyObservers(Constantes.RECONECTANDO);
+						
 						envioEmpleadoAServidor(negociosEmpleado,Constantes.REINTENTO_EMPLEADO);
-						negociosEmpleado.desbloquearVista();
-						negociosEmpleado.numeroServidorConectado(Constantes.PUERTOS.indexOf(puerto)+1);
+						setChanged();
+						notifyObservers(Constantes.PUERTOS.indexOf(puerto)+1);
 					} catch (IOException | BoxYaRegistradoException e1) {
-						System.out.println("Llego a conexion caida");
 						negociosEmpleado.conexionCaida(); 						
 					}
 						

@@ -37,6 +37,8 @@ public class Constantes {
 	public static final String REINTENTAR_EMPLEADO_OK = "Reintentar conexion de empleado ok";
 	public static final int MAX_PUERTOS = 5;
 	public static final String PATH_LOG="clientesLog";
+	public static final String RECONECTANDO = "Reconectando";
+	public static final String RECONECTADO = "Reconectado";
 	
 	static {
 		for (int i=PUERTO_INICIAL; i<PUERTO_INICIAL+MAX_PUERTOS;i++)
