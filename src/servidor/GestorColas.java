@@ -6,6 +6,7 @@ import java.util.Queue;
 
 import cliente.Cliente;
 import empleado.Empleado;
+import empleado.StateEmpleadoDisponible;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import util.Constantes;
@@ -65,7 +66,7 @@ public class GestorColas implements IClienteEmpleado {
 		Empleado empleado = null;
 				
 		for (Empleado aux : empleadosNoAtendiendo) {
-		    if (aux.getEstado().equals(EstadoEmpleado.Disponible)) {
+		    if (aux.getEstado() instanceof StateEmpleadoDisponible) {
 		    		empleado=aux;
 		    	break;
 		    }	
@@ -78,7 +79,7 @@ public class GestorColas implements IClienteEmpleado {
 		Cliente cliente = empleado.getCliente();
 		for(Empleado aux:empleadosAtendiendo) {
 			if(aux.equals(empleado)) {
-				aux.quitarCliente();
+				aux.setCliente(null);
 				break;
 			}
 		}
@@ -109,7 +110,7 @@ public class GestorColas implements IClienteEmpleado {
 			for (Empleado aux : empleadosNoAtendiendo) {
 			    if (aux.equals(empleado)) {
 			    	aux.cambioEstado(empleado.getEstado()); 
-			    	if (empleado.getEstado().equals(EstadoEmpleado.Disponible)) {
+			    	if (aux.getEstado() instanceof StateEmpleadoDisponible) {
 			    		matchClienteEmpleado();
 			    	}
 			    	break;
@@ -120,7 +121,7 @@ public class GestorColas implements IClienteEmpleado {
 	public void finalizarAtencion(Empleado empleado) {
 		for(Empleado aux:empleadosAtendiendo) {
 			if(aux.equals(empleado)) {				
-				aux.quitarCliente();
+				aux.setCliente(null);
 				break;
 			}
 		}

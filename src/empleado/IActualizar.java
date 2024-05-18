@@ -12,7 +12,7 @@ public interface IActualizar {
 	void clienteAusente() throws DniYaRegistradoException;
 	int crearEmpleado(String nombre,int box) throws BoxYaRegistradoException, IOException;
 	void informarAcceso(Empleado empleado) throws BoxYaRegistradoException, IOException;
-	void cambioEstado(EstadoEmpleado estado);
 	void finalizarAtencion();
+	void cambioEstado(IStateEmpleado estado);
 
 }

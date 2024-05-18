@@ -13,6 +13,8 @@ import javax.swing.JTextField;
 
 import cliente.Cliente;
 import controlador.ControladorEmpleado;
+import empleado.StateEmpleadoDisponible;
+import empleado.StateEmpleadoNoDisponible;
 import util.Constantes;
 import util.EstadoEmpleado;
 
@@ -28,6 +30,7 @@ public class VistaEmpleado implements ActionListener{
 	private boolean estadoAnteriorBotonFinalizar,estadoAnterioBotonNoAsistio,estadoAnteriorBotonCambioEstado;
 	private ControladorEmpleado ce;
 	private int servidorConectado;
+	private boolean empleadoDisponible;
 	/**
 	 * Create the application.
 	 * @param puertoConectado 
@@ -39,6 +42,7 @@ public class VistaEmpleado implements ActionListener{
 		this.box=box;
 		this.botonFinalizar= new JButton("Finalizar atencion");
 		this.ce.setVistaPrincipal(this);
+		this.empleadoDisponible=false;
 		botonFinalizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -110,13 +114,15 @@ public class VistaEmpleado implements ActionListener{
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==botonCambioEstado) {
-			if(ce.getEstado()==EstadoEmpleado.Disponible) {
-				ce.cambioEstado(EstadoEmpleado.NoDisponible);
+			if(this.empleadoDisponible) {
+				ce.cambioEstado(new StateEmpleadoNoDisponible());
+				this.empleadoDisponible=false;
 				this.labelEstado.setText("Estado: "+EstadoEmpleado.NoDisponible);
 				this.botonCambioEstado.setText("Cambiar a Disponible");
 			}
 			else {
-				ce.cambioEstado(EstadoEmpleado.Disponible);
+				ce.cambioEstado(new StateEmpleadoDisponible());
+				this.empleadoDisponible=true;
 				this.labelEstado.setText("Estado: "+EstadoEmpleado.Disponible);
 				this.botonCambioEstado.setText("Cambiar a No Disponible");
 			}
@@ -152,6 +158,7 @@ public class VistaEmpleado implements ActionListener{
 		this.textoDniCliente.setText(cliente.getDni());
 		this.botonCambioEstado.setEnabled(false);
 		this.botonCambioEstado.setText("Cambiar a Disponible");
+		this.empleadoDisponible=false;
 	}
 	public void cambiarNumeroServidor(int servidorConectado) {
 		try {

@@ -14,7 +14,9 @@ import cliente.Cliente;
 import controlador.ControladorAdministrador;
 import controlador.ControladorNotificaciones;
 import empleado.Empleado;
-import empleado.NegociosEmpleado;
+import empleado.EmpleadoFacade;
+import empleado.IStateEmpleado;
+import empleado.StateEmpleadoNoDisponible;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import servidor.Metrica;
@@ -29,7 +31,7 @@ public class Conexion {
 	private ObjectInputStream ois;
 	private int puerto;
 	
-	public String envioEmpleadoAServidor(NegociosEmpleado negociosEmpleado, String mensaje) throws BoxYaRegistradoException, IOException {
+	public String envioEmpleadoAServidor(EmpleadoFacade negociosEmpleado, String mensaje) throws BoxYaRegistradoException, IOException {
 		String msg = envioDatosAServidor(negociosEmpleado.getEmpleado(), mensaje);		
 		if (msg.equals(Constantes.BOX_YA_REGISTRADO)) {
 			throw new BoxYaRegistradoException(Constantes.BOX_YA_REGISTRADO);
@@ -40,7 +42,6 @@ public class Conexion {
 
 	public String envioClienteAServidor(Object objeto, String mensaje) throws DniYaRegistradoException, IOException {
 		String msg = envioDatosAServidor(objeto, mensaje);
-		System.out.println("Llegue");
 		if (msg.equals(Constantes.DNI_YA_REGISTRADO)) {
 			throw new DniYaRegistradoException(Constantes.DNI_YA_REGISTRADO);
 		}
@@ -115,7 +116,7 @@ public class Conexion {
 		out.println(mensaje);
 	}
 
-	private void escucharServidorEmpleado(NegociosEmpleado negociosEmpleado) {
+	private void escucharServidorEmpleado(EmpleadoFacade negociosEmpleado) {
 		new Thread() {
 			public void run() {
 				try {
@@ -219,26 +220,14 @@ public class Conexion {
 			e.printStackTrace();
 		}	
 	}
-	/*
-	private boolean reintentarConexion(Object objeto,String mensaje) throws IOException  {
-		boolean conecto=false;
-		String tipoRegistro;
-		tipoRegistro=envioDatosAServidor(objeto,mensaje);
-		System.out.println(tipoRegistro+" bOQUITA");
-		if(tipoRegistro.equals(Constantes.REINTENTAR_NOTIFICACION_OK) || tipoRegistro.equals(Constantes.REINTENTAR_EMPLEADO_OK ))
-			conecto=true;
-		return conecto;
-	}
-	
-	*/
     		
 
 	public void informarAccionAServidor(Empleado e, String mensaje) {
 		try {
 			// por patron DAO
-			Empleado empleado = new Empleado(e.getNombre(), e.getBox(), e.getEstado(), e.getCliente());
+			Empleado empleado = new Empleado(e.getNombre(), e.getBox(), e.getEstadoDTO(), e.getCliente());
 			enviarDatos(empleado, mensaje);
-		} catch (IOException ex) {
+		} catch (IOException ex) {	
 			ex.printStackTrace();
 		}
 	}

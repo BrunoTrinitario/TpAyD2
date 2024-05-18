@@ -3,7 +3,8 @@ package controlador;
 import java.io.IOException;
 
 import cliente.Cliente;
-import empleado.NegociosEmpleado;
+import empleado.EmpleadoFacade;
+import empleado.IStateEmpleado;
 import excepciones.BoxYaRegistradoException;
 import util.Constantes;
 import util.EstadoEmpleado;
@@ -12,7 +13,7 @@ import vista.VistaEmpleado;
 import vista.VistaEmpleadoRegistro;
 
 public class ControladorEmpleado {
-	NegociosEmpleado ne=new NegociosEmpleado(this);
+	EmpleadoFacade ne=new EmpleadoFacade(this);
 	VistaEmpleadoRegistro er = new VistaEmpleadoRegistro(this);
 	VistaEmpleado vistaEmpleado;
 		
@@ -29,7 +30,7 @@ public class ControladorEmpleado {
 		System.out.println(servidor);
 		return servidor;
 	}
-	public void cambioEstado(EstadoEmpleado estado) {
+	public void cambioEstado(IStateEmpleado estado) {
 		ne.cambioEstado(estado);
 	}
 	
@@ -37,7 +38,7 @@ public class ControladorEmpleado {
 		this.ne.clienteAusente();
 	}
 	
-	public EstadoEmpleado getEstado() {
+	public IStateEmpleado getEstado() {
 		return ne.getEstado();
 	}
 	public void finalizarAtencion() {
@@ -64,4 +65,5 @@ public class ControladorEmpleado {
 		this.vistaEmpleado.desbloquearVista();
 		
 	}
+
 }

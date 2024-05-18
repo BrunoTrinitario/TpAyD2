@@ -5,17 +5,16 @@ import java.io.IOException;
 import cliente.Cliente;
 import controlador.ControladorEmpleado;
 import excepciones.BoxYaRegistradoException;
-import excepciones.DniYaRegistradoException;
 import util.Conexion;
 import util.Constantes;
 import util.EstadoEmpleado;
 
-public class NegociosEmpleado implements IActualizar {
+public class EmpleadoFacade implements IActualizar {
 	private Conexion conexion=new Conexion();
 	private Empleado empleado;
 	private ControladorEmpleado ce;
 	
-	public NegociosEmpleado(ControladorEmpleado ce) {
+	public EmpleadoFacade(ControladorEmpleado ce) {
 		this.ce=ce;
 	}
 	
@@ -29,28 +28,30 @@ public class NegociosEmpleado implements IActualizar {
 	}
 
 	@Override
-	public void cambioEstado(EstadoEmpleado estado) {
+	public void cambioEstado(IStateEmpleado estado) {
 		this.empleado.cambioEstado(estado);
 		this.informaEstado(empleado);
 	}
-	public EstadoEmpleado getEstado() {
+	public IStateEmpleado getEstado() {
 		return empleado.getEstado();
 	}
 
 	public void finalizarAtencion()  {
-		this.empleado.cambioEstado(EstadoEmpleado.NoDisponible);
-		conexion.informarAccionAServidor(empleado,Constantes.ATENCION_FINALIZADA);
+		
+		conexion.informarAccionAServidor(this.empleado,Constantes.ATENCION_FINALIZADA);
+		this.empleado.finalizarAtencion();
 	}
 
 	@Override
 	public void clienteAusente() {
-		this.empleado.cambioEstado(EstadoEmpleado.NoDisponible);
+		
 		conexion.informarAccionAServidor(this.empleado,Constantes.CLIENTE_AUSENTE);
+		this.empleado.clienteAusente();
 	}
 
 	@Override
 	public int crearEmpleado(String nombre, int box) throws BoxYaRegistradoException, IOException {
-		this.empleado=new Empleado(nombre,box,EstadoEmpleado.NoDisponible);
+		this.empleado=new Empleado(nombre,box,new StateEmpleadoNoDisponible());
 		this.informarAcceso(empleado);
 		return conexion.getPuertoConectado();
 	}
