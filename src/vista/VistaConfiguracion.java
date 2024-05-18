@@ -59,7 +59,7 @@ public class VistaConfiguracion {
 	        listaIzquierda.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	        listaIzquierda.setSelectedIndex(0); // Preseleccionar la primera opción
 	        JPanel panelIzquierdo = new JPanel(new BorderLayout());
-	        panelIzquierdo.setBorder(BorderFactory.createTitledBorder("Seleccione formato de texto"));
+	        panelIzquierdo.setBorder(BorderFactory.createTitledBorder("Seleccione el formato de archivo"));
 	        panelIzquierdo.add(new JScrollPane(listaIzquierda), BorderLayout.CENTER);
 	        panelCentral.add(panelIzquierdo);
 
