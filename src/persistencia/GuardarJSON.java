@@ -1,4 +1,4 @@
-package util;
+package persistencia;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,6 +17,7 @@ import java.util.Map;
 
 
 import cliente.Cliente;
+import util.Constantes;
 
 
 public class GuardarJSON implements IGuardado {

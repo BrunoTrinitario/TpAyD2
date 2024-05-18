@@ -1,4 +1,4 @@
-package util;
+package persistencia;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import cliente.Cliente;
+import util.Constantes;
 
 public class GuardarTXT implements IGuardado {
 

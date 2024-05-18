@@ -1,4 +1,4 @@
-package util;
+package persistencia;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -12,6 +12,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import cliente.Cliente;
+import util.Constantes;
 
 
 
