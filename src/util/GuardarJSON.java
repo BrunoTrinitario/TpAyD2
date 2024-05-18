@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -20,10 +22,13 @@ import cliente.Cliente;
 public class GuardarJSON implements IGuardado {
 
 	@Override
-	public void guardar(Cliente cliente, String hora, String accion) {
+	public void guardar(Cliente cliente, String accion) {
 		String dir=Constantes.PATH_LOG+".json";
 		File archivo=new File(dir);
-		ClienteAJson clienteJson=new ClienteAJson(cliente.getDni(),hora,accion);
+		LocalTime tl=LocalTime.now();
+		DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm:ss");
+		String ha=tl.format(formatoHora);
+		ClienteAJson clienteJson=new ClienteAJson(cliente.getDni(),ha,accion);
 		if (archivo.exists()) {
 			try {
 				String dato="";
