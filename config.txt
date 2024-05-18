@@ -1,1 +1,2 @@
 extension-tipo: TXT
+registro-tipo: TXT
