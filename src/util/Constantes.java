@@ -39,8 +39,8 @@ public class Constantes {
 	public static final String PATH_LOG="clientesLog";
 	public static final String RECONECTANDO = "Reconectando";
 	public static final String RECONECTADO = "Reconectado";
-	public static final String FECHA_JOVEN = " ";
-	public static final String FECHA_ADULTO = " ";
+	public static final int MAX_EDAD_JOVEN = 17;
+	public static final int MAX_EDAD_ADULTO =59;
 	
 	static {
 		for (int i=PUERTO_INICIAL; i<PUERTO_INICIAL+MAX_PUERTOS;i++)

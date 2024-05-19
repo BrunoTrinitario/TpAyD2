@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import cliente.Cliente;
 
 public interface IStrategyOrdenAtencion {
-	public ArrayList<Cliente> ordenClientes(Cliente cliente,ArrayList<Cliente> listaClientes,String tipoArchivo);
+	//ordena y asignaPrioridad a cliente
+	public int ordenClientes(Cliente cliente,String tipoArchivo);
 	
 }

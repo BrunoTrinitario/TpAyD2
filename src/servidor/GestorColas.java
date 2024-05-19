@@ -29,6 +29,16 @@ public class GestorColas implements IClienteEmpleado {
 	
 	public void registrarCliente(Cliente cliente) throws DniYaRegistradoException{
 		if (!clientesEnEspera.contains(cliente)) {
+			/*
+			//deberia llegar por constructor el tipo de orden y el tipo de arch
+			// IStrategyOrdenAtencion EstrategiaAtencion; debe definirse mas arriba
+			//EstrategiaAtencion.ordenClientes(Cliente cliente,String tipoArchivo)
+			cliente.setNroPrioridad(nroPrioridad);
+			while (pos < listaClientes.size() && listaClientes.get(pos).getNroPrioridad() <= nroPrioridad) {
+		            pos++;
+		    }
+		 
+			listaClientes.add(pos, cliente);*/
 			this.clientesEnEspera.add(cliente);
 			matchClienteEmpleado();
 		}

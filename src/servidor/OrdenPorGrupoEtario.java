@@ -2,6 +2,7 @@ package servidor;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -9,11 +10,10 @@ import cliente.Cliente;
 import util.Constantes;
 
 public class OrdenPorGrupoEtario implements IStrategyOrdenAtencion{
-
+	
 	@Override
-	public ArrayList<Cliente> ordenClientes(Cliente cliente,ArrayList<Cliente> listaClientes,String tipoArchivo) {
-		int pos=0;
-		int nroPrioridad; 
+	public int ordenClientes(Cliente cliente,String tipoArchivo) {
+		int nroPrioridad,edad; 
 		String datosCliente=null;
 		String fechaNacimiento=null;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -32,13 +32,13 @@ public class OrdenPorGrupoEtario implements IStrategyOrdenAtencion{
 			//corto string en fecha
 			//fechaNacimiento=datosCliente[];
 			date1 = LocalDate.parse(fechaNacimiento, formatter);
-			date2 = LocalDate.parse(Constantes.FECHA_JOVEN, formatter); //definir constante
-			if(date2.isAfter(date1)) {
+			date2 = LocalDate.now(); 
+			edad = Period.between(date1, date2).getYears();
+			if(edad<=Constantes.MAX_EDAD_JOVEN) {
 				nroPrioridad=3;
 			}
 			else {
-				date2 = LocalDate.parse(Constantes.FECHA_ADULTO, formatter); //definir constante
-				if(date2.isAfter(date1)) {
+				if(edad<=Constantes.MAX_EDAD_ADULTO) {
 					nroPrioridad=2;
 				}
 				else { //grupo adulto mayor
@@ -46,14 +46,8 @@ public class OrdenPorGrupoEtario implements IStrategyOrdenAtencion{
 				}
 			}
 		}
-		//cliente.setNroPrioridad(nroPrioridad);
-		/*
-		while (pos < listaClientes.size() && listaClientes.get(pos).getNroPrioridad() <= nroPrioridad) {
-	            pos++;
-	    }
-	    */
-		listaClientes.add(pos, cliente);
-		return listaClientes;
+	
+		return nroPrioridad;
 	}
 
 }
