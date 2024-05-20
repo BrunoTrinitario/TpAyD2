@@ -42,10 +42,15 @@ public class Constantes {
 	public static final String RECONECTADO = "Reconectado";
 	public static final int MAX_EDAD_JOVEN = 17;
 	public static final int MAX_EDAD_ADULTO =59;
-	public static final String GRUPO_CLASSIC = "Classic";
-	public static final String GRUPO_GOLD = "Gold";
-	public static final String GRUPO_PLATINUM = "Platinum";
-	
+	public static final int MAX_GRUPO_AFINIDAD=4;
+	public static final ArrayList<String> GRUPO_AFINIDAD= new ArrayList<String>();
+	public static final int MAX_GRUPO_ETARIO = 3;	
+	static {
+		GRUPO_AFINIDAD.add("Classic");
+		GRUPO_AFINIDAD.add("Gold");
+		GRUPO_AFINIDAD.add("Platinum");
+		GRUPO_AFINIDAD.add("black");
+	}
 	static {
 		for (int i=PUERTO_INICIAL; i<PUERTO_INICIAL+MAX_PUERTOS;i++)
 		PUERTOS.add(i);

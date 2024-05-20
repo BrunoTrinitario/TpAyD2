@@ -8,5 +8,5 @@ import cliente.Cliente;
 import persistencia.ILectoEscritura;
 
 public interface IStrategyOrdenAtencion {
-	public Cliente ordenClientes(Queue<Cliente> clientesEnEspera,ILectoEscritura archivo);
+	public Cliente ordenClientes(ArrayList<Cliente> clientesEnEspera,ILectoEscritura archivo);
 }
