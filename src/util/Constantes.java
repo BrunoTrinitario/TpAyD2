@@ -37,6 +37,7 @@ public class Constantes {
 	public static final String REINTENTAR_EMPLEADO_OK = "Reintentar conexion de empleado ok";
 	public static final int MAX_PUERTOS = 5;
 	public static final String PATH_LOG="clientesLog";
+	public static final String PATH_DATOS="datosclientes";
 	public static final String RECONECTANDO = "Reconectando";
 	public static final String RECONECTADO = "Reconectado";
 	public static final int MAX_EDAD_JOVEN = 17;

@@ -14,9 +14,7 @@ public class ClienteAXML implements Serializable{
 		this.hora = hora;
 		this.accion = accion;
 	}
-	public String toJson() {
-		return String.format("{\"hora\": \"%s\", \"dni\": \"%s\", \"accion\": \"%s\"}",hora, dni, accion);
-	}
+
 	public String getDni() {
 		return dni;
 	}
