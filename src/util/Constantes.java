@@ -42,6 +42,9 @@ public class Constantes {
 	public static final String RECONECTADO = "Reconectado";
 	public static final int MAX_EDAD_JOVEN = 17;
 	public static final int MAX_EDAD_ADULTO =59;
+	public static final String GRUPO_CLASSIC = "Classic";
+	public static final String GRUPO_GOLD = "Gold";
+	public static final String GRUPO_PLATINUM = "Platinum";
 	
 	static {
 		for (int i=PUERTO_INICIAL; i<PUERTO_INICIAL+MAX_PUERTOS;i++)

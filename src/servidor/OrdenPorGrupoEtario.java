@@ -5,49 +5,56 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Queue;
 
 import cliente.Cliente;
+import persistencia.ILectoEscritura;
 import util.Constantes;
 
 public class OrdenPorGrupoEtario implements IStrategyOrdenAtencion{
 	
 	@Override
-	public int ordenClientes(Cliente cliente,String tipoArchivo) {
-		int nroPrioridad,edad; 
-		String datosCliente=null;
+	public Cliente ordenClientes(Queue<Cliente> clientesEnEspera,ILectoEscritura archivo) {
 		String fechaNacimiento=null;
+		Iterator<Cliente> iteratorClientes=clientesEnEspera.iterator();
+		Cliente cliente,clienteMejor=null;
+		int nroPrioridad,edad;
+		int nroPrioridadMejor=999; //valor para que siempre agarre el primero
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDate date1;
 		LocalDate date2 ;
-		// invoco datosCliente=metodo(cliente.getDni()) que recorre arch 
-		//y devuelve nulo si no estaba o fecha nacimiento grupo afinidad
-		//Los numeros de prioridad los defino asi: 
-		//peor prioridad nro mas alto 
-		// ya que el arreglo va de 0 a n y cuando se toma un cliente
-		// en espera agarra el primero del arreglo
-		if(datosCliente==null) {
-			nroPrioridad=4;	
-		}
-		else {
-			//corto string en fecha
-			//fechaNacimiento=datosCliente[];
-			date1 = LocalDate.parse(fechaNacimiento, formatter);
-			date2 = LocalDate.now(); 
-			edad = Period.between(date1, date2).getYears();
-			if(edad<=Constantes.MAX_EDAD_JOVEN) {
-				nroPrioridad=3;
+	
+		while(iteratorClientes.hasNext() || nroPrioridadMejor>1 ) {
+			cliente=iteratorClientes.next();
+			fechaNacimiento=archivo.buscaFecha(cliente.getDni());
+			if(fechaNacimiento==null) {
+				nroPrioridad=4;	
 			}
 			else {
-				if(edad<=Constantes.MAX_EDAD_ADULTO) {
-					nroPrioridad=2;
+				date1 = LocalDate.parse(fechaNacimiento, formatter);
+				date2 = LocalDate.now(); 
+				edad = Period.between(date1, date2).getYears();
+				if(edad<=Constantes.MAX_EDAD_JOVEN) {
+					nroPrioridad=3;
 				}
-				else { //grupo adulto mayor
-					nroPrioridad=1;
+				else {
+					if(edad<=Constantes.MAX_EDAD_ADULTO) {
+						nroPrioridad=2;
+					}
+					else { //grupo adulto mayor
+						nroPrioridad=1;
+					}
 				}
 			}
+			if(nroPrioridad<nroPrioridadMejor) {
+				nroPrioridadMejor=nroPrioridad;
+				clienteMejor=cliente;
+			}
 		}
+		
 	
-		return nroPrioridad;
+		return clienteMejor;
 	}
 
 }

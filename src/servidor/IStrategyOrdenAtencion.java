@@ -2,11 +2,11 @@ package servidor;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Queue;
 
 import cliente.Cliente;
+import persistencia.ILectoEscritura;
 
 public interface IStrategyOrdenAtencion {
-	//ordena y asignaPrioridad a cliente
-	public int ordenClientes(Cliente cliente,String tipoArchivo);
-	
+	public Cliente ordenClientes(Queue<Cliente> clientesEnEspera,ILectoEscritura archivo);
 }

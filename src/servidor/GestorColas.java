@@ -22,23 +22,13 @@ public class GestorColas implements IClienteEmpleado {
 	//empleados que SOLO ANTIENDEN EN UN ISNTANTE DADO
 	private ArrayList<Empleado> empleadosAtendiendo=new ArrayList<Empleado>();
 	private ArrayList<Cliente> clientesAtendidos=new ArrayList<Cliente>();
-	
+	//private IStrategyOrdenAtencion estrategiaAtencion;
 	public GestorColas(Servidor servidor) {
 		this.servidor=servidor;
 	}
 	
 	public void registrarCliente(Cliente cliente) throws DniYaRegistradoException{
 		if (!clientesEnEspera.contains(cliente)) {
-			/*
-			//deberia llegar por constructor el tipo de orden y el tipo de arch
-			// IStrategyOrdenAtencion EstrategiaAtencion; debe definirse mas arriba
-			//EstrategiaAtencion.ordenClientes(Cliente cliente,String tipoArchivo)
-			cliente.setNroPrioridad(nroPrioridad);
-			while (pos < listaClientes.size() && listaClientes.get(pos).getNroPrioridad() <= nroPrioridad) {
-		            pos++;
-		    }
-		 
-			listaClientes.add(pos, cliente);*/
 			this.clientesEnEspera.add(cliente);
 			matchClienteEmpleado();
 		}
@@ -60,6 +50,13 @@ public class GestorColas implements IClienteEmpleado {
 		if (!this.clientesEnEspera.isEmpty()) {
 			Empleado empleado = getEmpleadoDisponible();
 			if (empleado!= null) {
+				/*
+				//deberia llegar por constructor el tipo de orden y el tipo de arch
+				// IStrategyOrdenAtencion EstrategiaAtencion; debe definirse mas arriba
+				//Cliente cliente=estrategiaAtencion.ordenClientes(clientesEnEspera,archivo)
+					archivo se define como ILectoEscritura archivo
+					this.clientesEnEspera.remove(cliente)
+				*/
 				this.empleadosNoAtendiendo.remove(empleado);
 				this.empleadosAtendiendo.add(empleado);
 				Cliente cliente = this.clientesEnEspera.poll();
