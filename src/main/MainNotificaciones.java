@@ -2,8 +2,8 @@ package main;
 
 import java.io.IOException;
 
+import conexion.Conexion;
 import controlador.ControladorNotificaciones;
-import util.Conexion;
 import util.Constantes;
 
 public class MainNotificaciones {

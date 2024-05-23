@@ -1,4 +1,4 @@
-package util;
+package conexion;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,6 +21,8 @@ import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
 import servidor.Metrica;
 import servidor.Servidor;
+import util.Constantes;
+import util.GestorColasDTO;
 
 @SuppressWarnings("deprecation")
 public class Conexion extends Observable {

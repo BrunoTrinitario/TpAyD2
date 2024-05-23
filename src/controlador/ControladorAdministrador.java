@@ -2,8 +2,8 @@ package controlador;
 
 import java.io.IOException;
 
+import conexion.Conexion;
 import servidor.Metrica;
-import util.Conexion;
 import util.Constantes;
 import util.PingEcho;
 import vista.VistaAdministrador;

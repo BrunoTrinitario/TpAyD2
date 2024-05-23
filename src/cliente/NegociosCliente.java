@@ -2,9 +2,9 @@ package cliente;
 
 import java.io.IOException;
 
+import conexion.Conexion;
 import excepciones.DniInvalidoException;
 import excepciones.DniYaRegistradoException;
-import util.Conexion;
 import util.Constantes;
 
 public class NegociosCliente implements IRegistro {

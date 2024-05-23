@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cliente.Cliente;
+import conexion.Conexion;
 import controlador.ControladorServidor;
 import empleado.Empleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
-import util.Conexion;
 import util.Constantes;
 import util.SocketConexion;
 import util.GestorColasDTO;

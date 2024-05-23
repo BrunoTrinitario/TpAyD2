@@ -19,7 +19,6 @@ import javax.swing.table.DefaultTableModel;
 
 import cliente.Cliente;
 import empleado.Empleado;
-import util.NotificacionAuxiliar;
 
 import java.awt.Font;
 import java.awt.Color;

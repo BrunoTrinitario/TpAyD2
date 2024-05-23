@@ -3,9 +3,9 @@ package empleado;
 import java.io.IOException;
 
 import cliente.Cliente;
+import conexion.Conexion;
 import controlador.ControladorEmpleado;
 import excepciones.BoxYaRegistradoException;
-import util.Conexion;
 import util.Constantes;
 import util.EstadoEmpleado;
 
