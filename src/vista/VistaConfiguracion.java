@@ -95,7 +95,7 @@ public class VistaConfiguracion {
 
 	                    System.out.println("Tipo de atención seleccionado: " + elementoSeleccionado);
 	                    try {
-	                        EscritorArchivoTexto.escribirArchivo(elementoSeleccionado, "Strategy.txt");
+	                        EscritorArchivoTexto.escribirArchivo(elementoSeleccionado, Constantes.ARCHIVO_STRATEGY);
 	                        System.out.println("Contenido escrito en el archivo exitosamente.");
 	                    } catch (IOException e1) {
 	                        e1.printStackTrace();
