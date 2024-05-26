@@ -22,9 +22,11 @@ public class GestorColas implements IClienteEmpleado {
 	//empleados que SOLO ANTIENDEN EN UN ISNTANTE DADO
 	private ArrayList<Empleado> empleadosAtendiendo=new ArrayList<Empleado>();
 	private ArrayList<Cliente> clientesAtendidos=new ArrayList<Cliente>();
-	//private IStrategyOrdenAtencion estrategiaAtencion;
+	private IStrategyOrdenAtencion estrategiaAtencion;
+	
 	public GestorColas(Servidor servidor) {
 		this.servidor=servidor;
+		this.estrategiaAtencion=FactoryStrategy.getOrdenAtencion();
 	}
 	
 	public void registrarCliente(Cliente cliente) throws DniYaRegistradoException{

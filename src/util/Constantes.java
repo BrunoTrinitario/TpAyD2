@@ -40,6 +40,9 @@ public class Constantes {
 	public static final String PATH_DATOS="datosclientes";
 	public static final String RECONECTANDO = "Reconectando";
 	public static final String RECONECTADO = "Reconectado";
+	public static final String ORDEN_DE_LLEGADA = "Orden de llegada";
+	public static final String ORDEN_GRUPO_AFINIDAD = "Orden grupo afinidad";
+	public static final String ORDEN_GRUPO_ETARIO = "Orden grupo etario";
 	public static final int MAX_EDAD_JOVEN = 17;
 	public static final int MAX_EDAD_ADULTO =59;
 	public static final int MAX_GRUPO_AFINIDAD=4;
