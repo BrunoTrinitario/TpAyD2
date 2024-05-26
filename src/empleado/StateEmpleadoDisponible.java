@@ -29,6 +29,9 @@ public class StateEmpleadoDisponible implements IStateEmpleado, Serializable  {
 	public IStateEmpleado getEstadoDTO() {
 		return new StateEmpleadoDisponible();
 	}
-
+	@Override
+	public String toString() {
+		return "Disponible";
+	}
 
 }

@@ -30,4 +30,11 @@ public class StateEmpleadoAtendiendo implements IStateEmpleado, Serializable {
 		return new StateEmpleadoAtendiendo();
 	}
 
+	@Override
+	public String toString() {
+		return "Atendiendo";
+	}
+	
+	
+
 }

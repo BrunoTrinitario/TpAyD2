@@ -35,7 +35,7 @@ public class Constantes {
 	public static final String REINTENTO_NOTIFICACION = "Reintento conectar notificaciones";
 	public static final String REINTENTAR_NOTIFICACION_OK = "Reintentar conexion de notificacion exitosa";
 	public static final String REINTENTAR_EMPLEADO_OK = "Reintentar conexion de empleado ok";
-	public static final int MAX_PUERTOS = 5;
+	public static final int MAX_PUERTOS = 2;
 	public static final String PATH_LOG="clientesLog";
 	public static final String PATH_DATOS="datosclientes";
 	public static final String RECONECTANDO = "Reconectando";

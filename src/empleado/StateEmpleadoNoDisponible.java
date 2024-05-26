@@ -27,5 +27,9 @@ public class StateEmpleadoNoDisponible implements IStateEmpleado, Serializable  
 		return new StateEmpleadoNoDisponible();
 	}
 
+	@Override
+	public String toString() {
+		return "No disponible";
+	}
 
 }
