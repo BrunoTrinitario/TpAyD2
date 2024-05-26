@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="22.0.1" class="java.beans.XMLDecoder">
+ <object class="ListaInfoClientesXML" id="ListaInfoClientesXML0">
+  <void property="lista">
+   <void method="add">
+    <object class="ClienteRegistrado">
+     <void property="dni">
+      <string>37550930</string>
+     </void>
+     <void property="fecha">
+      <string>12/08/1993</string>
+     </void>
+     <void property="grupo">
+      <string>Black</string>
+     </void>
+    </object>
+   </void>
+  </void>
+ </object>
+</java>

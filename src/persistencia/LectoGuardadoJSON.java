@@ -24,8 +24,8 @@ public class LectoGuardadoJSON implements ILectoEscritura {
 	private File archivoLOG=null,archivoDATOS=null;
 	private String dirLOG,dirDATOS;
 	public LectoGuardadoJSON() {
-		dirLOG=Constantes.PATH_LOG+".txt";
-		dirDATOS=Constantes.PATH_DATOS+".txt";
+		dirLOG=Constantes.PATH_LOG+".json";
+		dirDATOS=Constantes.PATH_DATOS+".json";
 		archivoLOG=new File(dirLOG);
 		archivoDATOS=new File(dirDATOS);
 	}

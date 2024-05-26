@@ -1,5 +1,6 @@
 package vista;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -7,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import controlador.ControladorCliente;
+import util.Constantes;
+import util.LectorArchivoTexto;
 
 public class VistaServidor {
 
@@ -38,11 +41,24 @@ public class VistaServidor {
 		JLabel lblNewLabel_2 = new JLabel("Servidor "+numeroServidor);
 		lblNewLabel_2.setBounds(91, 6, 93, 14);
 		frame.getContentPane().add(lblNewLabel_2);
+		String contenido = null;
+        try {
+            contenido = LectorArchivoTexto.leerArchivo(Constantes.ARCHIVO_STRATEGY);
+           System.out.println("Contenido leído del archivo:");
+           System.out.println(contenido);
+       } catch (IOException e) {
+           e.printStackTrace();
+           System.out.println("Error al leer el archivo.");
+       }
+		
+		JLabel lblNewLabel_3 = new JLabel("Estrategia: "+contenido);
+		lblNewLabel_3.setBounds(27, 106, 186, 14);
+		frame.getContentPane().add(lblNewLabel_3);
 		initialize();
 	}
 
 	private void initialize() {	
-		frame.setBounds(100, 100, 251, 182);
+		frame.setBounds(100, 100, 257, 186);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
 		this.addBounds();

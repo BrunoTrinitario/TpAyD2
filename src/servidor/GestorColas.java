@@ -1,16 +1,14 @@
 package servidor;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import cliente.Cliente;
 import empleado.Empleado;
 import empleado.StateEmpleadoDisponible;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
+import persistencia.ILectoEscritura;
 import util.Constantes;
-import util.EstadoEmpleado;
 import util.GestorColasDTO;
 
 public class GestorColas implements IClienteEmpleado {
@@ -23,10 +21,13 @@ public class GestorColas implements IClienteEmpleado {
 	private ArrayList<Empleado> empleadosAtendiendo=new ArrayList<Empleado>();
 	private ArrayList<Cliente> clientesAtendidos=new ArrayList<Cliente>();
 	private IStrategyOrdenAtencion estrategiaAtencion;
+	private ILectoEscritura tipoArchivo;
 	
 	public GestorColas(Servidor servidor) {
 		this.servidor=servidor;
 		this.estrategiaAtencion=FactoryStrategy.getOrdenAtencion();
+		
+		
 	}
 	
 	public void registrarCliente(Cliente cliente) throws DniYaRegistradoException{
@@ -61,8 +62,9 @@ public class GestorColas implements IClienteEmpleado {
 				*/
 				this.empleadosNoAtendiendo.remove(empleado);
 				this.empleadosAtendiendo.add(empleado);
-				Cliente cliente = this.clientesEnEspera.get(0);
-				this.clientesEnEspera.remove(0);
+				
+				Cliente cliente = this.estrategiaAtencion.ordenClientes(clientesEnEspera, null);				
+				this.clientesEnEspera.remove(cliente);
 				empleado.atenderCliente(cliente);
 				cliente.setHoraAtencion();
 				enviarClienteAEmpleado(empleado, cliente);
