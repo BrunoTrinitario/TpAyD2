@@ -57,7 +57,7 @@ public class ControladorEmpleado implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("Info recibida"+arg);
+		
 		if (arg.equals(Constantes.RECONECTANDO)) {
 			this.vistaEmpleado.bloquearVista();
 		}

@@ -8,7 +8,6 @@ public class StateEmpleadoNoDisponible implements IStateEmpleado, Serializable  
 
 	@Override
 	public void atenderCliente(Empleado empleado, Cliente cliente) {
-		empleado.setCliente(cliente);
 		
 	}
 
