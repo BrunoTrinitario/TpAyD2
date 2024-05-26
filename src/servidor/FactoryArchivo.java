@@ -2,18 +2,22 @@ package servidor;
 
 import java.io.IOException;
 
+import persistencia.ILectoEscritura;
+import persistencia.LectoGuardadoJSON;
+import persistencia.LectoGuardadoTXT;
+import persistencia.LectoGuardadoXML;
 import util.Constantes;
 import util.LectorArchivoTexto;
 
 public class FactoryArchivo {
 
 	
-	public static IStrategyOrdenAtencion getOrdenAtencion() {
-		IStrategyOrdenAtencion strategy = null;
+	public static ILectoEscritura getTipoArchivo() {
+		ILectoEscritura tipoArchivo = null;
 		String contenido = null;
 
         try {
-             contenido = LectorArchivoTexto.leerArchivo(Constantes.ARCHIVO_STRATEGY);
+             contenido = LectorArchivoTexto.leerArchivo(Constantes.ARCHIVO_CONFIGURACION);
             System.out.println("Contenido leído del archivo:");
             System.out.println(contenido);
         } catch (IOException e) {
@@ -23,17 +27,17 @@ public class FactoryArchivo {
         
         switch (contenido) {
         
-        case Constantes.ORDEN_DE_LLEGADA:
-        	strategy = new OrdenPorLlegada();
+        case "TXT":
+        	tipoArchivo = new LectoGuardadoTXT();
         	break;
-        case Constantes.ORDEN_GRUPO_AFINIDAD:
-        	strategy = new OrdenPorGrupoAfinidad();
+        case "XML":
+        	tipoArchivo = new LectoGuardadoXML();
         	break;
-        case Constantes.ORDEN_GRUPO_ETARIO:
-        	strategy = new OrdenPorGrupoEtario();
+        case "JSON":
+        	tipoArchivo = new LectoGuardadoJSON();
         	break;
         }        	         
-        System.out.println("Se creo "+ strategy);
-		return strategy;
+        System.out.println("Se creo "+ tipoArchivo);
+		return tipoArchivo;
 	}
 }

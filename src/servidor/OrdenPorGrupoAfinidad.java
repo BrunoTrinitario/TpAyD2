@@ -17,26 +17,23 @@ public class OrdenPorGrupoAfinidad implements IStrategyOrdenAtencion{
 		Iterator<Cliente> iteratorClientes=clientesEnEspera.iterator();
 		Cliente cliente,clienteMejor=null;
 		int nroPrioridad;
-		int nroPrioridadMejor=0; 
+		int nroPrioridadMejor=-1; 
 		//segunda comparacion while se suma 1 ya que la cantidad grupo no tiene en cuenta al que no esta en sistema
-		while(iteratorClientes.hasNext() || nroPrioridadMejor<Constantes.MAX_GRUPO_AFINIDAD+1 ) {
+		while(iteratorClientes.hasNext() && nroPrioridadMejor<Constantes.MAX_GRUPO_AFINIDAD+1 ) {
 			cliente=iteratorClientes.next();
-			grupoAfinidad=archivo.buscarGrupo(cliente.getDni()); 
-			if(grupoAfinidad==null) {
-				nroPrioridad=1;
-			}
-			else {
-				nroPrioridad=0;
-				while(!Constantes.GRUPO_AFINIDAD.get(nroPrioridad).equals(grupoAfinidad) || nroPrioridad<Constantes.MAX_GRUPO_AFINIDAD) {
-					nroPrioridad++;
-				}
-				nroPrioridad++; //sumo devuelta ya que vector arranca en 0 
-			}
+			
+			grupoAfinidad=archivo.buscarGrupo(cliente.getDni());
+			System.out.println("Datos obtenidos:"+ grupoAfinidad);
+			
+			nroPrioridad=Constantes.GRUPO_AFINIDAD.indexOf(grupoAfinidad);
+			
 			if(nroPrioridad>nroPrioridadMejor) {
 				nroPrioridadMejor=nroPrioridad;
 				clienteMejor=cliente;
 			}
-		}
+			if (nroPrioridad == Constantes.GRUPO_AFINIDAD.size())
+				break;
+		}		
 		
 		return clienteMejor;
 	}

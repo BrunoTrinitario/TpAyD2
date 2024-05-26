@@ -26,6 +26,7 @@ public class GestorColas implements IClienteEmpleado {
 	public GestorColas(Servidor servidor) {
 		this.servidor=servidor;
 		this.estrategiaAtencion=FactoryStrategy.getOrdenAtencion();
+		this.tipoArchivo=FactoryArchivo.getTipoArchivo();
 		
 		
 	}
@@ -63,7 +64,7 @@ public class GestorColas implements IClienteEmpleado {
 				this.empleadosNoAtendiendo.remove(empleado);
 				this.empleadosAtendiendo.add(empleado);
 				
-				Cliente cliente = this.estrategiaAtencion.ordenClientes(clientesEnEspera, null);				
+				Cliente cliente = this.estrategiaAtencion.ordenClientes(clientesEnEspera, tipoArchivo);				
 				this.clientesEnEspera.remove(cliente);
 				empleado.atenderCliente(cliente);
 				cliente.setHoraAtencion();

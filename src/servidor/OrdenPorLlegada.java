@@ -20,6 +20,7 @@ public class OrdenPorLlegada implements IStrategyOrdenAtencion {
 		while(iteratorClientes.hasNext() || nroPrioridadMejor<2 ) {
 			cliente=iteratorClientes.next();
 			datosCliente=archivo.buscar(cliente.getDni());
+			System.out.println("Datos obtenidos:"+datosCliente );
 			//y devuelve nulo si no estaba o fecha nacimiento grupo afinidad 
 			if(datosCliente==null) // si no esta peor prioridad=2
 				nroPrioridad=1;

@@ -44,6 +44,7 @@ public class Constantes {
 	public static final String ORDEN_GRUPO_AFINIDAD = "Orden grupo afinidad";
 	public static final String ORDEN_GRUPO_ETARIO = "Orden grupo etario";
 	public static final String ARCHIVO_STRATEGY = "Strategy.txt";
+	public static final String ARCHIVO_CONFIGURACION = "Configuracion.txt";
 	public static final int MAX_EDAD_JOVEN = 17;
 	public static final int MAX_EDAD_ADULTO =59;
 	public static final int MAX_GRUPO_AFINIDAD=4;
@@ -51,10 +52,11 @@ public class Constantes {
 	public static final int MAX_GRUPO_ETARIO = 3;	
 	
 	static {
+		GRUPO_AFINIDAD.add(null);
 		GRUPO_AFINIDAD.add("Classic");
 		GRUPO_AFINIDAD.add("Gold");
 		GRUPO_AFINIDAD.add("Platinum");
-		GRUPO_AFINIDAD.add("Black");
+		GRUPO_AFINIDAD.add("Black");		
 	}
 	static {
 		for (int i=PUERTO_INICIAL; i<PUERTO_INICIAL+MAX_PUERTOS;i++)

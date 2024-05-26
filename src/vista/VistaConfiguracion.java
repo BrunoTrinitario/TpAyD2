@@ -86,6 +86,13 @@ public class VistaConfiguracion {
 	                    String elementoSeleccionado = listaIzquierda.getModel().getElementAt(indiceSeleccionado);
 	                    
 	                    System.out.println("Formato de texto seleccionado: " + elementoSeleccionado);
+	                    try {
+	                        EscritorArchivoTexto.escribirArchivo(elementoSeleccionado, Constantes.ARCHIVO_CONFIGURACION);
+	                        System.out.println("Contenido escrito en el archivo exitosamente.");
+	                    } catch (IOException e1) {
+	                        e1.printStackTrace();
+	                        System.out.println("Error al escribir en el archivo.");
+	                    }
 	                }
 
 	                // Verificar si se ha seleccionado un elemento en la lista derecha

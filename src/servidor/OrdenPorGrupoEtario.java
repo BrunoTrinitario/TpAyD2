@@ -25,9 +25,10 @@ public class OrdenPorGrupoEtario implements IStrategyOrdenAtencion{
 		LocalDate date1;
 		LocalDate date2 ;
 	
-		while(iteratorClientes.hasNext() || nroPrioridadMejor<Constantes.MAX_GRUPO_ETARIO+1 ) {
+		while(iteratorClientes.hasNext() && nroPrioridadMejor<Constantes.MAX_GRUPO_ETARIO+1 ) {
 			cliente=iteratorClientes.next();
 			fechaNacimiento=archivo.buscaFecha(cliente.getDni());
+			System.out.println("Datos obtenidos:"+fechaNacimiento);
 			if(fechaNacimiento==null) {
 				nroPrioridad=1;	
 			}
