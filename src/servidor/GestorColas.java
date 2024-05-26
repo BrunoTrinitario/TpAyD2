@@ -16,7 +16,7 @@ import util.GestorColasDTO;
 public class GestorColas implements IClienteEmpleado {
 
 	private Servidor servidor;
-	private Queue<Cliente> clientesEnEspera=new LinkedList<Cliente>();
+	private ArrayList<Cliente> clientesEnEspera=new ArrayList<Cliente>();
 	//emplados disponibles y no disponibles
 	private ArrayList<Empleado> empleadosNoAtendiendo=new ArrayList<Empleado>();
 	//empleados que SOLO ANTIENDEN EN UN ISNTANTE DADO
@@ -59,7 +59,8 @@ public class GestorColas implements IClienteEmpleado {
 				*/
 				this.empleadosNoAtendiendo.remove(empleado);
 				this.empleadosAtendiendo.add(empleado);
-				Cliente cliente = this.clientesEnEspera.poll();
+				Cliente cliente = this.clientesEnEspera.get(0);
+				this.clientesEnEspera.remove(0);
 				empleado.atenderCliente(cliente);
 				cliente.setHoraAtencion();
 				enviarClienteAEmpleado(empleado, cliente);

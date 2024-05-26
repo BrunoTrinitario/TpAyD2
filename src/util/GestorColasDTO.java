@@ -11,12 +11,12 @@ import empleado.Empleado;
 public class GestorColasDTO implements Serializable {
 	
 	
-	public Queue<Cliente> clientesEnEspera=new LinkedList<>();
+	public ArrayList<Cliente> clientesEnEspera=new ArrayList<>();
 	public ArrayList<Empleado> empleadosNoAtendiendo=new ArrayList<>();
 	public ArrayList<Empleado> empleadosAtendiendo=new ArrayList<>();
 	public ArrayList<Cliente> clientesAtendidos=new ArrayList<>();
 	
-	public GestorColasDTO(ArrayList<Cliente> clientesAtendidos2, Queue<Cliente> clientesEnEspera2,
+	public GestorColasDTO(ArrayList<Cliente> clientesAtendidos2, ArrayList<Cliente> clientesEnEspera2,
 			ArrayList<Empleado> empleadosAtendiendo2, ArrayList<Empleado> empleadosNoAtendiendo2) {
 		for (Empleado i : empleadosNoAtendiendo2) {
 			Empleado empleado = new Empleado(i.getNombre(), i.getBox(), i.getEstado(), i.getCliente());
@@ -43,10 +43,10 @@ public class GestorColasDTO implements Serializable {
 	}
 
 	
-	public Queue<Cliente> getClientesEnEspera() {
+	public ArrayList<Cliente> getClientesEnEspera() {
 		return clientesEnEspera;
 	}
-	public void setClientesEnEspera(Queue<Cliente> clientesEnEspera) {
+	public void setClientesEnEspera(ArrayList<Cliente> clientesEnEspera) {
 		this.clientesEnEspera = clientesEnEspera;
 	}
 	public ArrayList<Empleado> getEmpleadosNoAtendiendo() {

@@ -13,9 +13,9 @@ import empleado.Empleado;
 public class Metrica implements iMetrica, Serializable {
 	private ArrayList<Empleado> empleados=new ArrayList<Empleado>();
 	private ArrayList<Cliente> clientesAtendidos=new ArrayList<Cliente>();
-	private Queue<Cliente> clientesEnEspera=new LinkedList<Cliente>();
+	private ArrayList<Cliente> clientesEnEspera=new ArrayList<Cliente>();
 	
-	public Metrica(ArrayList<Empleado> empleados,ArrayList<Cliente> clientesAtendidos,Queue<Cliente> clientesEnEspera) {
+	public Metrica(ArrayList<Empleado> empleados,ArrayList<Cliente> clientesAtendidos,ArrayList<Cliente> clientesEnEspera) {
 		this.empleados=empleados;
 		this.clientesAtendidos=clientesAtendidos;
 		this.clientesEnEspera=clientesEnEspera;
