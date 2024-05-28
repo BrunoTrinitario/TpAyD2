@@ -83,7 +83,7 @@ public class LectoGuardadoTXT implements ILectoEscritura {
 				}
 			}
 		}
-		if (clienteMemoria.get(dni)!=null) {
+		if (clienteMemoria.get(dni)!=null && clienteMemoria!=null) {
 			datos.add(clienteMemoria.get(dni)[0]);
 			datos.add(clienteMemoria.get(dni)[1]);
 		}
