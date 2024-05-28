@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -23,6 +24,7 @@ import util.Constantes;
 public class LectoGuardadoJSON implements ILectoEscritura {
 	private File archivoLOG=null,archivoDATOS=null;
 	private String dirLOG,dirDATOS;
+	private HashMap<String,String[]>clienteMemoria=null;
 	public LectoGuardadoJSON() {
 		dirLOG=Constantes.PATH_LOG+".json";
 		dirDATOS=Constantes.PATH_DATOS+".json";
@@ -92,27 +94,31 @@ public class LectoGuardadoJSON implements ILectoEscritura {
 	@Override
 	public ArrayList<String> buscar(String dni) {
 		ArrayList<String> datos = new ArrayList<String>();
-		if (archivoDATOS.exists()) {
-			String dato="";
-			try {
-				BufferedReader br = new BufferedReader(new FileReader(dirDATOS));
-				String linea;
+		if (clienteMemoria == null) {
+			if (archivoDATOS.exists()) {
+				clienteMemoria=new HashMap<>();
+				String dato = "";
 				try {
-					while ((linea=br.readLine()) !=null) {
-						dato+=linea;
-					}
-					ArrayList<ClienteRegistradoJSON> lista=DatosFromJson(dato);
-					for (ClienteRegistradoJSON i:lista) {
-						if (i.getDni().equals(dni)) {
-							datos.add(i.getFecha());
-							datos.add(i.getGrupo());
-							break;
+					BufferedReader br = new BufferedReader(new FileReader(dirDATOS));
+					String linea;
+					try {
+						while ((linea = br.readLine()) != null) {
+							dato += linea;
 						}
+						ArrayList<ClienteRegistradoJSON> lista = DatosFromJson(dato);
+						for (ClienteRegistradoJSON i : lista) {
+							String[] aux= {i.getFecha(),i.getGrupo()};
+							clienteMemoria.put(i.getDni(), aux);
+						}
+					} catch (IOException e) {
 					}
-				} catch (IOException e) {
+				} catch (FileNotFoundException e) {
 				}
-			} catch (FileNotFoundException e) {
 			}
+		}
+		if (clienteMemoria.get(dni)!=null && clienteMemoria!=null) {
+			datos.add(clienteMemoria.get(dni)[0]);
+			datos.add(clienteMemoria.get(dni)[1]);
 		}
 		return datos;
 	}

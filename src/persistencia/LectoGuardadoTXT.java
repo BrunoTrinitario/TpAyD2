@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import cliente.Cliente;
 import util.Constantes;
@@ -16,6 +17,7 @@ import util.Constantes;
 public class LectoGuardadoTXT implements ILectoEscritura {
 	private File archivoLOG=null,archivoDATOS=null;
 	private String dirLOG,dirDATOS;
+	private HashMap<String,String[]>clienteMemoria=null;
 	public LectoGuardadoTXT() {
 		dirLOG=Constantes.PATH_LOG+".txt";
 		dirDATOS=Constantes.PATH_DATOS+".txt";
@@ -63,23 +65,27 @@ public class LectoGuardadoTXT implements ILectoEscritura {
 	@Override
 	public ArrayList<String> buscar(String dni) {
 		ArrayList<String> datos = new ArrayList<String>();
-		if (archivoDATOS.exists()) {
-			try {
-				BufferedReader br = new BufferedReader(new FileReader(archivoDATOS));
-				String line;
+		if (clienteMemoria == null) {
+			if (archivoDATOS.exists()) {
+				clienteMemoria=new HashMap<>();
 				try {
-					while ((line = br.readLine()) != null) {
-						String[] linea = line.split(" ");
-						if (linea[0].equals(dni)) {
-							datos.add(linea[1]);
-							datos.add(linea[2]);
-							break;
+					BufferedReader br = new BufferedReader(new FileReader(archivoDATOS));
+					String line;
+					try {
+						while ((line = br.readLine()) != null) {
+							String[] linea = line.split(" ");
+							String[] aux= {linea[1],linea[2]};
+							clienteMemoria.put(linea[0], aux);
 						}
+					} catch (IOException e) {
 					}
-				} catch (IOException e) {
+				} catch (FileNotFoundException e) {
 				}
-			} catch (FileNotFoundException e) {
 			}
+		}
+		if (clienteMemoria.get(dni)!=null) {
+			datos.add(clienteMemoria.get(dni)[0]);
+			datos.add(clienteMemoria.get(dni)[1]);
 		}
 		return datos;
 	}

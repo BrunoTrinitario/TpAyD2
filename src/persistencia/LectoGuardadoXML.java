@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import cliente.Cliente;
 import util.Constantes;
@@ -20,6 +21,7 @@ import util.Constantes;
 public class LectoGuardadoXML implements ILectoEscritura {
 	private File archivoLOG=null,archivoDATOS=null;
 	private String dirLOG,dirDATOS;
+	private HashMap<String,String[]>clienteMemoria=null;
 	public LectoGuardadoXML() {
 		dirLOG=Constantes.PATH_LOG+".xml";
 		dirDATOS=Constantes.PATH_DATOS+".xml";
@@ -75,20 +77,24 @@ public class LectoGuardadoXML implements ILectoEscritura {
 	@Override
 	public ArrayList<String> buscar(String dni) {
 		ArrayList<String> datos=new ArrayList<String>();
-		if (archivoDATOS.exists()) {
-			XMLDecoder decoder;
-			try {
-				decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(dirDATOS)));
-				ListaInfoClientesXML lectura=(ListaInfoClientesXML)decoder.readObject();
-				ArrayList<ClienteRegistradoXML> lista=lectura.getLista();
-				for (ClienteRegistradoXML i:lista) {
-					if (i.getDni().equals(dni)) {
-						datos.add(i.getFecha());
-						datos.add(i.getGrupo());
+		if (clienteMemoria == null) {
+			if (archivoDATOS.exists()) {
+				XMLDecoder decoder;
+				try {
+					decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(dirDATOS)));
+					ListaInfoClientesXML lectura = (ListaInfoClientesXML) decoder.readObject();
+					ArrayList<ClienteRegistradoXML> lista = lectura.getLista();
+					for (ClienteRegistradoXML i : lista) {
+						String[] aux= {i.getFecha(),i.getGrupo()};
+						clienteMemoria.put(i.getDni(), aux);
 					}
+				} catch (FileNotFoundException e) {
 				}
-			} catch (FileNotFoundException e) {
 			}
+		}		
+		if (clienteMemoria.get(dni)!=null && clienteMemoria!=null) {
+			datos.add(clienteMemoria.get(dni)[0]);
+			datos.add(clienteMemoria.get(dni)[1]);
 		}
 		return datos;
 	}
