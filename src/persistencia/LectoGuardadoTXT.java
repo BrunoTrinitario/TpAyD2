@@ -37,7 +37,7 @@ public class LectoGuardadoTXT implements ILectoEscritura {
 		    }
 		}else {
 			try (FileWriter escribir = new FileWriter(dirLOG)) {
-				escribir.write(ha+" "+cliente+" "+accion+"\n");
+				escribir.write(ha+" "+cliente.getDni()+" "+accion+"\n");
 			    escribir.close();
 	        } catch (IOException e) {
 	        }
