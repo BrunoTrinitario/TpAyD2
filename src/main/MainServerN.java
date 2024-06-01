@@ -31,7 +31,8 @@ public class MainServerN {
 			ControladorServidor controladorServidor = new ControladorServidor(vistaServidor, puerto);
 			
 			AbstractFactoryArchivo afa = FactoryDeFactorys.crearFactory(leerArchivo());
-			ILectoEscritura tipoArchivo = afa.getTipoArchivo();
+			
+			ILectoEscritura tipoArchivo = afa.getTipoArchivo("Lectoescritura");
 							
 			Servidor servidor = new Servidor(puerto, controladorServidor, tipoArchivo);
 			controladorServidor.addServidor(servidor);

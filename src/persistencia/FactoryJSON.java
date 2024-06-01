@@ -2,10 +2,10 @@ package persistencia;
 
 public class FactoryJSON extends AbstractFactoryArchivo {
 
-	@Override
-	public ILectoEscritura getTipoArchivo() {
-		// TODO Auto-generated method stub
-		return null;
+	public ILectoEscritura getTipoArchivo(String string) {
+		if (string.equals("Lectoescritura"))
+			return new LectoGuardadoJSON();
+		else return null;
 	}
 
 }

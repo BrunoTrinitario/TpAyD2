@@ -4,6 +4,6 @@ public abstract class AbstractFactoryArchivo {
 	
 	
 	
-	public abstract ILectoEscritura getTipoArchivo();
+	public abstract ILectoEscritura getTipoArchivo(String string);
 	
 }
