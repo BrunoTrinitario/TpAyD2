@@ -49,7 +49,9 @@ public class Constantes {
 	public static final int MAX_EDAD_ADULTO =59;
 	public static final int MAX_GRUPO_AFINIDAD=4;
 	public static final ArrayList<String> GRUPO_AFINIDAD= new ArrayList<String>();
-	public static final int MAX_GRUPO_ETARIO = 3;	
+	public static final int MAX_GRUPO_ETARIO = 3;
+	public static final String LOG_CLIENTE_REGISTRADO = "Cliente se registró";
+	public static final String LOG_CLIENTE_ATENDIDO = "Cliente fue atendido";	
 	
 	static {
 		GRUPO_AFINIDAD.add(null);

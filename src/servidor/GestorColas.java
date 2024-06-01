@@ -7,6 +7,8 @@ import empleado.Empleado;
 import empleado.StateEmpleadoDisponible;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
+import persistencia.AbstractFactoryArchivo;
+import persistencia.FactoryStrategy;
 import persistencia.ILectoEscritura;
 import util.Constantes;
 import util.GestorColasDTO;
@@ -21,19 +23,19 @@ public class GestorColas implements IClienteEmpleado {
 	private ArrayList<Empleado> empleadosAtendiendo=new ArrayList<Empleado>();
 	private ArrayList<Cliente> clientesAtendidos=new ArrayList<Cliente>();
 	private IStrategyOrdenAtencion estrategiaAtencion;
-	private ILectoEscritura tipoArchivo;
+	private ILectoEscritura lectoEscritura;
 	
-	public GestorColas(Servidor servidor) {
+	public GestorColas(Servidor servidor, ILectoEscritura lectoEscritura) {
 		this.servidor=servidor;
 		this.estrategiaAtencion=FactoryStrategy.getOrdenAtencion();
-		this.tipoArchivo=FactoryArchivo.getTipoArchivo();
-		
+		this.lectoEscritura=lectoEscritura;
 		
 	}
 	
 	public void registrarCliente(Cliente cliente) throws DniYaRegistradoException{
 		if (!clientesEnEspera.contains(cliente)) {
 			this.clientesEnEspera.add(cliente);
+			this.lectoEscritura.guardar(cliente, Constantes.LOG_CLIENTE_REGISTRADO);
 			matchClienteEmpleado();
 		}
 		else {
@@ -54,22 +56,15 @@ public class GestorColas implements IClienteEmpleado {
 		if (!this.clientesEnEspera.isEmpty()) {
 			Empleado empleado = getEmpleadoDisponible();
 			if (empleado!= null) {
-				/*
-				//deberia llegar por constructor el tipo de orden y el tipo de arch
-				// IStrategyOrdenAtencion EstrategiaAtencion; debe definirse mas arriba
-				//Cliente cliente=estrategiaAtencion.ordenClientes(clientesEnEspera,archivo)
-					archivo se define como ILectoEscritura archivo
-					this.clientesEnEspera.remove(cliente)
-				*/
 				this.empleadosNoAtendiendo.remove(empleado);
-				this.empleadosAtendiendo.add(empleado);
-				
-				Cliente cliente = this.estrategiaAtencion.ordenClientes(clientesEnEspera, tipoArchivo);				
+				this.empleadosAtendiendo.add(empleado);		
+				Cliente cliente = this.estrategiaAtencion.ordenClientes(clientesEnEspera, lectoEscritura);				
 				this.clientesEnEspera.remove(cliente);
 				empleado.atenderCliente(cliente);
 				cliente.setHoraAtencion();
 				enviarClienteAEmpleado(empleado, cliente);
 				servidor.informarNotificaciones(empleado);
+				this.lectoEscritura.guardar(cliente, Constantes.LOG_CLIENTE_ATENDIDO);
 			}
 		}
 	}

@@ -11,9 +11,10 @@ import controlador.ControladorServidor;
 import empleado.Empleado;
 import excepciones.BoxYaRegistradoException;
 import excepciones.DniYaRegistradoException;
+import persistencia.ILectoEscritura;
 import util.Constantes;
-import util.SocketConexion;
 import util.GestorColasDTO;
+import util.SocketConexion;
 
 public class Servidor extends Thread {
 	private ControladorServidor cs;
@@ -30,10 +31,10 @@ public class Servidor extends Thread {
 	private ServerSocket socketDePing;
 	private int contador=0;
 	
-	public Servidor(int puerto, ControladorServidor cs) {
+	public Servidor(int puerto, ControladorServidor cs, ILectoEscritura lectoEscritura) {
 		this.cs=cs;
 		this.puerto=puerto;
-		this.gestorcolas = new GestorColas(this);
+		this.gestorcolas = new GestorColas(this, lectoEscritura);
 		this.conexion = new Conexion();
 		try {
 			socketDePing=new ServerSocket(this.puerto+2000);

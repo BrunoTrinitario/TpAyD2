@@ -9,11 +9,14 @@ public class ControladorServidor {
 	
 	public ControladorServidor(VistaServidor vistaServidor, int puerto) {
 		this.vistaServidor=vistaServidor;
-		servidor = new Servidor(puerto, this);
 	}
 
 	public void informarServidorActivo() {
 		vistaServidor.informarServidorActivo();
+	}
+	
+	public void addServidor(Servidor servidor) {
+		this.servidor = servidor;
 	}
 
 }

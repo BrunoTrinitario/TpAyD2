@@ -1,7 +1,11 @@
-package servidor;
+package persistencia;
 
 import java.io.IOException;
 
+import servidor.IStrategyOrdenAtencion;
+import servidor.OrdenPorGrupoAfinidad;
+import servidor.OrdenPorGrupoEtario;
+import servidor.OrdenPorLlegada;
 import util.Constantes;
 import util.LectorArchivoTexto;
 
