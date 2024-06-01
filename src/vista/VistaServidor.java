@@ -14,7 +14,6 @@ import util.LectorArchivoTexto;
 public class VistaServidor {
 
 	private JFrame frame;
-	private ControladorCliente cc=new ControladorCliente();
 	private String estadoServidor="Pasivo";
 	private JLabel lblNewLabel_1;
 	
@@ -44,11 +43,11 @@ public class VistaServidor {
 		String contenido = null;
         try {
             contenido = LectorArchivoTexto.leerArchivo(Constantes.ARCHIVO_STRATEGY);
-           System.out.println("Contenido leído del archivo:");
-           System.out.println(contenido);
+           //System.out.println("Contenido leído del archivo:");
+           //System.out.println(contenido);
        } catch (IOException e) {
            e.printStackTrace();
-           System.out.println("Error al leer el archivo.");
+           //System.out.println("Error al leer el archivo.");
        }
 		
 		JLabel lblNewLabel_3 = new JLabel("Estrategia: "+contenido);

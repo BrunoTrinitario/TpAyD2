@@ -56,8 +56,10 @@ public class LectoGuardadoJSON implements ILectoEscritura {
 			}
 		} else {
 			try (FileWriter escribir = new FileWriter(dirLOG)) {
+				System.out.println("ACACACACACACACACACACACCACA"+clienteJson.toJson());
 				escribir.write(clienteJson.toJson());
 			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -68,10 +70,16 @@ public class LectoGuardadoJSON implements ILectoEscritura {
 		String[] vec=aux.split(",");
 		ArrayList<ClienteAJson> lista=new ArrayList<ClienteAJson>();
 		for(int i=1;i<vec.length;i+=3) {
-			String auxHora=vec[i].split(" ")[1].replace('"','\0');
-			String auxDni=vec[i+1].split(" ")[2].replace('"','\0');
-			String auxAccion=vec[i+2].split(" ")[2].replace('"','\0');
-			lista.add(new ClienteAJson(auxDni,auxHora,auxAccion));
+			String auxST=vec[i].split(" ")[1];
+			String auxHora=auxST.substring(1,auxST.length()-1);
+			System.out.println(auxHora);
+			auxST=vec[i+1].split(" ")[2];
+			String auxDni=auxST.substring(1,auxST.length()-1);
+			System.out.println(auxDni);
+			auxST=vec[i+2].substring(11,vec[i+2].length());
+			String auxAccion=auxST.substring(1,auxST.length()-2);
+			System.out.println(auxAccion);
+			lista.add(new ClienteAJson(auxHora,auxDni,auxAccion));
 		}
 		return lista;
 	}
