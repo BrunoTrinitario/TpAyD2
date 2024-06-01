@@ -21,6 +21,7 @@ public class MainTesting {
 		ControladorAdministrador ca = new ControladorAdministrador();
 		VistaRegistroDni rc=new VistaRegistroDni();
 		ControladorEmpleado controladorEmpleado = new ControladorEmpleado();
+		ControladorEmpleado controladorEmpleado2 = new ControladorEmpleado();
 		ControladorNotificaciones cn = new ControladorNotificaciones();
 		Conexion conexion = new Conexion();
 		try {

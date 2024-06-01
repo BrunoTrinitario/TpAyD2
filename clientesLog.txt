@@ -1,2 +1,0 @@
-14:25:45 dni: 55555555, hora ingreso: 14:25:45.885181700, hora egreso: null Cliente se registró
-14:25:45 55555555 Cliente fue atendido
