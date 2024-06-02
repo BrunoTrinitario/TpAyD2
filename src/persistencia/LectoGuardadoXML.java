@@ -15,13 +15,13 @@ import java.util.HashMap;
 
 import cliente.Cliente;
 import util.Constantes;
-
-
+import persistencia.ListaClientesXML;
+import persistencia.ClienteRegistradoXML;
 
 public class LectoGuardadoXML implements ILectoEscritura {
 	private File archivoLOG=null,archivoDATOS=null;
 	private String dirLOG,dirDATOS;
-	private HashMap<String,String[]>clienteMemoria=null;
+	private HashMap<String,String[]>clienteMemoria=new HashMap<String,String[]>();
 	public LectoGuardadoXML() {
 		dirLOG=Constantes.PATH_LOG+".xml";
 		dirDATOS=Constantes.PATH_DATOS+".xml";
@@ -77,22 +77,21 @@ public class LectoGuardadoXML implements ILectoEscritura {
 	@Override
 	public ArrayList<String> buscar(String dni) {
 		ArrayList<String> datos=new ArrayList<String>();
-		if (clienteMemoria == null) {
+		if (clienteMemoria.isEmpty()) {
 			if (archivoDATOS.exists()) {
-				XMLDecoder decoder;
 				try {
-					decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(dirDATOS)));
+					XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(dirDATOS)));
 					ListaInfoClientesXML lectura = (ListaInfoClientesXML) decoder.readObject();
 					ArrayList<ClienteRegistradoXML> lista = lectura.getLista();
 					for (ClienteRegistradoXML i : lista) {
-						String[] aux= {i.getFecha(),i.getGrupo()};
+						String[] aux = { i.getFecha(), i.getGrupo() };
 						clienteMemoria.put(i.getDni(), aux);
 					}
 				} catch (FileNotFoundException e) {
 				}
 			}
-		}		
-		if (clienteMemoria!=null && clienteMemoria.get(dni)!=null) {
+		}
+		if (!clienteMemoria.isEmpty() && clienteMemoria.get(dni)!=null) {
 			datos.add(clienteMemoria.get(dni)[0]);
 			datos.add(clienteMemoria.get(dni)[1]);
 		}

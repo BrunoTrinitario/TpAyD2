@@ -7,7 +7,6 @@ public class ClienteRegistradoXML implements Serializable {
 	public ClienteRegistradoXML() {
 		
 	}
-	
 	public ClienteRegistradoXML(String dni, String fecha, String grupo) {
 		this.dni = dni;
 		this.fecha = fecha;

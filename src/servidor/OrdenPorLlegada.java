@@ -17,7 +17,7 @@ public class OrdenPorLlegada implements IOrdenAtencion {
 		Cliente cliente,clienteMejor=null;
 		int nroPrioridad;
 		int nroPrioridadMejor=0; //valor para que siempre agarre el primero
-		while(iteratorClientes.hasNext() || nroPrioridadMejor<2 ) {
+		while(iteratorClientes.hasNext() && nroPrioridadMejor<2 ) {
 			cliente=iteratorClientes.next();
 			datosCliente=archivo.buscar(cliente.getDni());
 			System.out.println("Datos obtenidos:"+datosCliente );

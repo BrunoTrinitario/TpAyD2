@@ -26,7 +26,7 @@ public class ClienteAXML implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "ClienteAJson [dni=" + dni + ", hora=" + hora + ", accion=" + accion + "]";
+		return "ClienteAXML [dni=" + dni + ", hora=" + hora + ", accion=" + accion + "]";
 	}
 	public void setDni(String dni) {
 		this.dni = dni;

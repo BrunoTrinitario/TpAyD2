@@ -3,6 +3,10 @@ package persistencia;
 import java.util.ArrayList;
 
 public class ListaInfoClientesXML {
+	@Override
+	public String toString() {
+		return "ListaInfoClientesXML [lista=" + lista + "]";
+	}
 	private ArrayList<ClienteRegistradoXML> lista=new ArrayList<ClienteRegistradoXML>();
 
 	public ListaInfoClientesXML() {
