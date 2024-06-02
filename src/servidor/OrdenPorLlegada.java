@@ -22,9 +22,12 @@ public class OrdenPorLlegada implements IOrdenAtencion {
 			datosCliente=archivo.buscar(cliente.getDni());
 			System.out.println("Datos obtenidos:"+datosCliente );
 			//y devuelve nulo si no estaba o fecha nacimiento grupo afinidad 
-			if(datosCliente==null) // si no esta peor prioridad=2
+			if(datosCliente.isEmpty()) // si no esta peor prioridad=1
+			{
 				nroPrioridad=1;
-			else
+				System.out.println("holaaaa");
+			}
+				else
 				nroPrioridad=2;
 			if(nroPrioridad>nroPrioridadMejor) {
 				nroPrioridadMejor=nroPrioridad;
