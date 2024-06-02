@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="22.0.1" class="java.beans.XMLDecoder">
+ <object class="ListaInfoClientesXML" id="ListaInfoClientesXML0">
+  <void property="lista">
+   <void method="add">
+    <object class="ClienteRegistrado">
+     <void property="dni">
+      <string>11111111</string>
+     </void>
+     <void property="fecha">
+      <string>09/11/2001</string>
+     </void>
+     <void property="grupo">
+      <string>Platinum</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ClienteRegistrado">
+     <void property="dni">
+      <string>22222222</string>
+     </void>
+     <void property="fecha">
+      <string>04/06/1920</string>
+     </void>
+     <void property="grupo">
+      <string>Gold</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ClienteRegistrado">
+     <void property="dni">
+      <string>33333333</string>
+     </void>
+     <void property="fecha">
+      <string>02/10/2023</string>
+     </void>
+     <void property="grupo">
+      <string>Gold</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ClienteRegistrado">
+     <void property="dni">
+      <string>44444444</string>
+     </void>
+     <void property="fecha">
+      <string>23/12/1925</string>
+     </void>
+     <void property="grupo">
+      <string>Black</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ClienteRegistrado">
+     <void property="dni">
+      <string>55555555</string>
+     </void>
+     <void property="fecha">
+      <string>04/06/1980</string>
+     </void>
+     <void property="grupo">
+      <string>Classic</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ClienteRegistrado">
+     <void property="dni">
+      <string>66666666</string>
+     </void>
+     <void property="fecha">
+      <string>07/11/2010</string>
+     </void>
+     <void property="grupo">
+      <string>Classic</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="ClienteRegistrado">
+     <void property="dni">
+      <string>77777777</string>
+     </void>
+     <void property="fecha">
+      <string>08/12/2011</string>
+     </void>
+     <void property="grupo">
+      <string>Platinum</string>
+     </void>
+    </object>
+   </void>
+  </void>
+ </object>
+</java>
