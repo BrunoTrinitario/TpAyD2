@@ -22,7 +22,7 @@ public class GestorColas implements IClienteEmpleado {
 	//empleados que SOLO ANTIENDEN EN UN ISNTANTE DADO
 	private ArrayList<Empleado> empleadosAtendiendo=new ArrayList<Empleado>();
 	private ArrayList<Cliente> clientesAtendidos=new ArrayList<Cliente>();
-	private IStrategyOrdenAtencion estrategiaAtencion;
+	private IOrdenAtencion estrategiaAtencion;
 	private ILectoEscritura lectoEscritura;
 	
 	public GestorColas(Servidor servidor, ILectoEscritura lectoEscritura) {

@@ -8,7 +8,7 @@ import java.util.Queue;
 import cliente.Cliente;
 import persistencia.ILectoEscritura;
 
-public class OrdenPorLlegada implements IStrategyOrdenAtencion {
+public class OrdenPorLlegada implements IOrdenAtencion {
 
 	@Override
 	public Cliente ordenClientes(ArrayList<Cliente> clientesEnEspera,ILectoEscritura archivo) {

@@ -12,7 +12,7 @@ import cliente.Cliente;
 import persistencia.ILectoEscritura;
 import util.Constantes;
 
-public class OrdenPorGrupoEtario implements IStrategyOrdenAtencion{
+public class OrdenPorGrupoEtario implements IOrdenAtencion{
 	
 	@Override
 	public Cliente ordenClientes(ArrayList<Cliente> clientesEnEspera,ILectoEscritura archivo) {

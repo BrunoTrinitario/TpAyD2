@@ -2,7 +2,7 @@ package persistencia;
 
 import java.io.IOException;
 
-import servidor.IStrategyOrdenAtencion;
+import servidor.IOrdenAtencion;
 import servidor.OrdenPorGrupoAfinidad;
 import servidor.OrdenPorGrupoEtario;
 import servidor.OrdenPorLlegada;
@@ -12,8 +12,8 @@ import util.LectorArchivoTexto;
 public class FactoryStrategy {
 
 	
-	public static IStrategyOrdenAtencion getOrdenAtencion() {
-		IStrategyOrdenAtencion strategy = null;
+	public static IOrdenAtencion getOrdenAtencion() {
+		IOrdenAtencion strategy = null;
 		String contenido = null;
 
         try {

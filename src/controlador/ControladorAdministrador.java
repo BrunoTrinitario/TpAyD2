@@ -8,7 +8,7 @@ import util.Constantes;
 import util.PingEcho;
 import vista.VistaAdministrador;
 
-public class ControladorAdministrador {
+public class ControladorAdministrador implements IMonitor {
 	private VistaAdministrador va;
 	private Conexion conexion;
 	private int contador=1;

@@ -9,7 +9,7 @@ import cliente.Cliente;
 import persistencia.ILectoEscritura;
 import util.Constantes;
 
-public class OrdenPorGrupoAfinidad implements IStrategyOrdenAtencion{
+public class OrdenPorGrupoAfinidad implements IOrdenAtencion{
 
 	@Override
 	public Cliente ordenClientes(ArrayList<Cliente> clientesEnEspera,ILectoEscritura archivo) {
