@@ -92,7 +92,7 @@ public class LectoGuardadoXML implements ILectoEscritura {
 				}
 			}
 		}		
-		if (clienteMemoria.get(dni)!=null && clienteMemoria!=null) {
+		if (clienteMemoria!=null && clienteMemoria.get(dni)!=null) {
 			datos.add(clienteMemoria.get(dni)[0]);
 			datos.add(clienteMemoria.get(dni)[1]);
 		}
