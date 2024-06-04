@@ -43,11 +43,8 @@ public class VistaServidor {
 		String contenido = null;
         try {
             contenido = LectorArchivoTexto.leerArchivo(Constantes.ARCHIVO_STRATEGY);
-           //System.out.println("Contenido leído del archivo:");
-           //System.out.println(contenido);
        } catch (IOException e) {
            e.printStackTrace();
-           //System.out.println("Error al leer el archivo.");
        }
 		
 		JLabel lblNewLabel_3 = new JLabel("Estrategia: "+contenido);

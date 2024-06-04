@@ -68,39 +68,5 @@ public class Metrica implements iMetrica, Serializable {
 	public ArrayList<Empleado> getListaEmpleados(){
 		return this.empleados;
 	}
-	/*
-	public int cantidadEnEspera() {
-		return clientesEnEspera.size();
-	}
-	public int cantidadAtendidos() {
-		return clientesAtendidos.size();
-	}
-
-	public String promedioEspera() {
-		int auxHora = 0, auxMinutos = 0, auxSegundos = 0;
-		int i = 0;
-		String aux = "";
-		while (i < clientesAtendidos.size()) {
-			auxHora += Math.abs(clientesAtendidos.get(i).getHoraEgreso().getHour()
-					- clientesAtendidos.get(i).getHoraIngreso().getHour());
-			auxMinutos += Math.abs(clientesAtendidos.get(i).getHoraEgreso().getMinute()
-					- clientesAtendidos.get(i).getHoraIngreso().getMinute());
-			auxSegundos += Math.abs(clientesAtendidos.get(i).getHoraEgreso().getSecond()
-					- clientesAtendidos.get(i).getHoraIngreso().getSecond());
-			i++;
-		}
-		if (i > 0) {
-			auxHora /= i;
-			auxMinutos /= i;
-			auxSegundos /= i;
-			aux = auxHora + ":" + auxMinutos + ":" + auxSegundos;
-		} else
-			aux = "0:0:0";
-		return aux;
-	}
-	public ArrayList<Empleado> getListaEmpleados(){
-		return this.empleados;
-	}
-	*/
 	
 }

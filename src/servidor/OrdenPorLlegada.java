@@ -14,18 +14,17 @@ public class OrdenPorLlegada implements IOrdenAtencion {
 	public Cliente ordenClientes(ArrayList<Cliente> clientesEnEspera,ILectoEscritura archivo) {
 		ArrayList<String> datosCliente=null;
 		Iterator<Cliente> iteratorClientes=clientesEnEspera.iterator();
-		Cliente cliente,clienteMejor=null;
 		int nroPrioridad;
 		int nroPrioridadMejor=0; //valor para que siempre agarre el primero
+		Cliente cliente,clienteMejor=null;
+		clienteMejor=clientesEnEspera.get(0);
 		while(iteratorClientes.hasNext() && nroPrioridadMejor<2 ) {
 			cliente=iteratorClientes.next();
 			datosCliente=archivo.buscar(cliente.getDni());
-			System.out.println("Datos obtenidos:"+datosCliente );
 			//y devuelve nulo si no estaba o fecha nacimiento grupo afinidad 
 			if(datosCliente.isEmpty()) // si no esta peor prioridad=1
 			{
 				nroPrioridad=1;
-				System.out.println("holaaaa");
 			}
 				else
 				nroPrioridad=2;

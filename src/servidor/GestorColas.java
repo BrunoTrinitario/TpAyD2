@@ -149,17 +149,14 @@ public class GestorColas implements IClienteEmpleado {
 	}
 	public void gestorColasDTO() {
 		GestorColasDTO dto=new GestorColasDTO(clientesAtendidos, clientesEnEspera, empleadosAtendiendo, empleadosNoAtendiendo);
-		System.out.println("invocando metodo resincronizar pasivos");
 		servidor.resincronizarServidoresPasivos(dto);
 	}
 	
 	public void reesincronizar(GestorColasDTO dto2) {
-		System.out.println("Sincronizando desde: "+dto2);
 		this.clientesAtendidos=dto2.getClientesAtendidos();
 		this.clientesEnEspera=dto2.getClientesEnEspera();
 		this.empleadosAtendiendo=dto2.getEmpleadosAtendiendo();
 		this.empleadosNoAtendiendo=dto2.getEmpleadosNoAtendiendo();
-		System.out.println("db resincronizada: "+this);
 	}
 	@Override
 	public String toString() {

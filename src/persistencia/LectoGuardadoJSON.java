@@ -76,7 +76,7 @@ public class LectoGuardadoJSON implements ILectoEscritura {
 			String auxDni=auxST.substring(1,auxST.length()-1);
 			auxST=vec[i+2].substring(11,vec[i+2].length());
 			String auxAccion=auxST.substring(1,auxST.length()-2);
-			lista.add(new ClienteAJson(auxHora,auxDni,auxAccion));
+			lista.add(new ClienteAJson(auxDni,auxHora,auxAccion));
 		}
 		return lista;
 	}

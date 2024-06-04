@@ -21,7 +21,6 @@ public class FactoryDeFactorys {
         	factory = new FactoryJSON();
         	break;
         }        	         
-        System.out.println("Se creo "+ factory);
 		return factory;
 	}
 }

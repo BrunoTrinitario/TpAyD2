@@ -23,7 +23,6 @@ public class OrdenPorGrupoAfinidad implements IOrdenAtencion{
 			cliente=iteratorClientes.next();
 			
 			grupoAfinidad=archivo.buscarGrupo(cliente.getDni());
-			System.out.println("Datos obtenidos:"+ grupoAfinidad);
 			
 			nroPrioridad=Constantes.GRUPO_AFINIDAD.indexOf(grupoAfinidad);
 			

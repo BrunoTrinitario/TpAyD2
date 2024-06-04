@@ -62,11 +62,8 @@ public class Servidor extends Thread {
 			ServerSocket s = new ServerSocket(this.puerto);
 			while (servidorActivo) {
 				SocketConexion datosConexion = new SocketConexion(s.accept());
-				System.out.println("Recibiendo conexion");
 				Object objeto = datosConexion.ois.readObject();
-				System.out.println("objeto leido: "+objeto);
 				String msg = datosConexion.in.readLine();
-				System.out.println("mensaje leido: "+ msg);
 
 				if (objeto instanceof Cliente) {
 					try {
@@ -116,13 +113,11 @@ public class Servidor extends Thread {
 						datosConexion.oos.writeObject(aux);
 					}
 					else if (msg.equals(Constantes.VERIFICAR_SERVIDOR_ACTIVO)) {
-						System.out.println("registrando servidor pasivo");
 						datosConexion.out.println(Constantes.SERVIDOR_REGISTRO_OK);
 						this.registrarServidor(datosConexion);					
 					}
 				}
 				this.gestorcolas.gestorColasDTO();
-				System.out.println(this.servidoresPasivos);
 			}
 			s.close();
 		} catch (Exception e) {
@@ -144,7 +139,6 @@ public class Servidor extends Thread {
 
 	private void informarServidorRespaldo(SocketConexion servidor) {
 		try {
-			System.out.println("Intentando informar respaldo a servidor"+ servidor);
 			servidor.oos.writeObject(Constantes.INFORMAR_SERVIDOR_RESPALDO);
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -187,7 +181,6 @@ public class Servidor extends Thread {
 						Object object = datosConexion.ois.readObject();						
 						Empleado empleado = (Empleado) object;
 						String msg = datosConexion.in.readLine();
-						System.out.println("mensaje recibido: "+msg);
 						if (msg.equals(Constantes.CLIENTE_AUSENTE)) {
 							gestorcolas.clienteNoPresentado(empleado);
 						}
@@ -234,12 +227,10 @@ public class Servidor extends Thread {
 	
 	
 	public void resincronizarServidoresPasivos(GestorColasDTO dto) {
-		System.out.println("dto a enviar:" +dto);
 		ArrayList<SocketConexion> servidoresARemover = new ArrayList<SocketConexion>();
 		for (SocketConexion i:servidoresPasivos) {
 			try {
 				i.oos.writeObject(dto);
-				System.out.println("dto enviado:" +dto);
 			} catch (IOException e) {
 				servidoresARemover.add(i);
 			}

@@ -70,7 +70,6 @@ public class VistaNotificacion {
 			NotificacionAuxiliar elemento=colaAux.poll();
 			elemento.cambioColor();
 			elemento.desplazamiento();
-			System.out.println(elemento.getTextoBox().getBounds().getY());
 		}
 		this.lista.add(aux);
 		frame.getContentPane().add(aux.getTextoBox());
